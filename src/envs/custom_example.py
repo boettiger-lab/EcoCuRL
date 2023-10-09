@@ -18,6 +18,7 @@ class fishing_env(gym.Env):
 		self.r = 1
 		self.init_state = np.float32([0.5])
 		self.init_noise = 0.05
+		self.ep_len = 200
 
 		self.observation_space = spaces.Box(
 			np.float32([-1]),
@@ -62,12 +63,8 @@ class fishing_env(gym.Env):
 
 		# reward, check for episode end
 		reward = harvest[0]
-		ep_len = 200
 		terminated = False
-		if self.timestep >= 200:
-			terminated = True
-		elif self.state[0] < 0.01:
-			reward -= ep_len / (self.timestep + 1)
+		if self.timestep >= self.ep_len:
 			terminated = True
 
 		return self.state, reward, terminated, False, {}
@@ -112,9 +109,11 @@ class curriculum_fishing_env(TaskSettableEnv):
     # Level 1: x1
     # Level 2: x10
     # Level 3: x100, etc..
+    # also normalize by ep_len so 'naked' episode rewards are in [0, 100]
+    reward = 10 ** (self.cur_level - 1) * (rew / self.env.ep_len) * 100
     return (
     	obs, 
-    	10 ** (self.cur_level - 1) * rew, 
+   		reward, 
     	terminated, truncated, info
     )
 
