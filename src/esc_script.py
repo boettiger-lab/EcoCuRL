@@ -12,19 +12,20 @@ def sample_esc_benchmark(lvl, esc, samples=1000):
     env = fishing_env(**CURRICULUM[lvl])
     policies = ray.get([esc.sample_policy.remote() for _ in range(1000)])
     return [
-        [str(esc_vec),
-        [
-            esc.sample_policy_reward.remote(esc_vec, env) for _ in range(50)
-        ] 
-        ]
+        (
+            str(esc_vec),
+            [
+                esc.sample_policy_reward.remote(esc_vec, env) for _ in range(50)
+            ] 
+        )
         for esc_vec in policies
     ]
 
 def get_stats(benchmarks):
     """ benchmarks = output of sample_esc_benchmark """
     return (
-        {esc: np.mean(results) for esc, results in benchmarks.items()}, 
-        {esc: np.std(results) for esc, results in benchmarks.items()},
+        {esc: np.mean(results) for esc, results in benchmarks}, 
+        {esc: np.std(results) for esc, results in benchmarks},
         )
 
 
