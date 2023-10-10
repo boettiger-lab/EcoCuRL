@@ -65,6 +65,7 @@ class escapement_policy:
 		for t in range(tmax):
 			pop = env.state_to_pop(observation) # natural units
 			action = self.effort_to_action(policy(pop))
+			print(action)
 			observation, reward, terminated, done, info = env.step(action)
 			episode_reward += reward
 			#
