@@ -103,6 +103,7 @@ def curriculum_fn(
 if __name__ == "__main__":
   args = parser.parse_args()
   ray.init()
+  print("parsed args, ray init")
 
   # Can also register the env creator function explicitly with:
   # register_env(
@@ -124,6 +125,7 @@ if __name__ == "__main__":
   # int(os.environ.get("RLLIB_NUM_GPUS", "0"))
   )
   )
+  print("config")
 
   stop = {
   "training_iteration": args.stop_iters,
@@ -136,7 +138,9 @@ if __name__ == "__main__":
     param_space=config.to_dict(),
     run_config=air.RunConfig(stop=stop, verbose=2),
   )
+  print("tuner defined")
   results = tuner.fit()
+  print("tuner fit")
 
   if args.as_test:
     check_learning_achieved(results, args.stop_reward)
