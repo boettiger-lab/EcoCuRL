@@ -32,6 +32,7 @@ esc_results = {i:
         sample_esc_benchmark(
             lvl=i, esc=esc)
         )[0]
+    for i in range(4)
 }
 
 print("results:\n"
