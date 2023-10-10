@@ -105,38 +105,38 @@ class curriculum_fishing_env(TaskSettableEnv):
 	def step(self, action):
 		obs, rew, terminated, truncated, info = self.env.step(action)
 		# Make rewards scale with the level exponentially:
-    # Level 1: x1
-    # Level 2: x10
-    # Level 3: x100, etc..
-    # also normalize by ep_len so 'naked' episode rewards are in [0, 100]
-    reward = 10 ** (self.cur_level - 1) * (rew / self.env.ep_len) * 100
-    return (
-    	obs, 
-   		reward, 
-    	terminated, truncated, info
-    )
+		# Level 1: x1
+		# Level 2: x10
+		# Level 3: x100, etc..
+		# also normalize by ep_len so 'naked' episode rewards are in [0, 100]
+		reward = 10 ** (self.cur_level - 1) * (rew / self.env.ep_len) * 100
+		return (
+			obs, 
+				reward, 
+			terminated, truncated, info
+		)
 
-  def reset(self, *, seed=None, options=None):
-  	if self.switch_env:
-  		self.switch_env = False
-  		self.env = self._make_env()
-  	return self.env.reset(seed=None, options=None)
+	def reset(self, *, seed=None, options=None):
+		if self.switch_env:
+			self.switch_env = False
+			self.env = self._make_env()
+		return self.env.reset(seed=None, options=None)
 
-  @override(TaskSettableEnv)
-  def sample_tasks(self, n_tasks):
-    """Implement this to sample n random tasks."""
-    return [np.random.randint(4) for _ in range(n_tasks)]
+	@override(TaskSettableEnv)
+	def sample_tasks(self, n_tasks):
+		"""Implement this to sample n random tasks."""
+		return [np.random.randint(4) for _ in range(n_tasks)]
 
-  @override(TaskSettableEnv)
-  def get_task(self):
-    """Implement this to get the current task (curriculum level)."""
-    return self.cur_level
+	@override(TaskSettableEnv)
+	def get_task(self):
+		"""Implement this to get the current task (curriculum level)."""
+		return self.cur_level
 
-  @override(TaskSettableEnv)
-  def set_task(self, task):
-    """Implement this to set the task (curriculum level) for this env."""
-    self.cur_level = task
-    self.switch_env = True
+	@override(TaskSettableEnv)
+	def set_task(self, task):
+		"""Implement this to set the task (curriculum level) for this env."""
+		self.cur_level = task
+		self.switch_env = True
 
 
 
