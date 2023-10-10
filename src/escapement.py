@@ -58,12 +58,12 @@ class escapement_policy:
 		""" [0,1] to [-1,1] space """
 		return effort * 2 - 1
 
-	def sample_policy_reward(self, esc_vec, env):
+	def sample_policy_reward(self, esc_vec, env, tmax=200):
 		policy = self.policy_factory(esc_vec)
 		episode_reward = 0
 		observation, _ = env.reset()
-		for t in range(env.metadata.tmax):
-			pop = env.env.state_to_pop(observation) # natural units
+		for t in range(tmax):
+			pop = env.state_to_pop(observation) # natural units
 			action = self.effort_to_action(policy(pop))
 			observation, reward, terminated, done, info = env.step(action)
 			episode_reward += reward
