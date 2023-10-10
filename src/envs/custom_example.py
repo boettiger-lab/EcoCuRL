@@ -1,4 +1,6 @@
 import gymnasium as gym
+import numpy as np
+
 from gymnasium import spaces
 from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 from ray.rllib.env.env_context import EnvContext
