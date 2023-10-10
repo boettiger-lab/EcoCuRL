@@ -7,7 +7,7 @@ from envs.custom_example import curriculum_fishing_env # only for the curriculum
 
 CURRICULUM = curriculum_fishing_env(config={"start_level":0}).CURRICULUM
 esc = escapement_policy.remote(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
-esc_results = {i: ray.get(esc.rand_policy_search(env=fishing_env(*lvl))) for i, lvl in CURRICULUM.items()}
+esc_results = {i: ray.get(esc.rand_policy_search.remote(env=fishing_env(*lvl))) for i, lvl in CURRICULUM.items()}
 
 print("results:\n"
       "--------\n"
