@@ -70,6 +70,7 @@ class fishing_env(gym.Env):
 		if self.timestep >= self.ep_len:
 			terminated = True
 		# print(f"reward: {reward}")
+		self.timestep += 1
 		return self.state, reward, terminated, False, {}
 
 	def action_to_effort(self, action):
