@@ -39,12 +39,12 @@ parser.add_argument(
     default="torch",
     help="The DL framework specifier.",
 )
-parser.add_argument(
-    "--as-test",
-    action="store_true",
-    help="Whether this script should be run as a test: --stop-reward must "
-    "be achieved within --stop-timesteps AND --stop-iters.",
-)
+# parser.add_argument(
+#     "--as-test",
+#     action="store_true",
+#     help="Whether this script should be run as a test: --stop-reward must "
+#     "be achieved within --stop-timesteps AND --stop-iters.",
+# )
 parser.add_argument(
     "--stop-iters", type=int, default=50, help="Number of iterations to train."
 )
@@ -57,11 +57,11 @@ parser.add_argument(
     default=10000.0,
     help="Reward at which we stop training.",
 )
-parser.add_argument(
-    "--local-mode",
-    action="store_true",
-    help="Init Ray in local mode for easier debugging.",
-)
+# parser.add_argument(
+#     "--local-mode",
+#     action="store_true",
+#     help="Init Ray in local mode for easier debugging.",
+# )
 
 
 def curriculum_fn(
