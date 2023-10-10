@@ -84,13 +84,6 @@ class curriculum_fishing_env(TaskSettableEnv):
 	3: yes         | yes
 	"""
 
-	CURRICULUM = {
-		0: {"state_noise": 0.0, "harvest_noise": 0.0}, 
-		1: {"state_noise": 0.05, "harvest_noise": 0.0},
-		2: {"state_noise": 0.0, "harvest_noise": 0.05},
-		3: {"state_noise": 0.05, "harvest_noise": 0.05},
-	}
-
 	def __init__(self, config: EnvContext):
 		#
 		self.cur_level = config.get("start_level", 0)
@@ -100,6 +93,12 @@ class curriculum_fishing_env(TaskSettableEnv):
 		self.switch_env = False
 
 	def _make_env(self):
+		CURRICULUM = {
+			0: {"state_noise": 0.0, "harvest_noise": 0.0}, 
+			1: {"state_noise": 0.05, "harvest_noise": 0.0},
+			2: {"state_noise": 0.0, "harvest_noise": 0.05},
+			3: {"state_noise": 0.05, "harvest_noise": 0.05},
+		}
 		return fishing_env(**CURRICULUM[self.cur_level])
 
 	def step(self, action):

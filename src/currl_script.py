@@ -85,7 +85,7 @@ def curriculum_fn(
             current one.
     """
     new_task = int(np.log10(train_results["episode_reward_mean"]))-2
-    new_task = max(min(new_task, 4), 0)
+    new_task = max(min(new_task, 3), 0)
     print(
         f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
         f"\nR={train_results['episode_reward_mean']}"
