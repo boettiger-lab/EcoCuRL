@@ -80,7 +80,7 @@ class fishing_env(gym.Env):
 		return (state + 1) / 2.
 
 	def pop_to_state(self, pop):
-		return state * 2 - 1
+		return pop * 2 - 1
 
 
 
