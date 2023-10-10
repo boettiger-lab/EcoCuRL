@@ -58,6 +58,7 @@ class fishing_env(gym.Env):
 			)
 
 		# dynamics
+		print(f"pop: {pop}, harvest: {harvest}")
 		pop -= harvest
 		pop += (
 			self.r * pop * (1 - pop / self.K) 
