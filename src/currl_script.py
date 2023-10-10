@@ -90,7 +90,7 @@ def curriculum_fn(
   # Level 0: Expect rewards between 0.0 and 100.0.
   # Level 1: Expect rewards between 100.0 and 1000.0, etc..
   # We will thus raise the level/task each time we hit a new power of 10.0
-	new_task = int(np.log10(train_results["episode_reward_mean"]))-2
+  new_task = int(np.log10(train_results["episode_reward_mean"]))-2
   # Clamp between valid values, just in case:
   new_task = max(min(new_task, 4), 0)
   print(
@@ -110,24 +110,24 @@ if __name__ == "__main__":
   #     "curriculum_env", lambda config: CurriculumCapableEnv(config))
 
   config = (
-	  get_trainable_cls(args.run)
-	  .get_default_config()
-	  # or "curriculum_env" if registered above
-	  .environment(
-      curriculum_fishing_env,
-      env_config={"start_level": 0},
-      env_task_fn=curriculum_fn,
-	  )
-	  .framework(args.framework)
-	  .rollouts(num_rollout_workers=2, num_envs_per_worker=5)
-	  # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
-	  .resources(num_gpus=int(os.environ.get("RLLIB_NUM_GPUS", "0")))
+  get_trainable_cls(args.run)
+  .get_default_config()
+  # or "curriculum_env" if registered above
+  .environment(
+    curriculum_fishing_env,
+    env_config={"start_level": 0},
+    env_task_fn=curriculum_fn,
+  )
+  .framework(args.framework)
+  .rollouts(num_rollout_workers=2, num_envs_per_worker=5)
+  # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
+  .resources(num_gpus=int(os.environ.get("RLLIB_NUM_GPUS", "0")))
   )
 
   stop = {
-	  "training_iteration": args.stop_iters,
-	  "timesteps_total": args.stop_timesteps,
-	  "episode_reward_mean": args.stop_reward,
+  "training_iteration": args.stop_iters,
+  "timesteps_total": args.stop_timesteps,
+  "episode_reward_mean": args.stop_reward,
   }
 
   tuner = tune.Tuner(
