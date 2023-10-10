@@ -1,5 +1,6 @@
 import pandas as pd
 import ray
+import numpy as np
 
 from escapement import escapement_policy
 from envs.custom_example import fishing_env
