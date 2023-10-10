@@ -48,8 +48,9 @@ class fishing_env(gym.Env):
 		effort = self.action_to_effort(action)
 		quota = self.state * effort
 		harvest = np.clip(
-			quota + self.harvest_noise * np.random.normal()
-			np.float32([0]), self.state
+			quota + self.harvest_noise * np.random.normal(),
+			np.float32([0]), 
+			self.state,
 			)
 
 		# dynamics
