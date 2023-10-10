@@ -69,7 +69,7 @@ class fishing_env(gym.Env):
 		terminated = False
 		if self.timestep >= self.ep_len:
 			terminated = True
-		print(f"reward: {reward}")
+		# print(f"reward: {reward}")
 		return self.state, reward, terminated, False, {}
 
 	def action_to_effort(self, action):
@@ -119,7 +119,7 @@ class curriculum_fishing_env(TaskSettableEnv):
 		# Level 3: x100, etc..
 		# also normalize by ep_len so 'naked' episode rewards are in [0, 100]
 		reward = (10 ** (self.cur_level)) * (rew / self.env.ep_len) * 100
-		# print(f"lvl: {self.cur_level}, reward: {reward}")
+		print(f"lvl: {self.cur_level}, reward: {reward}")
 		return (
 			obs, 
 			reward, 
