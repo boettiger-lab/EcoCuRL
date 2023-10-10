@@ -94,7 +94,7 @@ class curriculum_fishing_env(TaskSettableEnv):
 
 	def __init__(self, config: EnvContext):
 		#
-		self.cur_level = config.get("start_level", 1)
+		self.cur_level = config.get("start_level", 0)
 		self.env = self._make_env()
 		self.observation_space = self.env.observation_space
 		self.action_space = self.env.action_space
