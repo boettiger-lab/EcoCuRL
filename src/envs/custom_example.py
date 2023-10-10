@@ -104,21 +104,21 @@ class curriculum_fishing_env(TaskSettableEnv):
 		self.switch_env = False
 
 	def _make_env(self):
-		CURRICULUM = {
+		self.CURRICULUM = {
 			0: {"state_noise": 0.0, "harvest_noise": 0.0}, 
 			1: {"state_noise": 0.05, "harvest_noise": 0.0},
 			2: {"state_noise": 0.0, "harvest_noise": 0.05},
 			3: {"state_noise": 0.05, "harvest_noise": 0.05},
 		}
-		return fishing_env(**CURRICULUM[self.cur_level])
+		return fishing_env(**self.CURRICULUM[self.cur_level])
 
 	def step(self, action):
 		obs, rew, terminated, truncated, info = self.env.step(action)
 		# Make rewards scale with the level exponentially:
 		# Level 1: x1
 		# Level 2: x10
-		# Level 3: x100, etc..
-		# also normalize by ep_len so 'naked' episode rewards are in [0, 100]
+		# Level 3: x100, etc...
+
 		reward = (10 ** (self.cur_level)) * (rew / self.env.ep_len) * 100
 		# print(f"lvl: {self.cur_level}, reward: {reward}, step: {self.env.timestep}")
 		return (
