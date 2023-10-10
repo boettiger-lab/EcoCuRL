@@ -12,7 +12,7 @@ esc = escapement_policy.remote(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
 def sample_esc_benchmark(lvl, esc, samples=1000):
     env = fishing_env(**CURRICULUM[lvl])
     policies = ray.get([esc.sample_policy.remote() for _ in range(1000)])
-    return [
+    return ray.get([
         (
             str(esc_vec),
             [
@@ -20,7 +20,7 @@ def sample_esc_benchmark(lvl, esc, samples=1000):
             ] 
         )
         for esc_vec in policies
-    ]
+    ])
 
 def get_stats(benchmarks):
     """ benchmarks = output of sample_esc_benchmark """
