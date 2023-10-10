@@ -16,9 +16,9 @@ def sample_esc_benchmark(lvl, esc, samples=1000):
     return [
         (
             str(esc_vec),
-            ray.get([
-                esc.sample_policy_reward.remote(esc_vec, env) for _ in range(50)
-            ])
+            [
+                esc.sample_policy_reward(esc_vec, env) for _ in range(50)
+            ]
         )
         for esc_vec in policies
     ]
