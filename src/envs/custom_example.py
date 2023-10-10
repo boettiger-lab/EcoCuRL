@@ -57,9 +57,7 @@ class fishing_env(gym.Env):
 		self.state -= harvest
 		self.state += (
 			self.r * self.state * (1 - self.state / self.K) 
-			) * 
-			(
-				1 + self.state_noise * np.random.normal()
+			 * (1 + self.state_noise * np.random.normal() )
 			)
 
 		# reward, check for episode end
