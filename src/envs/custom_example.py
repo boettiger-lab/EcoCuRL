@@ -111,10 +111,10 @@ class curriculum_fishing_env(TaskSettableEnv):
 		# Level 3: x100, etc..
 		# also normalize by ep_len so 'naked' episode rewards are in [0, 100]
 		reward = (10 ** (self.cur_level)) * (rew / self.env.ep_len) * 100
-		print(f"lvl: {self.cur_level}, reward: {reward}")
+		# print(f"lvl: {self.cur_level}, reward: {reward}")
 		return (
 			obs, 
-				reward, 
+			reward, 
 			terminated, truncated, info
 		)
 

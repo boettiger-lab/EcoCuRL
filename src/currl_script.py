@@ -84,8 +84,11 @@ def curriculum_fn(
         TaskType: The task to set the env to. This may be the same as the
             current one.
     """
-    new_task = int(np.log10(train_results["episode_reward_mean"]))-2
-    new_task = max(min(new_task, 3), 0)
+    try:
+        new_task = int(np.log10(train_results["episode_reward_mean"]))-2
+        new_task = max(min(new_task, 3), 0)
+    except:
+        new_task = 0
     print(
         f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
         f"\nR={train_results['episode_reward_mean']}"
