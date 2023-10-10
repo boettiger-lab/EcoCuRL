@@ -47,12 +47,17 @@ class escapement_policy:
 			])
 
 	def sample_policy(self):
-		esc_vec = np.float32(
+		return np.float32(
 			[
 			self.max_esc * np.random.rand() for _ in range(self.n_act)
 			]
 			)
-		return self.policy_factory(esc_vec)
+		# esc_vec = np.float32(
+		# 	[
+		# 	self.max_esc * np.random.rand() for _ in range(self.n_act)
+		# 	]
+		# 	)
+		# return self.policy_factory(esc_vec)
 
 	def effort_to_action(self, effort: np.ndarray):
 		""" [0,1] to [-1,1] space """

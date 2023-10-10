@@ -7,7 +7,33 @@ from envs.custom_example import curriculum_fishing_env # only for the curriculum
 
 CURRICULUM = curriculum_fishing_env(config={"start_level":0}).CURRICULUM
 esc = escapement_policy.remote(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
-esc_results = {lvl: ray.get(esc.rand_policy_search.remote(env=fishing_env(**details), verbose=True)) for lvl, details in CURRICULUM.items()}
+
+def sample_esc_benchmark(lvl, esc, samples=1000):
+    env = fishing_env(**CURRICULUM[lvl])
+    policies = ray.get([esc.sample_policy.remote() for _ in range(1000)])
+    return ray.get({
+        str(esc_vec):
+        [
+            esc.sample_policy_reward.remote(esc_vec, env) for _ in range(50)
+        ] 
+        for esc_vec in policies
+    })
+
+def get_stats(benchmarks):
+    """ benchmarks = output of sample_esc_benchmark """
+    return (
+        {esc: np.mean(results) for esc, results in benchmarks.items()}, 
+        {esc: np.std(results) for esc, results in benchmarks.items()},
+        )
+
+
+esc_results = {i: 
+    get_stats(
+        sample_esc_benchmark(
+            lvl=i, esc
+            )
+        )[0]
+}
 
 print("results:\n"
       "--------\n"
@@ -15,6 +41,6 @@ print("results:\n"
     )
 for i, result in esc_results:
     print(
-        f"{i}: {result['avg_rew']}"
+        f"{i}: {result}"
         )
 print("}")
