@@ -30,8 +30,7 @@ def get_stats(benchmarks):
 esc_results = {i: 
     get_stats(
         sample_esc_benchmark(
-            lvl=i, esc
-            )
+            lvl=i, esc=esc)
         )[0]
 }
 
