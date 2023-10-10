@@ -84,13 +84,7 @@ def curriculum_fn(
         TaskType: The task to set the env to. This may be the same as the
             current one.
     """
-    # Our env supports tasks 1 (default) to 5.
-    # With each task, rewards get scaled up by a factor of 10, such that:
-    # Level 1: Expect rewards between 0.0 and 1.0.
-    # Level 2: Expect rewards between 1.0 and 10.0, etc..
-    # We will thus raise the level/task each time we hit a new power of 10.0
     new_task = int(np.log10(train_results["episode_reward_mean"]))-2
-    # Clamp between valid values, just in case:
     new_task = max(min(new_task, 4), 0)
     print(
         f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
