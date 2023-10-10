@@ -12,7 +12,7 @@ esc = escapement_policy.remote(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
 @ray.remote
 def sample_esc_benchmark(lvl, esc, samples=1000):
     env = fishing_env(**CURRICULUM[lvl])
-    policies = ray.get([esc.sample_policy.remote() for _ in range(1000)])
+    policies = [esc.sample_policy for _ in range(1000)]
     return [
         (
             str(esc_vec),
