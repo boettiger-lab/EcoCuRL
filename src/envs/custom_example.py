@@ -45,6 +45,7 @@ class fishing_env(gym.Env):
 		
 		# regularize
 		action = np.clip([-1], [1], action)
+		pop = self.state_to_pop(self.state)
 
 		# extract
 		effort = self.action_to_effort(action)
@@ -56,11 +57,12 @@ class fishing_env(gym.Env):
 			)
 
 		# dynamics
-		self.state -= harvest
-		self.state += (
-			self.r * self.state * (1 - self.state / self.K) 
+		pop -= harvest
+		pop += (
+			self.r * pop * (1 - pop / self.K) 
 			 * (1 + self.state_noise * np.random.normal() )
 			)
+		self.state = self.pop_to_state(pop)
 
 		# reward, check for episode end
 		reward = harvest[0]
@@ -73,6 +75,12 @@ class fishing_env(gym.Env):
 	def action_to_effort(self, action):
 		""" [-1,1] to [0,1] effort """
 		return (action + 1) / 2.
+
+	def state_to_pop(self, state):
+		return (state + 1) / 2.
+
+	def pop_to_state(self, pop):
+		return state * 2 - 1
 
 
 
