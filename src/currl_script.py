@@ -66,39 +66,38 @@ parser.add_argument(
     help="Init Ray in local mode for easier debugging.",
 )
 
-
 def curriculum_fn(
     train_results: dict, task_settable_env: TaskSettableEnv, env_ctx: EnvContext
 ) -> TaskType:
-	"""Function returning a possibly new task to set `task_settable_env` to.
+    """Function returning a possibly new task to set `task_settable_env` to.
 
-  Args:
-      train_results: The train results returned by Algorithm.train().
-      task_settable_env: A single TaskSettableEnv object
-          used inside any worker and at any vector position. Use `env_ctx`
-          to get the worker_index, vector_index, and num_workers.
-      env_ctx: The env context object (i.e. env's config dict
-          plus properties worker_index, vector_index and num_workers) used
-          to setup the `task_settable_env`.
+    Args:
+        train_results: The train results returned by Algorithm.train().
+        task_settable_env: A single TaskSettableEnv object
+            used inside any worker and at any vector position. Use `env_ctx`
+            to get the worker_index, vector_index, and num_workers.
+        env_ctx: The env context object (i.e. env's config dict
+            plus properties worker_index, vector_index and num_workers) used
+            to setup the `task_settable_env`.
 
-  Returns:
-      TaskType: The task to set the env to. This may be the same as the
-          current one.
-  """
-  # Our env supports tasks 0 (default) to 4.
-  # With each task, rewards get scaled up by a factor of 10, such that:
-  # Level 0: Expect rewards between 0.0 and 100.0.
-  # Level 1: Expect rewards between 100.0 and 1000.0, etc..
-  # We will thus raise the level/task each time we hit a new power of 10.0
-  new_task = int(np.log10(train_results["episode_reward_mean"]))-2
-  # Clamp between valid values, just in case:
-  new_task = max(min(new_task, 4), 0)
-  print(
-    f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
-    f"\nR={train_results['episode_reward_mean']}"
-    f"\nSetting env to task={new_task}"
-  )
-  return new_task
+    Returns:
+        TaskType: The task to set the env to. This may be the same as the
+            current one.
+    """
+    # Our env supports tasks 1 (default) to 5.
+    # With each task, rewards get scaled up by a factor of 10, such that:
+    # Level 1: Expect rewards between 0.0 and 1.0.
+    # Level 2: Expect rewards between 1.0 and 10.0, etc..
+    # We will thus raise the level/task each time we hit a new power of 10.0
+    new_task = int(np.log10(train_results["episode_reward_mean"]))-2
+    # Clamp between valid values, just in case:
+    new_task = max(min(new_task, 4), 0)
+    print(
+        f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
+        f"\nR={train_results['episode_reward_mean']}"
+        f"\nSetting env to task={new_task}"
+    )
+    return new_task
 
 
 if __name__ == "__main__":
