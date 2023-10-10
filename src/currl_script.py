@@ -102,7 +102,7 @@ def curriculum_fn(
 
 if __name__ == "__main__":
   args = parser.parse_args()
-  ray.init(local_mode=args.local_mode)
+  ray.init()
 
   # Can also register the env creator function explicitly with:
   # register_env(
