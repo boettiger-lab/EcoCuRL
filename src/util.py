@@ -11,4 +11,5 @@ def simulate(env, policy):
 		obs, rew, terminated, done, info = env.step(action)
 		timeseries.append(p)
 		actionseries.append(a)
+		print(info)
 	return timeseries, actionseries
