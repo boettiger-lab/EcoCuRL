@@ -10,12 +10,14 @@ class escapement_policy:
 		self,
 		n_sp: int,
 		n_act: int,
+		verbose: bool = False,
 		controlled_sp: List = None,
 		max_esc: float = 10, # maximum escapement (used to bound esc optimization)
 		numeric_threshold: float = 0.001,
 		):
 		self.n_sp=n_sp
 		self.n_act=n_act
+		self.verbose=verbose
 		if controlled_sp is None:
 			self.controlled_sp = list(range(n_act))
 		else:
@@ -52,7 +54,7 @@ class escapement_policy:
 		else:
 			esc_dict = {0: esc_vec[0]}
 		return lambda pop: np.float32([
-			self.compute_effort(esc_dict[i], pop[i]) for i in self.controlled_sp
+			self.compute_effort(esc_dict[i], pop[i], verbose=self.verbose) for i in self.controlled_sp
 			])
 
 	def sample_policy(self):
