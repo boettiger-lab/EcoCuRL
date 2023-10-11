@@ -33,6 +33,7 @@ class escapement_policy:
 			# second clause for the odd case where esc < nm_thresh
 			return 0.
 		else:
+			print("effort: ",(variable - esc_level) / variable)
 			return (variable - esc_level) / variable # effort units
 
 	def policy_factory(self, esc_vec):
@@ -72,7 +73,7 @@ class escapement_policy:
 		observation, _ = env.reset()
 		for t in range(tmax):
 			pop = env.state_to_pop(observation) # natural units
-			print(f"pop: {pop}")
+			# print(f"pop: {pop}")
 			action = self.effort_to_action(policy(pop))
 			observation, reward, terminated, done, info = env.step(action)
 			episode_reward += reward
