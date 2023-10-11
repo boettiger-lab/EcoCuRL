@@ -107,6 +107,14 @@ class curriculum_fishing_env(TaskSettableEnv):
 	3: yes         | yes
 	"""
 
+	# these need to be updated manually using esc_script.py
+	esc_bchmrk_rewards = {
+		0: 12.296621268277447,
+		1: 12.072771389927766,
+		2: 8.796371328300594,
+		3: 8.2781187240228,
+	}
+
 	def __init__(self, config: EnvContext):
 		#
 		self.cur_level = config.get("start_level", 0)
@@ -133,8 +141,8 @@ class curriculum_fishing_env(TaskSettableEnv):
 		# Level 2: x10
 		# Level 3: x100, etc...
 
-		reward = (10 ** (self.cur_level)) * (rew / self.env.ep_len) * 100
-		# print(f"lvl: {self.cur_level}, reward: {reward}, step: {self.env.timestep}")
+		reward = (rew / esc_bchmrk_rewards[self.cur_level]) * 10**(self.cur_level) 
+
 		return (
 			obs, 
 			reward, 
