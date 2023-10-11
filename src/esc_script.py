@@ -9,7 +9,7 @@ from envs.custom_example import curriculum_fishing_env # only for the curriculum
 CURRICULUM = curriculum_fishing_env(config={"start_level":0}).CURRICULUM
 esc_obj = escapement_policy(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
 
-@ray.remote(num_cpus=20)
+@ray.remote(num_gpus=2)
 def benchmark(esc_vec, esc_obj, env):
     results = [esc_obj.sample_policy_reward(esc_vec, env) for _ in range(50)]
     print(f"escapement = {esc_vec} done!")
