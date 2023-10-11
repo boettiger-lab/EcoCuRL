@@ -17,7 +17,7 @@ class fishing_env(gym.Env):
 
 		# constants
 		self.K = 0.8
-		self.r = 1
+		self.r = 0.3
 		self.init_state = np.float32([0.5])
 		self.init_noise = 0.05
 		self.ep_len = 200
