@@ -107,9 +107,9 @@ class curriculum_fishing_env(TaskSettableEnv):
 	def _make_env(self):
 		self.CURRICULUM = {
 			0: {"state_noise": 0.0, "harvest_noise": 0.0}, 
-			1: {"state_noise": 0.05, "harvest_noise": 0.0},
-			2: {"state_noise": 0.0, "harvest_noise": 0.05},
-			3: {"state_noise": 0.05, "harvest_noise": 0.05},
+			1: {"state_noise": 0.1, "harvest_noise": 0.0},
+			2: {"state_noise": 0.0, "harvest_noise": 0.1},
+			3: {"state_noise": 0.1, "harvest_noise": 0.1},
 		}
 		return fishing_env(**self.CURRICULUM[self.cur_level])
 
