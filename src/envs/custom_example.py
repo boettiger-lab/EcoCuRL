@@ -9,10 +9,10 @@ from ray.rllib.utils.annotations import override
 class fishing_env(gym.Env):
 	""" basic env whose variations will be the curriculum """
 
-	def __init__(self, state_noise, harvest_noise):
+	def __init__(self, obs_noise, harvest_noise):
 
 		# user inputs
-		self.state_noise = state_noise
+		self.obs_noise = obs_noise
 		self.harvest_noise = harvest_noise
 
 		# constants
@@ -64,9 +64,9 @@ class fishing_env(gym.Env):
 			pop = np.float32([0])
 		pop += (
 			self.r * pop * (1 - pop / self.K) 
-			 * (1 + self.state_noise * np.random.normal() )
 			)
 		self.state = self.pop_to_state(pop)
+		observation = self.state * (1 + self.obs_noise * np.random.normal() )
 
 		# reward, check for episode end
 		reward = harvest[0]
@@ -77,7 +77,8 @@ class fishing_env(gym.Env):
 		info = {'p': pop_start[0], 'p prime': pop[0], 'harvest': harvest, 'timestep': self.timestep}
 
 		self.timestep += 1
-		return self.state, reward, terminated, False, info
+
+		return observation, reward, terminated, False, info
 
 	def action_to_effort(self, action):
 		""" [-1,1] to [0,1] effort """
@@ -114,13 +115,13 @@ class curriculum_fishing_env(TaskSettableEnv):
 		self.switch_env = False
 
 	def _make_env(self):
-		state_noise = 0.25
+		obs_noise = 0.25
 		harvest_noise = 0.1
 		self.CURRICULUM = {
-			0: {"state_noise": 0.0,         "harvest_noise": 0.0}, 
-			1: {"state_noise": state_noise, "harvest_noise": 0.0},
-			2: {"state_noise": 0.0,         "harvest_noise": harvest_noise},
-			3: {"state_noise": state_noise, "harvest_noise": harvest_noise},
+			0: {"obs_noise": 0.0,         "harvest_noise": 0.0}, 
+			1: {"obs_noise": obs_noise, "harvest_noise": 0.0},
+			2: {"obs_noise": 0.0,         "harvest_noise": harvest_noise},
+			3: {"obs_noise": obs_noise, "harvest_noise": harvest_noise},
 		}
 		return fishing_env(**self.CURRICULUM[self.cur_level])
 
