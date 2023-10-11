@@ -39,6 +39,13 @@ for lvl in range(4):
     print(f"level {lvl}: ",{'esc': esc, 'rew': rew})
 
 
+print("escapement benchmarks:\n"
+      "----------------------")
+for lvl, val in lvl_escapement_benchmarks.items():
+    print(
+        f"{lvl}: {vl_escapement_benchmarks[lvl]['rew']}"
+        )
+
 # esc_results = {i: 
 #     ray.get(sample_esc_benchmark(lvl=i, esc=esc))
 #     for i in range(4)
