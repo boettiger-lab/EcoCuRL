@@ -9,6 +9,6 @@ def simulate(env, policy):
 		a = policy(p)
 		action = env.effort_to_action(a)
 		obs, rew, terminated, done, info = env.step(action)
-		timeseries.append(s)
+		timeseries.append(p)
 		actionseries.append(a)
 	return timeseries, actionseries
