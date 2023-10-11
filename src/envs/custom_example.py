@@ -71,7 +71,7 @@ class fishing_env(gym.Env):
 		# reward, check for episode end
 		reward = harvest[0]
 		terminated = False
-		if (self.timestep >= self.ep_len) or pop < 0.05:
+		if (self.timestep >= self.ep_len) or pop < 0.1:
 			terminated = True
 		
 		info = {'p': pop_start[0], 'p prime': pop[0], 'harvest': harvest, 'timestep': self.timestep}
