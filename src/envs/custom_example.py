@@ -46,6 +46,7 @@ class fishing_env(gym.Env):
 		# regularize
 		action = np.clip([-1], [1], action)
 		pop = self.state_to_pop(self.state)
+		pop_start = pop
 
 		# extract
 		effort = self.action_to_effort(action)
@@ -59,6 +60,8 @@ class fishing_env(gym.Env):
 
 		# dynamics
 		pop -= harvest
+		if pop <= 0:
+			pop = np.float32([0])
 		pop += (
 			self.r * pop * (1 - pop / self.K) 
 			 * (1 + self.state_noise * np.random.normal() )
@@ -70,9 +73,11 @@ class fishing_env(gym.Env):
 		terminated = False
 		if (self.timestep >= self.ep_len) or pop < 0.05:
 			terminated = True
-		# print(f"reward: {reward}")
+		
+		info = {'p': pop_start[0], 'p prime': pop[0], 'harvest': harvest, 'timestep': self.timestep}
+
 		self.timestep += 1
-		return self.state, reward, terminated, False, {}
+		return self.state, reward, terminated, False, info
 
 	def action_to_effort(self, action):
 		""" [-1,1] to [0,1] effort """
