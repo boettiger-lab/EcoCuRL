@@ -45,7 +45,7 @@ class escapement_policy:
 		if self.n_act > 1:
 			esc_dict = dict(zip(self.controlled_sp, esc_vec)) # {sp_index: escapement_level}
 		else:
-			esc_dict = {0: esc_vec}
+			esc_dict = {0: esc_vec[0]}
 		return lambda pop: np.float32([
 			self.compute_effort(esc_dict[i], pop[i]) for i in self.controlled_sp
 			])
