@@ -46,7 +46,7 @@ class fishing_env(gym.Env):
 		# regularize
 		action = np.clip([-1], [1], action)
 		pop = self.state_to_pop(self.state)
-		pop_start = pop
+		pop_start = pop.copy()
 
 		# extract
 		effort = self.action_to_effort(action)
