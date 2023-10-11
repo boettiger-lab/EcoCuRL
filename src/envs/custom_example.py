@@ -115,7 +115,7 @@ class curriculum_fishing_env(TaskSettableEnv):
 		self.switch_env = False
 
 	def _make_env(self):
-		obs_noise = 0.25
+		obs_noise = 0.2
 		harvest_noise = 0.1
 		self.CURRICULUM = {
 			0: {"obs_noise": 0.0,         "harvest_noise": 0.0}, 
