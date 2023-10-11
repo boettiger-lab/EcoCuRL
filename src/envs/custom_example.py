@@ -78,6 +78,10 @@ class fishing_env(gym.Env):
 		""" [-1,1] to [0,1] effort """
 		return (action + 1) / 2.
 
+	def effort_to_action(self, effort):
+		""" [0,1] to [-1,1] effort """
+		return 2 * effort - 1
+
 	def state_to_pop(self, state):
 		return (state + 1) / 2.
 
