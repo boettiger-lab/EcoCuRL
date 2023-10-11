@@ -18,7 +18,7 @@ def benchmark(esc_vec, esc_obj, env):
 def sample_esc_benchmark(lvl, esc_obj, samples=1000):
     env = fishing_env(**CURRICULUM[lvl])
     policies = [esc_obj.sample_policy() for _ in range(1000)]
-    return policies, np.array(ray.get([benchmark(esc_vec, esc_obj, env) for esc_vec in policies]))
+    return policies, np.array(ray.get([benchmark.remote(esc_vec, esc_obj, env) for esc_vec in policies]))
 
 # def get_stats(policies, benchmarks):
 
