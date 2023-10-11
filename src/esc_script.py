@@ -12,7 +12,7 @@ esc_obj = escapement_policy(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
 @ray.remote
 def benchmark(esc_vec, esc_obj, env):
     results = [esc_obj.sample_policy_reward(esc_vec, env) for _ in range(50)]
-    print(f"escapement = {esc_vec} done!")
+    # print(f"escapement = {esc_vec} done!")
     return np.mean(results)
         
 def sample_esc_benchmark(lvl, esc_obj, samples=1000):
@@ -36,7 +36,7 @@ for lvl in range(4):
     policies, esc_results = sample_esc_benchmark(lvl, esc_obj, samples=1000)
     esc, rew = find_best_policy(policies, esc_results)
     lvl_escapement_benchmarks[lvl] = {'esc': esc, 'rew': rew}
-    print({'esc': esc, 'rew': rew})
+    print(f"level {lvl}: ",{'esc': esc, 'rew': rew})
 
 
 # esc_results = {i: 
