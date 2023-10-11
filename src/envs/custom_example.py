@@ -66,7 +66,8 @@ class fishing_env(gym.Env):
 			self.r * pop * (1 - pop / self.K) 
 			)
 		self.state = self.pop_to_state(pop)
-		observation = self.state * (1 + self.obs_noise * np.random.normal() )
+		observed_pop = pop * (1 + self.obs_noise * np.random.normal() )
+		observation = self.pop_to_state(observed_pop)
 
 		# reward, check for episode end
 		reward = harvest[0]
