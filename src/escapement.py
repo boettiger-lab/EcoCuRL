@@ -33,7 +33,7 @@ class escapement_policy:
 			# second clause for the odd case where esc < nm_thresh
 			return 0.
 		else:
-			print("effort: ",(variable - esc_level) / variable)
+			# print("effort: ",(variable - esc_level) / variable)
 			return (variable - esc_level) / variable # effort units
 
 	def policy_factory(self, esc_vec):
