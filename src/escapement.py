@@ -27,13 +27,18 @@ class escapement_policy:
 		self.optimized_esc = None
 		self.optimized_policy_fn = None
 
-	def compute_effort(self, esc_level, variable):
+	def compute_effort(self, esc_level, variable, verbose=False):
 		"""computes fishing effort for a single species."""
+		if verbose:
+			print("pop, esc lvl = ", variable, esc_level)
 		if (variable <= esc_level) or (variable <= self.numeric_threshold):
 			# second clause for the odd case where esc < nm_thresh
+			if verbose:
+				print("effort: ", 0)
 			return 0.
 		else:
-			# print("effort: ",(variable - esc_level) / variable)
+			if verbose:
+				print("effort: ",(variable - esc_level) / variable)
 			return (variable - esc_level) / variable # effort units
 
 	def policy_factory(self, esc_vec):
