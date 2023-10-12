@@ -147,7 +147,7 @@ if __name__ == "__main__":
   stop = {
   "training_iteration": args.stop_iters,
   "timesteps_total": args.stop_timesteps,
-  "episode_reward_mean": 93_000_000_000,
+  "episode_reward_mean": 10_000_000_000,
   }
 
   tuner = tune.Tuner(
