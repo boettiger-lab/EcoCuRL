@@ -98,14 +98,6 @@ class fishing_env(gym.Env):
 
 
 class curriculum_fishing_env(TaskSettableEnv):
-	"""
-	4 curriculum levels:
-		 state noise | harvest noise
-	0: no          | no    
-	1: yes         | no
-	2: no          | yes
-	3: yes         | yes
-	"""
 
 	def __init__(self, config: EnvContext):
 		#
@@ -132,19 +124,19 @@ class curriculum_fishing_env(TaskSettableEnv):
 
 	def _make_env(self):
 		obs_noise = 0.2
-		harvest_noise = 0.3
+		harvest_noise = 0.2
 		self.CURRICULUM = {
-			0: {"obs_noise": 0.0, "harvest_noise": 0.00 * harvest_noise}, 
-			1: {"obs_noise": 0.0, "harvest_noise": 0.40 * harvest_noise},
-			2: {"obs_noise": 0.0, "harvest_noise": 0.50 * harvest_noise},
-			3: {"obs_noise": 0.0, "harvest_noise": 0.60 * harvest_noise},
-			4: {"obs_noise": 0.0, "harvest_noise": 0.70 * harvest_noise},
-			5: {"obs_noise": 0.0, "harvest_noise": 0.75 * harvest_noise},
-			6: {"obs_noise": 0.0, "harvest_noise": 0.80 * harvest_noise},
-			7: {"obs_noise": 0.0, "harvest_noise": 0.85 * harvest_noise},
-			8: {"obs_noise": 0.0, "harvest_noise": 0.90 * harvest_noise},
-			9: {"obs_noise": 0.0, "harvest_noise": 0.95 * harvest_noise},
-			10: {"obs_noise": 0.0, "harvest_noise": 1.00 * harvest_noise},
+			0: {"obs_noise": 0.00 * obs_noise, "harvest_noise": 0.00 * harvest_noise}, 
+			1: {"obs_noise": 0.40 * obs_noise, "harvest_noise": 0.40 * harvest_noise},
+			2: {"obs_noise": 0.50 * obs_noise, "harvest_noise": 0.50 * harvest_noise},
+			3: {"obs_noise": 0.60 * obs_noise, "harvest_noise": 0.60 * harvest_noise},
+			4: {"obs_noise": 0.70 * obs_noise, "harvest_noise": 0.70 * harvest_noise},
+			5: {"obs_noise": 0.75 * obs_noise, "harvest_noise": 0.75 * harvest_noise},
+			6: {"obs_noise": 0.80 * obs_noise, "harvest_noise": 0.80 * harvest_noise},
+			7: {"obs_noise": 0.85 * obs_noise, "harvest_noise": 0.85 * harvest_noise},
+			8: {"obs_noise": 0.90 * obs_noise, "harvest_noise": 0.90 * harvest_noise},
+			9: {"obs_noise": 0.95 * obs_noise, "harvest_noise": 0.95 * harvest_noise},
+			10: {"obs_noise": 1.0 * obs_noise, "harvest_noise": 1.00 * harvest_noise},
 		}
 		return fishing_env(**self.CURRICULUM[self.cur_level])
 
