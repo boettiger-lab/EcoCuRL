@@ -85,14 +85,15 @@ def curriculum_fn(
             current one.
     """
     new_task=0
-    if train_results["episode_reward_mean"] > 0.99:
+    if train_results["episode_reward_mean"] > 0.94:
         new_task=1
-    elif train_results["episode_reward_mean"] > 9.9:
+    elif train_results["episode_reward_mean"] > 9.4:
         new_task=2
-    elif train_results["episode_reward_mean"] > 99:
+    elif train_results["episode_reward_mean"] > 94:
         new_task=3
     # new_task = int(np.log10(train_results["episode_reward_mean"]))
     # new_task = max(min(new_task, 3), 0)
+    
     print(
         f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
         f"\nR={train_results['episode_reward_mean']}"
