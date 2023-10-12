@@ -52,7 +52,7 @@ parser.add_argument(
     "--stop-iters", type=int, default=5_000, help="Number of iterations to train."
 )
 parser.add_argument(
-    "--stop-timesteps", type=int, default=200_000_000, help="Number of timesteps to train."
+    "--stop-timesteps", type=int, default=20_000_000, help="Number of timesteps to train."
 )
 parser.add_argument(
     "--stop-reward",
@@ -147,7 +147,7 @@ if __name__ == "__main__":
   stop = {
   "training_iteration": args.stop_iters,
   "timesteps_total": args.stop_timesteps,
-  # "episode_reward_mean": args.stop_reward,
+  "episode_reward_mean": 93_000_000_000,
   }
 
   tuner = tune.Tuner(
