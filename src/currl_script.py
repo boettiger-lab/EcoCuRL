@@ -84,7 +84,7 @@ def curriculum_fn(
         TaskType: The task to set the env to. This may be the same as the
             current one.
     """
-    graduation_rate = 0.95
+    graduation_rate = 0.96
     new_task=0
     if train_results["episode_reward_mean"] > graduation_rate:
         new_task=1
