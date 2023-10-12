@@ -92,6 +92,8 @@ def curriculum_fn(
         new_task=2
     if train_results["episode_reward_mean"] > 100 * graduation_rate:
         new_task=3
+    if train_results["episode_reward_mean"] > 1000 * graduation_rate:
+        new_task=4
     # new_task = int(np.log10(train_results["episode_reward_mean"]))
     # new_task = max(min(new_task, 3), 0)
 

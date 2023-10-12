@@ -127,10 +127,11 @@ class curriculum_fishing_env(TaskSettableEnv):
 		obs_noise = 0.2
 		harvest_noise = 0.1
 		self.CURRICULUM = {
-			0: {"obs_noise": 0.0,         "harvest_noise": 0.0}, 
-			1: {"obs_noise": obs_noise, "harvest_noise": 0.0},
-			2: {"obs_noise": 0.0,         "harvest_noise": harvest_noise},
-			3: {"obs_noise": obs_noise, "harvest_noise": harvest_noise},
+			0: {"obs_noise": 0.0, "harvest_noise": 0.00 * harvest_noise}, 
+			1: {"obs_noise": 0.0, "harvest_noise": 0.40 * harvest_noise},
+			2: {"obs_noise": 0.0, "harvest_noise": 0.60 * harvest_noise},
+			3: {"obs_noise": 0.0, "harvest_noise": 0.80 * harvest_noise},
+			4: {"obs_noise": 0.0, "harvest_noise": 1.00 * harvest_noise},
 		}
 		return fishing_env(**self.CURRICULUM[self.cur_level])
 
