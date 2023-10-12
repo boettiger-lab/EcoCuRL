@@ -43,7 +43,7 @@ print("escapement benchmarks:\n"
       "----------------------")
 for lvl, val in lvl_escapement_benchmarks.items():
     print(
-        f"{lvl}: {lvl_escapement_benchmarks[lvl]['rew']}"
+        f"{lvl}: {lvl_escapement_benchmarks[lvl]['rew']},"
         )
 
 # esc_results = {i: 
