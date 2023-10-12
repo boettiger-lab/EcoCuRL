@@ -49,10 +49,10 @@ parser.add_argument(
     "be achieved within --stop-timesteps AND --stop-iters.",
 )
 parser.add_argument(
-    "--stop-iters", type=int, default=1_000, help="Number of iterations to train."
+    "--stop-iters", type=int, default=5_000, help="Number of iterations to train."
 )
 parser.add_argument(
-    "--stop-timesteps", type=int, default=2_000_000, help="Number of timesteps to train."
+    "--stop-timesteps", type=int, default=200_000_000, help="Number of timesteps to train."
 )
 parser.add_argument(
     "--stop-reward",
@@ -94,6 +94,12 @@ def curriculum_fn(
         new_task=3
     if train_results["episode_reward_mean"] > 1000 * graduation_rate:
         new_task=4
+    if train_results["episode_reward_mean"] > 10_000 * graduation_rate:
+        new_task=5
+    if train_results["episode_reward_mean"] > 100_000 * graduation_rate:
+        new_task=6
+    if train_results["episode_reward_mean"] > 1_000_000 * graduation_rate:
+        new_task=7
     # new_task = int(np.log10(train_results["episode_reward_mean"]))
     # new_task = max(min(new_task, 3), 0)
 
