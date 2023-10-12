@@ -122,7 +122,7 @@ if __name__ == "__main__":
     env_task_fn=curriculum_fn,
   )
   .framework(args.framework)
-  .rollouts(num_rollout_workers=2, num_envs_per_worker=5)
+  .rollouts(num_rollout_workers=25, num_envs_per_worker=5)
   # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
   .resources(num_gpus=2
   # int(os.environ.get("RLLIB_NUM_GPUS", "0"))
