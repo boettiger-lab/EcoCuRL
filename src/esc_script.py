@@ -32,7 +32,7 @@ def find_best_policy(policies, esc_results):
     return policies[optimal_idx], esc_results[optimal_idx]
 
 lvl_escapement_benchmarks = {}
-for lvl in range(8):
+for lvl in range(11):
     policies, esc_results = sample_esc_benchmark(lvl, esc_obj, samples=1000)
     esc, rew = find_best_policy(policies, esc_results)
     lvl_escapement_benchmarks[lvl] = {'esc': esc, 'rew': rew}
