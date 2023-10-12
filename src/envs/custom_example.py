@@ -117,10 +117,11 @@ class curriculum_fishing_env(TaskSettableEnv):
 		#
 		# these need to be updated manually using esc_script.py
 		self.esc_bchmrk_rewards = {
-			0: 12.296621268277447,
-			1: 12.072771389927766,
-			2: 8.796371328300594,
-			3: 8.2781187240228,
+			0: 12.295693978775743,
+			1: 12.142365829351155,
+			2: 11.428263573202228,
+			3: 9.87157070059519,
+			4: 8.643371867633437,
 		}
 
 	def _make_env(self):
