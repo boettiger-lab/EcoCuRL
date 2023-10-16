@@ -3,7 +3,7 @@ import numpy as np
 from ray.rllib.env.multi_agent_env import MultiAgentEnv
 
 class MyTaskSettableEnv(MultiAgentEnv):
-    def __init__(self, config):
+    def __init__(self, config = None):
         self.task = None
         self.agent1 = "agent_1"
         self.agent2 = "agent_2"
