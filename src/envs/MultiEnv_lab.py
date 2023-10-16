@@ -18,6 +18,7 @@ from typing import Callable, Dict, List, Tuple, Optional, Union, Set, Type
 
 from ray.rllib.env.base_env import BaseEnv
 from ray.rllib.env.env_context import EnvContext
+from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 from ray.rllib.utils.annotations import (
     ExperimentalAPI,
     override,
@@ -45,7 +46,7 @@ def logistic(params, pop):
 
 
 @PublicAPI
-class MA_logistic_env(gym.Env):
+class MA_logistic_env(TaskSettableEnv):
     """An environment that hosts multiple independent agents.
 
     Agents are identified by (string) agent ids. Note that these "agents" here
@@ -87,6 +88,7 @@ class MA_logistic_env(gym.Env):
         # curriculum learning
         self.curr_lvl = curr_lvl
         self.num_lvls = 10
+        self.switch_env = False
 
 
 
@@ -239,9 +241,6 @@ class MA_logistic_env(gym.Env):
             {'env_setter': False, 'env_solver': False}, # truncateds
             {}, # infos
         )
-
-
-
 
     def set_env(self):
         """ higher curriculum lvl = larger spread of possible r values """
@@ -431,6 +430,22 @@ class MA_logistic_env(gym.Env):
 
         # By default, do nothing.
         pass
+
+    @override(TaskSettableEnv)
+    def sample_tasks(self, n_tasks):
+        """Implement this to sample n random tasks."""
+        return [np.random.randint(self.num_lvls) for _ in range(n_tasks)]
+
+    @override(TaskSettableEnv)
+    def get_task(self):
+        """Implement this to get the current task (curriculum level)."""
+        return self.curr_level
+
+    @override(TaskSettableEnv)
+    def set_task(self, task):
+        """Implement this to set the task (curriculum level) for this env."""
+        self.curr_level = task
+        self.switch_env = True
 
     # fmt: off
     # __grouping_doc_begin__
