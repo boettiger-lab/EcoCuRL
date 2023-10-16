@@ -8,7 +8,9 @@ from env import MyTaskSettableEnv as MyEnv
 
 # Callback function for agent 1 to set the task for agent 2
 def set_task_callback(info):
-    agent_2_task = np.random.randint(5)  # Set a random task for agent 2
+    obs = info["obs"][info["agent"]]
+    agent_1_policy = info["policy_map"]["agent_1"]
+    agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
     info["policy"].model.agent2_task = agent_2_task
 
 # Create a multi-agent training configuration
