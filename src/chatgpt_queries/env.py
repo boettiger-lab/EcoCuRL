@@ -11,7 +11,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         self.action_space = gym.spaces.Discrete(2)  # Replace with your actual action space
         self.max_steps = 100  # Set the maximum number of steps per episode
 
-    def reset(self):
+    def reset(self, *, seed=42, options=None):
         self.task = np.random.randint(5)  # Randomly set the task for agent 2
         self.current_step = 0
         self.agent_2_performance = 0
