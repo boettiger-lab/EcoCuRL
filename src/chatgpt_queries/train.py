@@ -3,7 +3,7 @@ from ray import tune
 from ray.rllib.env import MultiAgentEnv
 
 from env import MyTaskSettableEnv as MyEnv
-from ray.rllib.agents.callbacks import DefaultCallbacks
+from ray.rllib.callbacks import DefaultCallbacks
 
 # Define your custom TaskSettableEnv here
 
@@ -29,10 +29,8 @@ config = {
         },
         "policy_mapping_fn": lambda agent_id: "agent_1" if agent_id == "agent_1" else "agent_2",
     },
-    "callbacks": {
-        CustomCallbacks
+    "callbacks_class": CustomCallbacks,
         # "on_episode_start": set_task_callback,
-    },
 }
 
 # Initialize Ray and train the agents
