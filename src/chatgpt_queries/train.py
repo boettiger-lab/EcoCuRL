@@ -12,12 +12,13 @@ def set_task_callback(info):
     info["policy"].model.agent2_task = agent_2_task
 
 # Create a multi-agent training configuration
+env = MyEnv()
 config = {
-    "env": MyEnv,
+    "env": env,
     "multiagent": {
         "policies": {
-            "agent_1": (None, MyEnv.observation_space, MyEnv.action_space, {}),
-            "agent_2": (None, MyEnv.observation_space, MyEnv.action_space, {}),
+            "agent_1": (None, env.observation_space, env.action_space, {}),
+            "agent_2": (None, env.observation_space, env.action_space, {}),
         },
         "policy_mapping_fn": lambda agent_id: "agent_1" if agent_id == "agent_1" else "agent_2",
     },
