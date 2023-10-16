@@ -2,7 +2,7 @@ import ray
 from ray import tune
 from ray.rllib.env import MultiAgentEnv
 
-from env import MyTaskSettableEnv as myenv
+from env import MyTaskSettableEnv as MyEnv
 
 # Define your custom TaskSettableEnv here
 
@@ -13,11 +13,11 @@ def set_task_callback(info):
 
 # Create a multi-agent training configuration
 config = {
-    "env": myenv,
+    "env": MyEnv,
     "multiagent": {
         "policies": {
-            "agent_1": (None, TaskSettableEnv.observation_space, TaskSettableEnv.action_space, {}),
-            "agent_2": (None, TaskSettableEnv.observation_space, TaskSettableEnv.action_space, {}),
+            "agent_1": (None, MyEnv.observation_space, MyEnv.action_space, {}),
+            "agent_2": (None, MyEnv.observation_space, MyEnv.action_space, {}),
         },
         "policy_mapping_fn": lambda agent_id: "agent_1" if agent_id == "agent_1" else "agent_2",
     },
