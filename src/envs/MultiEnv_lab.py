@@ -58,9 +58,10 @@ class MA_logistic_env(gym.Env):
     action_space_sample() and observation_space_sample() have to be overwritten.
     """
 
-    def __init__(self, env_config):
+    def __init__(self, curr_lvl):
         """ states/observations and actions are in [0,1]. """
 
+        # algorithmics
         self.observation_space = gym.spaces.Box(
             [0],
             [1],
@@ -71,21 +72,21 @@ class MA_logistic_env(gym.Env):
             [1],
             dtype=np.float32
         )
+        self._agent_ids = {'env_setter', 'env_controller'}
 
-        self._agent_ids = {'task_setter', 'task_solver'}
-
+        # ecology / pop dynamics
         self.init_state = env_config.get(
             'init_state', 
             np.float32([0.5])
         )
-        self.params = env_config.get(
-            'params',
-            {
-                'r': 0.3,
-                'k': 0.8,
-            }
-        )
         self.dynamics = logistic
+        self.pop_threshold1 = 0.2 # above which the population becomes a problem
+        self.pop_threshold2 = 0.7 # above which the problem ends
+        self.tmax = 100
+
+        # curriculum learning
+        self.curr_lvl = curr_lvl
+        self.num_lvls = 10
 
 
 
@@ -129,11 +130,12 @@ class MA_logistic_env(gym.Env):
         """
         """
         observations: 
-            task_setter: 0 = must set task, 1 = no need to set task
-            task_solver: population of the system
+            env_setter: 0 = must set env_specifier, 1 = no need to set env_specifier
+            env_controller: population of the system
         """
+        self.timestep = 0
         self.state = self.init_state
-        obs = {'task_setter': np.float32([0]), 'task_solver': self.state}
+        obs = {'env_setter': np.float32([0])}
         return obs, {}
 
     @PublicAPI
@@ -179,7 +181,90 @@ class MA_logistic_env(gym.Env):
                 "car_1": {},  # info for car_1
             }
         """
-        raise NotImplementedError
+        env_specifier = action_dict.get('env_setter', None)
+        if env_specifier is not None:
+            # env_setter only gets an observation on reset
+            # --> so it should only provide an action right
+            #     after reset. From there on, env_specifier = None.
+            self.env_specifier = env_specifier
+            self.set_env()
+            return (
+                {'env_controller': self.state}, # observation
+                {'env_controller': 0}, # reward
+                {'env_controller': False, "__all__": False}, # terminated
+                {'env_controller': False, "__all__": False}, # truncated
+                {}, # infos
+            )
+
+        if self.env_specifier is None:
+            raise ValueError(
+                "No env_specifier value chosen by 'env_setter'. Have you reset the env?"
+            )
+
+        #
+        # from here on, self.env_specifier has a value
+        removal_effort = action_dict['env_controller'][0]
+        logger.debug(f"removal effort: {removal_effort}")
+
+        self.state = self.state * (1 - 0.3 * removal_effort)
+        logger.debug(f"post removal state: {self.state}")
+
+        self.state = self.dynamics(self.params, self.state.copy())
+        logger.debug(f"post dynamics state: {self.state}")
+
+        setter_reward += (
+            - 1 # penalized per timestep survived
+            + 0.05 * removal_effort 
+            + self.damage_quantifier(self.pop_threshold1, self.state)
+        ) 
+        solver_reward -= setter_reward
+        logger.debug(
+            f"setter rew: {setter_reward:.3f}, " 
+            f"solver rew: {solver_reward:.3f}"
+        )
+
+        solver_terminated = False
+        if self.state > self.pop_threshold2:
+            solver_terminated = True
+            # this is a bit ad-hoc:
+            setter_reward += 100 * ((100 - self.timestep) ** 2) / (100 ** 2)
+
+        if self.timestep >= 200:
+            solver_terminated = True
+
+        return (
+            {'env_solver': self.state}, # obs
+            {'env_setter': setter_reward, 'env_solver': solver_reward}, # rew
+            {'env_solver': solver_terminated, '__all__': solver_terminated}, # terminateds
+            {'env_setter': False, 'env_solver': False}, # truncateds
+            {}, # infos
+        )
+
+
+
+
+    def set_env(self):
+        """ higher curriculum lvl = larger spread of possible r values """
+
+        r_rng_start = [0.45, 0.55]
+        r_rng_end = [0.05, 0.95]
+        r_rng_diff = r_rng_end - r_rng_start
+
+        [r_floor, r_ceil]  = r_rng_start + r_rng_diff * (self.curr_lvl / self.num_lvls)
+        r_width = r_ceil - r_floor
+
+        self.params = {
+            'r': r_floor + r_width * self.env_specifier[0],
+            'K': 0.8,
+        }
+        logger.debug(f"env_specifier: {self.env_specifier}, r: {self.params['r']}")
+
+    def damage_quantifier(self, threshold, pop):
+    """ quantifies ecosystem damage. """
+    if pop <= threshold:
+        return 0
+    else:
+        return pop[0] - threshold
 
     @ExperimentalAPI
     def observation_space_contains(self, x: MultiAgentDict) -> bool:
