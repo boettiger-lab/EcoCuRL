@@ -21,7 +21,7 @@ class CustomCallbacks(DefaultCallbacks):
 # Create a multi-agent training configuration
 env = MyEnv()
 config = {
-    "env": env,
+    "env": MyEnv,
     "multiagent": {
         "policies": {
             "agent_1": (None, env.observation_space, env.action_space, {}),
