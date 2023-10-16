@@ -3,7 +3,7 @@ from ray import tune
 from ray.rllib.env import MultiAgentEnv
 
 from env import MyTaskSettableEnv as MyEnv
-from ray.rllib.callbacks import DefaultCallbacks
+from ray.rllib.algorithms.callbacks import DefaultCallbacks
 
 # Define your custom TaskSettableEnv here
 
