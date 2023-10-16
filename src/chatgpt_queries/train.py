@@ -1,6 +1,5 @@
 import ray
 from ray import tune
-from ray.rllib.agents import ppo  # You can choose a different algorithm if needed
 from ray.rllib.env import MultiAgentEnv
 
 from env import MyTaskSettableEnv as myenv
