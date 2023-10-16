@@ -3,6 +3,7 @@ from ray import tune
 from ray.rllib.env import MultiAgentEnv
 
 from env import MyTaskSettableEnv as MyEnv
+from ray.rllib.agents.callbacks import DefaultCallbacks
 
 # Define your custom TaskSettableEnv here
 
@@ -12,6 +13,10 @@ def set_task_callback(info):
     agent_1_policy = info["policy_map"]["agent_1"]
     agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
     info["policy"].model.agent2_task = agent_2_task
+
+class CustomCallbacks(DefaultCallbacks):
+    def on_episode_start(self, worker, base_env, policies, episode, **kwargs):
+        set_task_callback(episode)  # Call your set_task_callback here
 
 # Create a multi-agent training configuration
 env = MyEnv()
@@ -25,7 +30,8 @@ config = {
         "policy_mapping_fn": lambda agent_id: "agent_1" if agent_id == "agent_1" else "agent_2",
     },
     "callbacks": {
-        "on_episode_start": set_task_callback,
+        CustomCallbacks
+        # "on_episode_start": set_task_callback,
     },
 }
 
