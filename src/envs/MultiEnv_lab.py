@@ -59,7 +59,7 @@ class MA_logistic_env(TaskSettableEnv):
     action_space_sample() and observation_space_sample() have to be overwritten.
     """
 
-    def __init__(self, curr_lvl):
+    def __init__(self):
         """ states/observations and actions are in [0,1]. """
 
         # algorithmics
@@ -86,8 +86,8 @@ class MA_logistic_env(TaskSettableEnv):
         self.tmax = 100
 
         # curriculum learning
-        self.curr_lvl = curr_lvl
-        self.num_lvls = 10
+        # self.curr_lvl = curr_lvl
+        # self.num_lvls = 10
         self.switch_env = False
 
 
@@ -245,12 +245,15 @@ class MA_logistic_env(TaskSettableEnv):
     def set_env(self):
         """ higher curriculum lvl = larger spread of possible r values """
 
-        r_rng_start = [0.45, 0.55]
-        r_rng_end = [0.05, 0.95]
-        r_rng_diff = r_rng_end - r_rng_start
+        # r_rng_start = [0.45, 0.55]
+        # r_rng_end = [0.05, 0.95]
+        # r_rng_diff = r_rng_end - r_rng_start
 
-        [r_floor, r_ceil]  = r_rng_start + r_rng_diff * (self.curr_lvl / self.num_lvls)
-        r_width = r_ceil - r_floor
+        # [r_floor, r_ceil]  = r_rng_start + r_rng_diff * (self.curr_lvl / self.num_lvls)
+        # r_width = r_ceil - r_floor
+
+        r_floor = 0.05
+        r_ceil = 0.95
 
         self.params = {
             'r': r_floor + r_width * self.env_specifier[0],
@@ -430,22 +433,6 @@ class MA_logistic_env(TaskSettableEnv):
 
         # By default, do nothing.
         pass
-
-    @override(TaskSettableEnv)
-    def sample_tasks(self, n_tasks):
-        """Implement this to sample n random tasks."""
-        return [np.random.randint(self.num_lvls) for _ in range(n_tasks)]
-
-    @override(TaskSettableEnv)
-    def get_task(self):
-        """Implement this to get the current task (curriculum level)."""
-        return self.curr_level
-
-    @override(TaskSettableEnv)
-    def set_task(self, task):
-        """Implement this to set the task (curriculum level) for this env."""
-        self.curr_level = task
-        self.switch_env = True
 
     # fmt: off
     # __grouping_doc_begin__
