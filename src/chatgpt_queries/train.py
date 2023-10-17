@@ -333,7 +333,7 @@ class MyEnv(MultiAgentEnv):
 def set_task_callback(info):
     from util import dict_pretty_print
     print("\n"*5)
-    dict_pretty_print(info)
+    print(info)
     print("\n"*5 + "info:\n\n")
     obs = info["obs"][info["agent"]]
     agent_1_policy = info["policy_map"]["agent_1"]
