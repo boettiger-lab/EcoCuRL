@@ -7,6 +7,9 @@ from ray.rllib.algorithms.ppo import PPOConfig
 from ray.rllib.algorithms.callbacks import DefaultCallbacks
 from ray.rllib.policy.policy import PolicySpec
 
+from ray.rllib.env import BaseEnv
+from ray.rllib.evaluation import Episode, RolloutWorker
+
 from typing import Callable, Dict, List, Tuple, Optional, Union, Set, Type
 
 import gymnasium as gym
