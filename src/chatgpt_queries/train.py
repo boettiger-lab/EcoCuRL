@@ -335,10 +335,10 @@ def set_task_callback(info):
     print("\n"*5 + "info: ")
     print(info.__dict__)
     print("\n"*5)
-    obs = info["obs"][info["agent"]]
-    agent_1_policy = info.policy_mapping_fn("agent_1")
-    agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
-    info["policy"].model.agent2_task = agent_2_task
+    # obs = info["obs"][info["agent"]]
+    # agent_1_policy = info.policy_mapping_fn("agent_1")
+    # agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
+    # info["policy"].model.agent2_task = agent_2_task
 
 class CustomCallbacks(DefaultCallbacks):
     def on_episode_end(self, worker, base_env, policies, episode, **kwargs):
