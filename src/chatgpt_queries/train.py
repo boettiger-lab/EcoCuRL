@@ -37,10 +37,13 @@ class MyEnv(MultiAgentEnv):
         self.current_step = 0
         self.agent_2_performance = 0
         print(5*"\n",self._agent_ids,5*"\n")
-        return {
+        infos = {}
+        obs = {
             self.agent1: self._get_obs(self.agent1),
             self.agent2: self._get_obs(self.agent2)
         }
+        return obs, infos
+
 
     def step(self, action_dict):
         assert self.agent1 in action_dict and self.agent2 in action_dict
