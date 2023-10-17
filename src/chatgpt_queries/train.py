@@ -348,7 +348,9 @@ class CustomCallbacks(DefaultCallbacks):
         print("algo: ", algorithm)
         print("kwargs: ")
         dict_pretty_print(kwargs)
+        print("results: ")
         print(result)
+        print(5*"\n")
         # if result["episode_reward_mean"] > 200:
         #     task = 2
         # elif result["episode_reward_mean"] > 100:
