@@ -19,6 +19,8 @@ from ray.rllib.utils.annotations import (
     DeveloperAPI,
 )
 
+from util import dict_pretty_print
+
 class MyEnv(MultiAgentEnv):
     def __init__(self, config = None):
         self.task = None
@@ -331,7 +333,6 @@ class MyEnv(MultiAgentEnv):
 
 # Callback function for agent 1 to set the task for agent 2
 def set_task_callback(info):
-    from util import dict_pretty_print
     print("\n"*5 + "info: ")
     dict_pretty_print(info.__dict__)
     print("\n"*5)
@@ -341,8 +342,22 @@ def set_task_callback(info):
     # info["policy"].model.agent2_task = agent_2_task
 
 class CustomCallbacks(DefaultCallbacks):
-    def on_episode_start(self, worker, base_env, policies, episode, **kwargs):
-        set_task_callback(episode)  # Call your set_task_callback here
+
+    def on_train_result(self, algorithm, result, **kwargs):
+        print("result type: ", type(result))
+        print("algo: ", algorithm)
+        print("kwargs: ")
+        dict_pretty_print(kwargs)
+        print(result)
+        # if result["episode_reward_mean"] > 200:
+        #     task = 2
+        # elif result["episode_reward_mean"] > 100:
+        #     task = 1
+        # else:
+        #     task = 0
+        # algorithm.workers.foreach_worker(
+        #     lambda ev: ev.foreach_env(
+        #         lambda env: env.set_task(task)))
 
 # Create a multi-agent training configuration
 env = MyEnv()

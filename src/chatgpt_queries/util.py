@@ -33,17 +33,17 @@ def dict_pretty_print(D: dict, indent_lvl: int = 0, indent_size: int = 2, verbos
     if verbose:
       print("Using 3 decimal places.")
     print(preamble)
-  if len(D)==0:
-    print(D)
-    return None
   base_indent = indent_lvl * " "
   indent = (indent_lvl + indent_size) * " "
   print(base_indent + "{")
   for key, value in D.items():
     print(f"{indent}{key}: ", end="")
     if isinstance(value, dict):
-      print("")
-      dict_pretty_print(D=value, indent_lvl = indent_lvl + indent_size, indent_size=indent_size)
+      if len(value)==0:
+        print(value)
+      else:
+        print("")
+        dict_pretty_print(D=value, indent_lvl = indent_lvl + indent_size, indent_size=indent_size)
     elif isinstance(value, Iterable) and (not isinstance(value, str)):
       iter_pretty_print(value)
     elif isinstance(value, Number):
