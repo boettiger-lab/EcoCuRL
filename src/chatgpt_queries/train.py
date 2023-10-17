@@ -366,16 +366,41 @@ def set_task_callback(info):
 
 class CustomCallbacks(DefaultCallbacks):
 
+    def on_episode_end(
+        self,
+        *,
+        worker: RolloutWorker,
+        base_env: BaseEnv,
+        policies: Dict[str, Policy],
+        episode: Episode,
+        env_index: int,
+        **kwargs
+    ):
+        # Check if there are multiple episodes in a batch, i.e.
+        # "batch_mode": "truncate_episodes".
+        if worker.config.batch_mode == "truncate_episodes":
+            # Make sure this episode is really done.
+            assert episode.batch_builder.policy_collectors["default_policy"].batches[
+                -1
+            ]["dones"][-1], (
+                "ERROR: `on_episode_end()` should only be called "
+                "after episode is done!"
+            )
+        print(episode.user_data)
+        # rew = np.mean(episode.user_data["rewards"])
+        # episode.custom_metrics["pole_angle"] = pole_angle
+        # episode.hist_data["pole_angles"] = episode.user_data["pole_angles"]
+
     def on_train_result(self, algorithm, result, **kwargs):
 
         # dict_pretty_print(result)
 
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
-        print(f"obs: {obs}")
+        # print(f"obs: {obs}")
         agent_1_policy = result['config']['policies']["agent_1"]
-        print(f"policy: {agent_1_policy}")
+        # print(f"policy: {agent_1_policy}")
         agent_2_task = agent_1_policy.compute_single_action(obs)
-        print(f"task: {agent_2_task}")
+        # print(f"task: {agent_2_task}")
 
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
