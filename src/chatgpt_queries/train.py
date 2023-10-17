@@ -71,6 +71,7 @@ class MyEnv(MultiAgentEnv):
             self.agent1: rew1,  # Reward for agent 1 based on agent 2's performance
             self.agent2: rew2  # You can define a different reward structure for agent 2 if needed
         }
+        print("reward: ", rew_dict)
 
         obs_dict = {
             self.agent2: int(guess == self.task)
@@ -339,21 +340,34 @@ def set_task_callback(info):
     print("\n"*5 + "info: ")
     dict_pretty_print(info.__dict__)
     print("\n"*5)
-    # obs = info["obs"][info["agent"]]
-    # agent_1_policy = info.policy_mapping_fn("agent_1")
-    # agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
-    # info["policy"].model.agent2_task = agent_2_task
+    obs = info["obs"][info["agent"]]
+    agent_1_policy = info.policy_mapping_fn("agent_1")
+    agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
+    info["policy"].model.agent2_task = agent_2_task
 
 class CustomCallbacks(DefaultCallbacks):
 
     def on_train_result(self, algorithm, result, **kwargs):
-        print("result type: ", type(result))
-        print("algo: ", algorithm)
-        print("kwargs: ")
-        dict_pretty_print(kwargs)
-        print("results: ")
-        dict_pretty_print(result)
-        print(5*"\n")
+
+        obs = int(result['sampler_results']['episode_reward_mean'] > 5)
+        print(f"obs: {obs}")
+        agent_1_policy = result['config']['policy_mapping_fn']("agent_1")
+        print(f"policy: {agent_1_policy}")
+        agent_2_task = agent_1_policy.compute_single_action(obs)
+        print(f"task: {agent_2_task}")
+
+        algorithm.workers.foreach_worker(
+            lambda ev: ev.foreach_env(
+                lambda env: env.set_task(agent_2_task)))
+
+
+        # print("result type: ", type(result))
+        # print("algo: ", algorithm)
+        # print("kwargs: ")
+        # dict_pretty_print(kwargs)
+        # print("results: ")
+        # dict_pretty_print(result)
+        # print(5*"\n")
         # if result["episode_reward_mean"] > 200:
         #     task = 2
         # elif result["episode_reward_mean"] > 100:
