@@ -188,7 +188,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
     # __grouping_doc_begin__
     def with_agent_groups(
         self,
-        groups: Dict[str, List[AgentID]],
+        groups: Dict[str, List],
         obs_space: gym.Space = None,
             act_space: gym.Space = None):
         """Convenience method for grouping together agents in this env.
