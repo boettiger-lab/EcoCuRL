@@ -12,6 +12,7 @@ from typing import Callable, Dict, List, Tuple, Optional, Union, Set, Type
 import gymnasium as gym
 import numpy as np
 from ray.rllib.env.multi_agent_env import MultiAgentEnv, MultiAgentEnvWrapper
+from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 
 
 from ray.rllib.utils.annotations import (
@@ -23,7 +24,7 @@ from ray.rllib.utils.annotations import (
 
 from util import dict_pretty_print
 
-class MyEnv(MultiAgentEnv):
+class MyEnv(MultiAgentEnv, TaskSettableEnv):
     def __init__(self, config = None):
         self.task = None
         self.seed = lambda *args, **kwargs: 42
@@ -96,7 +97,7 @@ class MyEnv(MultiAgentEnv):
         """Implement this to set the task (curriculum level) for this env."""
         self.cur_level = task
         self.switch_env = True
-    
+
     @PublicAPI
     def get_agent_ids(self):
         """Returns a set of agent ids in the environment.
