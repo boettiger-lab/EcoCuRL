@@ -331,14 +331,14 @@ class MyEnv(MultiAgentEnv):
 
 # Callback function for agent 1 to set the task for agent 2
 def set_task_callback(info):
-    from util import dict_pretty_print
+    # from util import dict_pretty_print
     print("\n"*5)
     print(info)
     print("\n"*5 + "info:\n\n")
-    obs = info["obs"][info["agent"]]
-    agent_1_policy = info["policy_map"]["agent_1"]
-    agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
-    info["policy"].model.agent2_task = agent_2_task
+    # obs = info["obs"][info["agent"]]
+    # agent_1_policy = info["policy_map"]["agent_1"]
+    # agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
+    # info["policy"].model.agent2_task = agent_2_task
 
 class CustomCallbacks(DefaultCallbacks):
     def on_episode_start(self, worker, base_env, policies, episode, **kwargs):
