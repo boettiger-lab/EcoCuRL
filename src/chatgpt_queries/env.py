@@ -18,6 +18,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         self.agent1 = "agent_1"
         self.agent2 = "agent_2"
         self._agent_ids = {self.agent1, self.agent2}
+        print(5*"\n",self._agent_ids,5*"\n")
         self.observation_space = gym.spaces.Discrete(5)  # Replace with your actual observation space
         self.action_space = gym.spaces.Discrete(2)  # Replace with your actual action space
         self.max_steps = 100  # Set the maximum number of steps per episode
