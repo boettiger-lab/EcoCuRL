@@ -146,7 +146,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         return {}
 
     @ExperimentalAPI
-    def observation_space_sample(self, agent_ids: list = None) -> MultiEnvDict:
+    def observation_space_sample(self, agent_ids: list = None):
         """Returns a random observation from the observation space for each
         agent if agent_ids is None, otherwise returns a random observation for
         the agents in agent_ids.
