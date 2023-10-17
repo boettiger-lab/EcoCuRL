@@ -67,7 +67,7 @@ class MyEnv(MultiAgentEnv):
         done = {self.agent1: self.current_step >= self.max_steps, '__all__': False}
 
         # Calculate the rewards for both agents
-        reward = {
+        rew_dict = {
             self.agent1: rew1,  # Reward for agent 1 based on agent 2's performance
             self.agent2: rew2  # You can define a different reward structure for agent 2 if needed
         }
@@ -76,7 +76,7 @@ class MyEnv(MultiAgentEnv):
             self.agent2: int(guess == self.task)
         }
 
-        return obs_dict, reward_dict, done, {'__all__': False}, {}
+        return obs_dict, rew_dict, done, {'__all__': False}, {}
 
     @PublicAPI
     def get_agent_ids(self):
