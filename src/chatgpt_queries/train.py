@@ -349,16 +349,21 @@ class CustomCallbacks(DefaultCallbacks):
 
     def on_train_result(self, algorithm, result, **kwargs):
 
+        dict_pretty_print(result)
+
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         print(f"obs: {obs}")
         agent_1_policy = result['config']['policy_mapping_fn']("agent_1")
         print(f"policy: {agent_1_policy}")
-        agent_2_task = agent_1_policy.compute_single_action(obs)
-        print(f"task: {agent_2_task}")
+        # agent_2_task = agent_1_policy.compute_single_action(obs)
+        # print(f"task: {agent_2_task}")
 
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
-                lambda env: env.set_task(agent_2_task)))
+                lambda env: env.set_task(
+                    # agent_2_task
+                    1
+                    )))
 
 
         # print("result type: ", type(result))
@@ -380,14 +385,25 @@ class CustomCallbacks(DefaultCallbacks):
 
 # Create a multi-agent training configuration
 env = MyEnv()
+
+def policy(agent_id: str):
+    i = {"agent1": 1, "agent2": 2}[agent_id]
+
+    policy_config = PPOConfig.overrides(
+                    model={
+                        "custom_model": ["agent1", "agent2"][i % 2],
+                    },
+                    gamma=0.99,
+                )
+    return PolicySpec(config=config)
+
+policies = {agent_id: policy(agent_id) for agent_id in ["agent1", "agent2"]}
+
 config = {
     "env": MyEnv,
     "multiagent": {
-        "policies": {
-            "agent_1": (None, env.observation_space, env.action_space, {}),
-            "agent_2": (None, env.observation_space, env.action_space, {}),
-        },
-        "policy_mapping_fn": lambda agent_id, *args, **kwargs: "agent_1" if agent_id == "agent_1" else "agent_2",
+        "policies": policies,
+        "policy_mapping_fn": lambda agent_id, *args, **kwargs: agent_id,
     },
     "callbacks_class": CustomCallbacks,
         # "on_episode_start": set_task_callback,
@@ -398,7 +414,7 @@ ray.init()
 tune.run(
     "PPO",
     config=config,
-    stop={"training_iteration": 100},  # Define your stopping criteria
+    stop={"training_iteration": 10},  # Define your stopping criteria
     checkpoint_at_end=True,
 )
 ray.shutdown()
