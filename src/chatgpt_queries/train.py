@@ -341,7 +341,7 @@ def set_task_callback(info):
     # info["policy"].model.agent2_task = agent_2_task
 
 class CustomCallbacks(DefaultCallbacks):
-    def on_episode_end(self, worker, base_env, policies, episode, **kwargs):
+    def on_episode_start(self, worker, base_env, policies, episode, **kwargs):
         set_task_callback(episode)  # Call your set_task_callback here
 
 # Create a multi-agent training configuration
