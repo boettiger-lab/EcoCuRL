@@ -81,6 +81,22 @@ class MyEnv(MultiAgentEnv):
 
         return obs_dict, rew_dict, done, {'__all__': False}, {}
 
+    @override(TaskSettableEnv)
+    def sample_tasks(self, n_tasks):
+        """Implement this to sample n random tasks."""
+        return [np.random.randint(4) for _ in range(n_tasks)]
+
+    @override(TaskSettableEnv)
+    def get_task(self):
+        """Implement this to get the current task (curriculum level)."""
+        return self.cur_level
+
+    @override(TaskSettableEnv)
+    def set_task(self, task):
+        """Implement this to set the task (curriculum level) for this env."""
+        self.cur_level = task
+        self.switch_env = True
+    
     @PublicAPI
     def get_agent_ids(self):
         """Returns a set of agent ids in the environment.
