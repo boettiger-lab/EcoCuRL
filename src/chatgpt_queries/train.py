@@ -5,7 +5,9 @@ from ray.rllib.env import MultiAgentEnv
 # from env import MyTaskSettableEnv as MyEnv
 from ray.rllib.algorithms.ppo import PPOConfig
 from ray.rllib.algorithms.callbacks import DefaultCallbacks
+
 from ray.rllib.policy.policy import PolicySpec
+from ray.rllib.policy import Policy
 
 from ray.rllib.env import BaseEnv
 from ray.rllib.evaluation import Episode, RolloutWorker
