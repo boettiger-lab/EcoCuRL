@@ -389,17 +389,17 @@ class CustomCallbacks(DefaultCallbacks):
 env = MyEnv()
 
 def policy(agent_id: str):
-    i = {"agent1": 1, "agent2": 2}[agent_id]
+    i = {"agent_1": 1, "agent_2": 2}[agent_id]
 
     policy_config = PPOConfig.overrides(
                     model={
-                        "custom_model": ["agent1", "agent2"][i % 2],
+                        "custom_model": ["agent_1", "agent_2"][i % 2],
                     },
                     gamma=0.99,
                 )
     return PolicySpec(config=policy_config)
 
-policies = {agent_id: policy(agent_id) for agent_id in ["agent1", "agent2"]}
+policies = {agent_id: policy(agent_id) for agent_id in ["agent_1", "agent_2"]}
 
 config = {
     "env": MyEnv,
