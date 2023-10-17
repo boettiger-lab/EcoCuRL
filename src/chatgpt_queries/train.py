@@ -73,7 +73,7 @@ class MyEnv(MultiAgentEnv):
 
     def _get_obs(self, agent):
         # Replace this with logic to generate observations for each agent
-        return np.zeros(self.observation_space.n)
+        return 0
 
     @PublicAPI
     def get_agent_ids(self):
