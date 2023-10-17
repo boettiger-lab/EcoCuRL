@@ -49,8 +49,6 @@ class MyEnv(MultiAgentEnv):
 
 
     def step(self, action_dict):
-        assert self.agent1 in action_dict and self.agent2 in action_dict
-
         # Update the performance of agent 2 based on its action
         if action_dict[self.agent2] == self.task:
             self.agent_2_performance += 1
