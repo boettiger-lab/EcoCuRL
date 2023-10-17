@@ -31,47 +31,52 @@ class MyEnv(MultiAgentEnv):
         self.agents = {self.agent1, self.agent2}
         self._agent_ids = set(self.agents)
         #
-        self.observation_space = gym.spaces.Discrete(5)  # Replace with your actual observation space
-        self.action_space = gym.spaces.Discrete(2)  # Replace with your actual action space
+        self.observation_space = gym.spaces.Discrete(0)  # Replace with your actual observation space
+        self.action_space = gym.spaces.Discrete(5)  # Replace with your actual action space
         self.max_steps = 100  # Set the maximum number of steps per episode
 
     def reset(self, *, seed=42, options=None):
-        self.task = np.random.randint(5)  # Randomly set the task for agent 2
         self.current_step = 0
         self.agent_2_performance = 0
-        print(5*"\n",self._agent_ids,5*"\n")
         infos = {}
         obs = {
-            self.agent1: self._get_obs(self.agent1),
-            self.agent2: self._get_obs(self.agent2)
+            self.agent1: 0,
         }
         return obs, infos
 
 
     def step(self, action_dict):
-        # Update the performance of agent 2 based on its action
-        if action_dict[self.agent2] == self.task:
-            self.agent_2_performance += 1
+
+        task = action_dict.get(self.agent1, None)
+        if task is not None:
+            self.task = task
+            obs = {self.agent2: 0}
+            rew = {self.agent1: 0, self.agent2: 0}
+            terminateds = {self.agent2: False, '__all__': False}
+            truncateds = {self.agent2: False, '__all__': False}
+            infos = {}
+            return obs, rew, terminateds, truncateds, infos
+
+        guess = action_dict[self.agent2]
+        rew1, rew2 = 0, 0
+        if guess == self.task:
+            rew2 += 1
+            rew1 -= 1
 
         self.current_step += 1
         done = {self.agent1: self.current_step >= self.max_steps, '__all__': False}
 
         # Calculate the rewards for both agents
-        reward_dict = {
-            self.agent1: self.agent_2_performance,  # Reward for agent 1 based on agent 2's performance
-            self.agent2: 0  # You can define a different reward structure for agent 2 if needed
+        reward = {
+            self.agent1: rew1,  # Reward for agent 1 based on agent 2's performance
+            self.agent2: rew2  # You can define a different reward structure for agent 2 if needed
         }
 
         obs_dict = {
-            self.agent1: self._get_obs(self.agent1),
-            self.agent2: self._get_obs(self.agent2)
+            self.agent2: int(guess == self.task)
         }
 
         return obs_dict, reward_dict, done, {'__all__': False}, {}
-
-    def _get_obs(self, agent):
-        # Replace this with logic to generate observations for each agent
-        return 0
 
     @PublicAPI
     def get_agent_ids(self):
