@@ -404,13 +404,14 @@ class CustomCallbacks(DefaultCallbacks):
         # print(f"obs: {obs}")
         agent_1_policy = result['config']['policies']["agent_1"]
         # print(f"policy: {agent_1_policy}")
-        agent_2_task = agent_1_policy.compute_single_action(obs)
-        # print(f"task: {agent_2_task}")
+        # agent_2_task = agent_1_policy.compute_single_action(obs)
+        # # print(f"task: {agent_2_task}")
 
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
                 lambda env: env.set_task(
-                    agent_2_task
+                    # agent_2_task
+                    1
                     )))
 
 
