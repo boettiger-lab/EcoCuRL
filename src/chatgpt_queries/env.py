@@ -5,7 +5,7 @@ from ray.rllib.env.multi_agent_env import MultiAgentEnv
 class MyTaskSettableEnv(MultiAgentEnv):
     def __init__(self, config = None):
         self.task = None
-        self.seed=42
+        self.seed= lambda *args, **kwargs: 42
         self.agent1 = "agent_1"
         self.agent2 = "agent_2"
         self.observation_space = gym.spaces.Discrete(5)  # Replace with your actual observation space
