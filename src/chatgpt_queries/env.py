@@ -28,7 +28,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
             self.agent_2_performance += 1
 
         self.current_step += 1
-        done = self.current_step >= self.max_steps
+        done = {self.agent1: self.current_step >= self.max_steps}
 
         # Calculate the rewards for both agents
         reward_dict = {
@@ -41,7 +41,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
             self.agent2: self._get_obs(self.agent2)
         }
 
-        return obs_dict, reward_dict, done, {}
+        return obs_dict, reward_dict, done, {'__all__': False}, {}
 
     def _get_obs(self, agent):
         # Replace this with logic to generate observations for each agent
