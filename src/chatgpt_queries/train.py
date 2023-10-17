@@ -352,7 +352,7 @@ class CustomCallbacks(DefaultCallbacks):
         print("kwargs: ")
         dict_pretty_print(kwargs)
         print("results: ")
-        print(result)
+        dict_pretty_print(result)
         print(5*"\n")
         # if result["episode_reward_mean"] > 200:
         #     task = 2
