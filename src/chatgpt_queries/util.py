@@ -35,6 +35,7 @@ def dict_pretty_print(D: dict, indent_lvl: int = 0, indent_size: int = 2, verbos
     print(preamble)
   if len(D)==0:
     print(D)
+    return None
   base_indent = indent_lvl * " "
   indent = (indent_lvl + indent_size) * " "
   print(base_indent + "{")
