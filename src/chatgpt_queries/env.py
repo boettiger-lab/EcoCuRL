@@ -8,6 +8,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         self.seed= lambda *args, **kwargs: 42
         self.agent1 = "agent_1"
         self.agent2 = "agent_2"
+        self._agent_ids = {self.agent1, self.agent2}
         self.observation_space = gym.spaces.Discrete(5)  # Replace with your actual observation space
         self.action_space = gym.spaces.Discrete(2)  # Replace with your actual action space
         self.max_steps = 100  # Set the maximum number of steps per episode
@@ -47,6 +48,17 @@ class MyTaskSettableEnv(MultiAgentEnv):
     def _get_obs(self, agent):
         # Replace this with logic to generate observations for each agent
         return np.zeros(self.observation_space.n)
+
+    @PublicAPI
+    def get_agent_ids(self) -> Set[AgentID]:
+        """Returns a set of agent ids in the environment.
+
+        Returns:
+            Set of agent ids.
+        """
+        if not isinstance(self._agent_ids, set):
+            self._agent_ids = set(self._agent_ids)
+        return self._agent_ids
 
     def render(self, mode='human'):
         # Implement rendering if needed
