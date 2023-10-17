@@ -331,9 +331,9 @@ class MyEnv(MultiAgentEnv):
 
 # Callback function for agent 1 to set the task for agent 2
 def set_task_callback(info):
-    # from util import dict_pretty_print
+    from util import dict_pretty_print
     print("\n"*5 + "info: ")
-    print(info.__dict__)
+    dict_pretty_print(info.__dict__)
     print("\n"*5)
     # obs = info["obs"][info["agent"]]
     # agent_1_policy = info.policy_mapping_fn("agent_1")
