@@ -31,7 +31,7 @@ class MyEnv(MultiAgentEnv):
         self.agents = {self.agent1, self.agent2}
         self._agent_ids = set(self.agents)
         #
-        self.observation_space = gym.spaces.Discrete(0)  # Replace with your actual observation space
+        self.observation_space = gym.spaces.Discrete(2)  # Replace with your actual observation space
         self.action_space = gym.spaces.Discrete(5)  # Replace with your actual action space
         self.max_steps = 100  # Set the maximum number of steps per episode
 
