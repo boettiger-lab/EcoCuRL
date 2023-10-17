@@ -78,7 +78,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         # Implement any cleanup here
         pass
 
-        @ExperimentalAPI
+    @ExperimentalAPI
     def action_space_contains(self, x: MultiAgentDict) -> bool:
         """Checks if the action space contains the given action.
 
