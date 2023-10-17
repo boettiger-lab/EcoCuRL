@@ -3,7 +3,9 @@ from ray import tune
 from ray.rllib.env import MultiAgentEnv
 
 # from env import MyTaskSettableEnv as MyEnv
+from ray.rllib.algorithms.ppo import PPOConfig
 from ray.rllib.algorithms.callbacks import DefaultCallbacks
+from ray.rllib.policy.policy import PolicySpec
 
 from typing import Callable, Dict, List, Tuple, Optional, Union, Set, Type
 
