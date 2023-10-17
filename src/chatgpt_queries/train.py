@@ -56,7 +56,7 @@ class MyEnv(MultiAgentEnv):
             self.agent_2_performance += 1
 
         self.current_step += 1
-        done = {self.agent1: self.current_step >= self.max_steps}
+        done = {self.agent1: self.current_step >= self.max_steps, '__all__': False}
 
         # Calculate the rewards for both agents
         reward_dict = {
