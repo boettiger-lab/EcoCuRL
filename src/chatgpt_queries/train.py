@@ -368,20 +368,19 @@ class CustomCallbacks(DefaultCallbacks):
 
     def on_train_result(self, algorithm, result, **kwargs):
 
-        dict_pretty_print(result)
+        # dict_pretty_print(result)
 
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         print(f"obs: {obs}")
-        agent_1_policy = result['config']['policy_mapping_fn']("agent_1")
+        agent_1_policy = result['config']['policies']["agent_1"]
         print(f"policy: {agent_1_policy}")
-        # agent_2_task = agent_1_policy.compute_single_action(obs)
-        # print(f"task: {agent_2_task}")
+        agent_2_task = agent_1_policy.compute_single_action(obs)
+        print(f"task: {agent_2_task}")
 
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
                 lambda env: env.set_task(
-                    # agent_2_task
-                    1
+                    agent_2_task
                     )))
 
 
