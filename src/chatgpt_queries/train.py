@@ -397,7 +397,7 @@ def policy(agent_id: str):
                     },
                     gamma=0.99,
                 )
-    return PolicySpec(config=config)
+    return PolicySpec(config=policy_config)
 
 policies = {agent_id: policy(agent_id) for agent_id in ["agent1", "agent2"]}
 
