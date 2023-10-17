@@ -370,7 +370,7 @@ config = {
             "agent_1": (None, env.observation_space, env.action_space, {}),
             "agent_2": (None, env.observation_space, env.action_space, {}),
         },
-        "policy_mapping_fn": lambda agent_id: "agent_1" if agent_id == "agent_1" else "agent_2",
+        "policy_mapping_fn": lambda agent_id, *args, **kwargs: "agent_1" if agent_id == "agent_1" else "agent_2",
     },
     "callbacks_class": CustomCallbacks,
         # "on_episode_start": set_task_callback,
