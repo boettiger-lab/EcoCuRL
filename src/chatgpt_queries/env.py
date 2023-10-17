@@ -59,7 +59,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         return np.zeros(self.observation_space.n)
 
     @PublicAPI
-    def get_agent_ids(self) -> Set[AgentID]:
+    def get_agent_ids(self):
         """Returns a set of agent ids in the environment.
 
         Returns:
