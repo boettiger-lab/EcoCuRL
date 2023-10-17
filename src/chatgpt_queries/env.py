@@ -79,7 +79,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         pass
 
     @ExperimentalAPI
-    def action_space_contains(self, x: MultiAgentDict) -> bool:
+    def action_space_contains(self, x) -> bool:
         """Checks if the action space contains the given action.
 
         Args:
@@ -109,7 +109,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         return True
 
     @ExperimentalAPI
-    def action_space_sample(self, agent_ids: list = None) -> MultiAgentDict:
+    def action_space_sample(self, agent_ids: list = None):
         """Returns a random action for each environment, and potentially each
             agent in that environment.
 
@@ -190,7 +190,7 @@ class MyTaskSettableEnv(MultiAgentEnv):
         self,
         groups: Dict[str, List[AgentID]],
         obs_space: gym.Space = None,
-            act_space: gym.Space = None) -> "MultiAgentEnv":
+            act_space: gym.Space = None):
         """Convenience method for grouping together agents in this env.
 
         An agent group is a list of agent IDs that are mapped to a single
