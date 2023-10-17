@@ -18,7 +18,7 @@ from ray.rllib.utils.annotations import (
     DeveloperAPI,
 )
 
-class MeEnv(MultiAgentEnv):
+class MyEnv(MultiAgentEnv):
     def __init__(self, config = None):
         self.task = None
         self.seed = lambda *args, **kwargs: 42
