@@ -94,10 +94,14 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             )
 
 
-        self.pop 
-        # self.task = self.cur_level
-        # guess = action_dict[self.agent2]
-        rew1, rew2 = 0, 0
+        harvest = self.pop * agent_2_action
+        cost = 0.05 * agent_2_action
+        self.pop = self.pop - harvest
+        self.pop += self.r * self.pop * (1 - self.pop / self.K)
+        pentalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
+
+        rew2 = harvest - cost - penalty
+        rew1 = -rew1 * self.r # devalue the easy strategy of just choosing low r values
 
         self.timestep += 1
         done = {
@@ -112,7 +116,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         }
 
         obs_dict = {
-            self.agent2: self.init_pop
+            self.agent2: self.pop
         }
 
         return obs_dict, rew_dict, done, {'__all__': False}, {}
@@ -132,7 +136,8 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         """Implement this to set the task (curriculum level) for this env."""
         self.cur_level = task
         self.switch_env = True
-        self.r = task
+        r_vals = {'min': 0.05, 'max': 0.95}
+        self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task
         self.K = 1
 
     @PublicAPI
