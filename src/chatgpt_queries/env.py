@@ -33,7 +33,11 @@ class MyTaskSettableEnv(MultiAgentEnv):
         }
 
     def step(self, action_dict):
-        assert self.agent1 in action_dict and self.agent2 in action_dict
+        assert (
+            self.agent1 in action_dict and self.agent2 in action_dict, 
+            f"Env step fn: keys in `action_dict` arg do not match Env's agent names:\n"
+            f"action_dict keys = {action_dict.keys()}, agent names: {self.agent1}, {self.agent2}"
+        )
 
         # Update the performance of agent 2 based on its action
         if action_dict[self.agent2] == self.task:

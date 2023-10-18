@@ -52,6 +52,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
     def reset(self, *, seed=42, options=None):
         self.current_step = 0
         self.agent_2_performance = 0
+        self.cur_level = 0
         infos = {}
         obs = {
             self.agent1: np.array([0]),
@@ -61,16 +62,17 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
     def step(self, action_dict):
 
-        task = action_dict.get(self.agent1, None)
-        if task is not None:
-            self.task = task
-            obs = {self.agent2: np.array([0])}
-            rew = {self.agent1: 0, self.agent2: 0}
-            terminateds = {self.agent2: False, '__all__': False}
-            truncateds = {self.agent2: False, '__all__': False}
-            infos = {}
-            return obs, rew, terminateds, truncateds, infos
+        # task = action_dict.get(self.agent1, None)
+        # if task is not None:
+        #     self.task = task
+        #     obs = {self.agent2: np.array([0])}
+        #     rew = {self.agent1: 0, self.agent2: 0}
+        #     terminateds = {self.agent2: False, '__all__': False}
+        #     truncateds = {self.agent2: False, '__all__': False}
+        #     infos = {}
+        #     return obs, rew, terminateds, truncateds, infos
 
+        self.task = self.cur_level
         guess = action_dict[self.agent2]
         rew1, rew2 = 0, 0
         if guess == self.task:
