@@ -54,7 +54,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.agent_2_performance = 0
         infos = {}
         obs = {
-            self.agent1: 0,
+            self.agent1: np.array([0]),
         }
         return obs, infos
 
@@ -90,7 +90,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         }
 
         obs_dict = {
-            self.agent2: int(guess == self.task)
+            self.agent2: np.array([int(guess == self.task)])
         }
 
         return obs_dict, rew_dict, done, {'__all__': False}, {}
