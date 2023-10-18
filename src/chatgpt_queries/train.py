@@ -74,7 +74,6 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         task = action_dict.get(self.agent1, None)
         if task is not None:
-            print(f"task chosen: {task}")
             self.set_task(task)
             obs = {self.agent2: self.init_pop}
             rew = {self.agent1: 0, self.agent2: 0}
@@ -83,13 +82,19 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             infos = {}
             return obs, rew, terminateds, truncateds, infos
 
-        if self.cur_level is None:
+        if (self.cur_level is None):
             raise ValueError(
                 "No cur_level set by agent1. Have you reset the env?"
             )
 
+        agent_2_action = action_dict.get(self.agent2, None)
+        if (agent_2_action is None):
+            raise ValueError(
+                "task was lready set by agent1 but agent2 did not choose an action."
+            )
 
 
+        self.pop 
         # self.task = self.cur_level
         # guess = action_dict[self.agent2]
         rew1, rew2 = 0, 0
