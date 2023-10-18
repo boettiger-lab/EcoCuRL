@@ -435,36 +435,36 @@ def set_task_callback(info):
 
 class CustomCallbacks(DefaultCallbacks):
 
-    def on_episode_end(
-        self,
-        *,
-        worker: RolloutWorker,
-        base_env: BaseEnv,
-        policies: Dict[str, Policy],
-        episode: Episode,
-        env_index: int,
-        **kwargs
-    ):
-        # print("\n"*5)
-        # print("on_episode_end:")
-        # dict_pretty_print(episode.__dict__)
-        # print("\n"*5)
+    # def on_episode_end(
+    #     self,
+    #     *,
+    #     worker: RolloutWorker,
+    #     base_env: BaseEnv,
+    #     policies: Dict[str, Policy],
+    #     episode: Episode,
+    #     env_index: int,
+    #     **kwargs
+    # ):
+    #     print("\n"*5)
+    #     print("on_episode_end:")
+    #     dict_pretty_print(episode.__dict__)
+    #     print("\n"*5)
 
-        # Check if there are multiple episodes in a batch, i.e.
-        # "batch_mode": "truncate_episodes".
-        # if worker.config.batch_mode == "truncate_episodes":
-        #     # Make sure this episode is really done.
-        #     assert episode.batch_builder.policy_collectors["default_policy"].batches[
-        #         -1
-        #     ]["dones"][-1], (
-        #         "ERROR: `on_episode_end()` should only be called "
-        #         "after episode is done!"
-        #     )
-        # rew = np.mean(episode.user_data["rewards"])
-        # episode.custom_metrics["pole_angle"] = pole_angle
-        # episode.hist_data["pole_angles"] = episode.user_data["pole_angles"]
-        rew2 = episode.agent_rewards[('agent_2', 'agent_2')]
-        episode.custom_metrics["agent_2_performance"] = int(rew2 > 10)
+    #     Check if there are multiple episodes in a batch, i.e.
+    #     "batch_mode": "truncate_episodes".
+    #     if worker.config.batch_mode == "truncate_episodes":
+    #         # Make sure this episode is really done.
+    #         assert episode.batch_builder.policy_collectors["default_policy"].batches[
+    #             -1
+    #         ]["dones"][-1], (
+    #             "ERROR: `on_episode_end()` should only be called "
+    #             "after episode is done!"
+    #         )
+    #     rew = np.mean(episode.user_data["rewards"])
+    #     episode.custom_metrics["pole_angle"] = pole_angle
+    #     episode.hist_data["pole_angles"] = episode.user_data["pole_angles"]
+    #     rew2 = episode.agent_rewards[('agent_2', 'agent_2')]
+    #     episode.custom_metrics["agent_2_performance"] = int(rew2 > 10)
 
     def on_train_result(self, algorithm, result, **kwargs):
 
