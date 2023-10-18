@@ -403,12 +403,14 @@ class CustomCallbacks(DefaultCallbacks):
 
     def on_train_result(self, algorithm, result, **kwargs):
 
-        # dict_pretty_print(result)
+        dict_pretty_print(result['custom_metrics'])
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         # print(f"obs: {obs}")
-        obs = result['custom_metrics']['agent_2_performance']
-        agent_1_policy = result['config']['policies']["agent_1"]
+
+        # obs = result['custom_metrics']['agent_2_performance']
+        # agent_1_policy = result['config']['policies']["agent_1"]
+
         # print(f"policy: {agent_1_policy}")
         # agent_2_task = agent_1_policy.compute_single_action(obs)
         # # print(f"task: {agent_2_task}")
