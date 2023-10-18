@@ -80,6 +80,17 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
             infos = {}
+
+            print(f"""
+            step summary [task setting step]:
+
+            timestep = {self.timestep}
+            action_dict = {action_dict}
+            rewards = {rew}
+            obs = {obs}
+            """
+            )
+
             return obs, rew, terminateds, truncateds, infos
 
         if (self.cur_level is None):
