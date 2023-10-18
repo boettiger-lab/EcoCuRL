@@ -398,13 +398,16 @@ class CustomCallbacks(DefaultCallbacks):
         # rew = np.mean(episode.user_data["rewards"])
         # episode.custom_metrics["pole_angle"] = pole_angle
         # episode.hist_data["pole_angles"] = episode.user_data["pole_angles"]
+        rew2 = episode.agent_rewards[('agent_2', 'agent_2')]
+        episode.custom_metrics["agent_2_performance"] = int(rew2 > 10)
 
     def on_train_result(self, algorithm, result, **kwargs):
 
         # dict_pretty_print(result)
 
-        obs = int(result['sampler_results']['episode_reward_mean'] > 5)
+        # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         # print(f"obs: {obs}")
+        obs = result['custom_metrics']['agent_2_performance']
         agent_1_policy = result['config']['policies']["agent_1"]
         # print(f"policy: {agent_1_policy}")
         # agent_2_task = agent_1_policy.compute_single_action(obs)
