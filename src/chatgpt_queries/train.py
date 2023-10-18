@@ -112,7 +112,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.pop += self.r * self.pop * (1 - self.pop / self.K)
         penalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
 
-        rew2 = harvest - cost - penalty
+        rew2 = (harvest - cost - penalty)[0]
         rew1 = -rew2 * self.r # devalue the easy strategy of just choosing low r values
 
         self.timestep += 1
@@ -136,6 +136,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         timestep = {self.timestep}
         action_dict = {action_dict}
+        r, K = {self.r}, {self.K}
         pop  = {self.pop_beginning}
         pop' = {self.pop}
         harv = {harvest}
