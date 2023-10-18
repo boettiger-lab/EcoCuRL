@@ -72,7 +72,10 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             rew1 -= 1
 
         self.current_step += 1
-        done = {self.agent1: self.current_step >= self.max_steps, '__all__': False}
+        done = {
+            self.agent1: self.current_step >= self.max_steps, 
+            '__all__': self.current_step >= self.max_steps,
+        }
 
         # Calculate the rewards for both agents
         rew_dict = {
