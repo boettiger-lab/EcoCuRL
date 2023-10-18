@@ -30,6 +30,10 @@ from ray.rllib.utils.annotations import (
 from util import dict_pretty_print
 
 class MyEnv(MultiAgentEnv, TaskSettableEnv):
+    """ initially a fishery one bc I already understand the reward structure. 
+    
+    variable: reproduction rate r
+    """
     def __init__(self, config = None):
         self.task = None
         self.seed = lambda *args, **kwargs: 42
@@ -48,11 +52,14 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             np.array([1]),
         )
         self.max_steps = 100  # Set the maximum number of steps per episode
+        #
+        # pop dynamics
+        self.init_pop = np.array([0.7])
 
     def reset(self, *, seed=42, options=None):
-        self.current_step = 0
+        self.timestep = 0
         self.agent_2_performance = 0
-        self.cur_level = 0
+        self.cur_level = None
         infos = {}
         obs = {
             self.agent1: np.array([0]),
@@ -64,25 +71,30 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         task = action_dict.get(self.agent1, None)
         if task is not None:
-            self.task = task
-            obs = {self.agent2: np.array([0])}
+            self.set_task(task)
+            obs = {self.agent2: self.init_pop}
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
             infos = {}
             return obs, rew, terminateds, truncateds, infos
 
-        self.task = self.cur_level
-        guess = action_dict[self.agent2]
-        rew1, rew2 = 0, 0
-        if guess == self.task:
-            rew2 += 1
-            rew1 -= 1
+        if self.cur_level is None:
+            raise ValueError(
+                "No cur_level set by agent1. Have you reset the env?"
+            )
 
-        self.current_step += 1
+        # self.task = self.cur_level
+        # guess = action_dict[self.agent2]
+        # rew1, rew2 = 0, 0
+        # if guess == self.task:
+        #     rew2 += 1
+        #     rew1 -= 1
+
+        self.timestep += 1
         done = {
-            self.agent1: self.current_step >= self.max_steps, 
-            '__all__': self.current_step >= self.max_steps,
+            self.agent1: self.timestep >= self.max_steps, 
+            '__all__': self.timestep >= self.max_steps,
         }
 
         # Calculate the rewards for both agents
@@ -112,6 +124,8 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         """Implement this to set the task (curriculum level) for this env."""
         self.cur_level = task
         self.switch_env = True
+        self.r = task
+        self.K = 1
 
     @PublicAPI
     def get_agent_ids(self):
