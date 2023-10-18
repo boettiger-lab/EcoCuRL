@@ -107,6 +107,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             raise ValueError(
                 "task was lready set by agent1 but agent2 did not choose an action."
             )
+        agent_2_action = np.clip(agent_2_action, [0], [1])
 
 
         self.pop_beginning = self.pop.copy()
@@ -484,7 +485,8 @@ class CustomCallbacks(DefaultCallbacks):
         obs = np.float32([obs_val])
         print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(obs)
-        task = (agent_1_action[0] + 1) / 2
+        task = (agent_1_action[0] + 1 ) / 2 # trying to avoid tasks < 0, but I don't get why actions lie outside of action space?
+        task = np.clip(task, [0], [1])
         print("action: ", agent_1_action[0])
         print("task: ", task)
         print("\n"*5)
