@@ -86,10 +86,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         # self.task = self.cur_level
         # guess = action_dict[self.agent2]
-        # rew1, rew2 = 0, 0
-        # if guess == self.task:
-        #     rew2 += 1
-        #     rew1 -= 1
+        rew1, rew2 = 0, 0
 
         self.timestep += 1
         done = {
