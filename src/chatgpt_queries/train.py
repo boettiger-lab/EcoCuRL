@@ -411,7 +411,9 @@ class CustomCallbacks(DefaultCallbacks):
         print("\n"*5)
         print("On train result")
         print(policy2)
-        dict_pretty_print(policy2.__dict__)
+        # dict_pretty_print(policy2.__dict__)
+        print([method_name for method_name in dir(policy2)
+                  if callable(getattr(policy2, method_name))])
         print("\n"*5)
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
