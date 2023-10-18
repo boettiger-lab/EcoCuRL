@@ -407,17 +407,16 @@ class CustomCallbacks(DefaultCallbacks):
     def on_train_result(self, algorithm, result, **kwargs):
 
         agent_1_policy = algorithm.get_policy("agent_1")
-        # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
-        # agent_2_task = agent_1_policy.compute_actions([obs])
-        # print(agent_2_task)
-
-
         print("\n"*5)
         print("On train result")
         print(agent_1_policy)
         # dict_pretty_print(policy2.__dict__)
         print([method_name for method_name in dir(agent_1_policy)
                   if callable(getattr(agent_1_policy, method_name))])
+        obs = int(result['sampler_results']['episode_reward_mean'] > 5)
+        print("obs: ", obs)
+        agent_2_task = agent_1_policy.compute_single_action(obs)
+        print(agent_2_task)
         print("\n"*5)
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
