@@ -406,12 +406,13 @@ class CustomCallbacks(DefaultCallbacks):
 
     def on_train_result(self, algorithm, result, **kwargs):
 
+        policy2 = algorithm.get_policy("agent_2")
+
         print("\n"*5)
         print("On train result")
-        dict_pretty_print(algorithm.__dict__)
+        print(policy2)
+        # dict_pretty_print(algorithm.__dict__)
         print("\n"*5)
-
-        policy2 = algorithm.get_policy("agent_2")
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         # print(f"obs: {obs}")
