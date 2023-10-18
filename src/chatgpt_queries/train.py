@@ -480,21 +480,23 @@ class CustomCallbacks(DefaultCallbacks):
     def on_train_result(self, algorithm, result, **kwargs):
 
         agent_1_policy = algorithm.get_policy("agent_1")
-        print("\n"*5)
-        print("On train result")
-        print(agent_1_policy)
         # dict_pretty_print(policy2.__dict__)
         # print([method_name for method_name in dir(agent_1_policy)
         #           if callable(getattr(agent_1_policy, method_name))])
         obs_val = result['sampler_results']['episode_reward_mean'] / 10
         obs = np.float32([obs_val])
-        print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(obs)
         task = (agent_1_action[0] + 1 ) / 2 # trying to avoid tasks < 0, but I don't get why actions lie outside of action space?
         task = np.clip(task, [0], [1])
-        print("action: ", agent_1_action[0])
-        print("task: ", task)
-        print("\n"*5)
+
+        if False:
+            print("\n"*5)
+            print("On train result")
+            print(agent_1_policy)
+            print("obs: ", obs)
+            print("action: ", agent_1_action[0])
+            print("task: ", task)
+            print("\n"*5)
 
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
