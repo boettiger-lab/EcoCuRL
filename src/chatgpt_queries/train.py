@@ -475,7 +475,8 @@ class CustomCallbacks(DefaultCallbacks):
         # dict_pretty_print(policy2.__dict__)
         # print([method_name for method_name in dir(agent_1_policy)
         #           if callable(getattr(agent_1_policy, method_name))])
-        obs = result['sampler_results']['episode_reward_mean'] / 10
+        obs_val = result['sampler_results']['episode_reward_mean'] / 10
+        obs = np.float32([obs_val])
         print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(obs)
         task = np.float32([int(agent_1_action[0] >= 0)])
