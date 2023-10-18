@@ -383,10 +383,10 @@ class CustomCallbacks(DefaultCallbacks):
         env_index: int,
         **kwargs
     ):
-        print("\n"*5)
-        print("on_episode_end:")
-        dict_pretty_print(episode.__dict__)
-        print("\n"*5)
+        # print("\n"*5)
+        # print("on_episode_end:")
+        # dict_pretty_print(episode.__dict__)
+        # print("\n"*5)
 
         # Check if there are multiple episodes in a batch, i.e.
         # "batch_mode": "truncate_episodes".
