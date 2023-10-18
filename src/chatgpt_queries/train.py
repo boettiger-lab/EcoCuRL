@@ -417,8 +417,8 @@ class CustomCallbacks(DefaultCallbacks):
         print("On train result")
         print(agent_1_policy)
         # dict_pretty_print(policy2.__dict__)
-        print([method_name for method_name in dir(agent_1_policy)
-                  if callable(getattr(agent_1_policy, method_name))])
+        # print([method_name for method_name in dir(agent_1_policy)
+        #           if callable(getattr(agent_1_policy, method_name))])
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(np.array([obs]))
@@ -441,7 +441,7 @@ class CustomCallbacks(DefaultCallbacks):
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
                 lambda env: env.set_task(
-                    # agent_2_task
+                    task
                     )))
 
 
