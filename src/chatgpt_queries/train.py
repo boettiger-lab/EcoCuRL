@@ -57,7 +57,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.init_pop = np.float32([0.7])
         #
         # io
-        self.verbose = False
+        self.verbose = 1
 
     def reset(self, *, seed=42, options=None):
         self.timestep = 0
@@ -84,7 +84,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             truncateds = {self.agent2: False, '__all__': False}
             infos = {}
 
-            if self.verbose:
+            if self.verbose >= 1:
                 print(f"""
                 step summary [task setting step]:
 
@@ -136,7 +136,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             self.agent2: self.pop
         }
 
-        if self.verbose:
+        if self.verbose == 2:
             print(f"""
             step summary:
 
