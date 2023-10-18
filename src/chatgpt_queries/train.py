@@ -82,7 +82,6 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             self.agent1: rew1,  # Reward for agent 1 based on agent 2's performance
             self.agent2: rew2  # You can define a different reward structure for agent 2 if needed
         }
-        print("reward: ", rew_dict)
 
         obs_dict = {
             self.agent2: int(guess == self.task)
