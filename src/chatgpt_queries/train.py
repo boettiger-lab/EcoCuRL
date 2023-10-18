@@ -387,7 +387,7 @@ class CustomCallbacks(DefaultCallbacks):
         print("on_episode_end:")
         dict_pretty_print(episode.__dict__)
         print("\n"*5)
-        
+
         # Check if there are multiple episodes in a batch, i.e.
         # "batch_mode": "truncate_episodes".
         # if worker.config.batch_mode == "truncate_episodes":
@@ -408,7 +408,7 @@ class CustomCallbacks(DefaultCallbacks):
 
         print("\n"*5)
         print("On train result")
-        dict_pretty_print(result['custom_metrics'])
+        dict_pretty_print(result)
         print("\n"*5)
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
