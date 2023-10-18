@@ -44,17 +44,17 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self._agent_ids = set(self.agents)
         #
         self.observation_space = gym.spaces.Box(
-            np.array([0]), 
-            np.array([1]),
+            np.float32([0]), 
+            np.float32([1]),
         )  
         self.action_space = gym.spaces.Box(
-            np.array([0]), 
-            np.array([1]),
+            np.float32([0]), 
+            np.float32([1]),
         )
         self.max_steps = 20  # Set the maximum number of steps per episode
         #
         # pop dynamics
-        self.init_pop = np.array([0.7])
+        self.init_pop = np.float32([0.7])
 
     def reset(self, *, seed=42, options=None):
         self.timestep = 0
@@ -65,7 +65,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         #
         infos = {}
         obs = {
-            self.agent1: np.array([0]),
+            self.agent1: np.float32([0.]),
         }
         return obs, infos
 
@@ -477,7 +477,7 @@ class CustomCallbacks(DefaultCallbacks):
         obs = result['sampler_results']['episode_reward_mean'] / 10
         print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(obs)
-        task = np.array(int(agent_1_action[0] >= 0))
+        task = np.float32([int(agent_1_action[0] >= 0)])
         print("action: ", agent_1_action[0])
         print("task: ", task)
         print("\n"*5)
