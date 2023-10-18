@@ -3,8 +3,12 @@
 from collections.abc import Iterable
 from numbers import Number
 
-def iter_pretty_print(iterable_obj):
-  if (len(iterable_obj) < 11) or (len(iterable_obj) > 500):
+def iter_pretty_print(iterable_obj, show_long=False):
+  if (len(iterable_obj) > 100) and not show_long:
+    print("[too many to show]")
+    return None
+
+  if (len(iterable_obj) < 11):
     print("[", *[ 
       f"{x:.3f}, " 
       if (isinstance(x, Number))
@@ -12,19 +16,19 @@ def iter_pretty_print(iterable_obj):
       else "(non_number), "
       for x in iterable_obj 
       ] ,"]")
-  if (len(iterable_obj) > )
-  else:
-    print("[")
-    idx=0
-    for x in iterable_obj:
-      if (isinstance(x, Number)):
-        print(f"{x:.3f}, ", end="")
-      else:
-        print(f"{x}, ", end="")
-      if idx % 10 ==0:
-        print("\n")
-      idx+=1
-    print("]")
+    return None
+
+  print("[")
+  idx=0
+  for x in iterable_obj:
+    if (isinstance(x, Number)):
+      print(f"{x:.3f}, ", end="")
+    else:
+      print(f"{x}, ", end="")
+    if idx % 10 ==0:
+      print("\n")
+    idx+=1
+  print("]")
 
 def dict_pretty_print(D: dict, indent_lvl: int = 0, indent_size: int = 2, verbose:bool =False, dict_name: str=""):
   """ RStudio terminal doesn't like json.dumps so do it manual """
