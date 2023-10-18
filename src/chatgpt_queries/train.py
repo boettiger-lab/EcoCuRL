@@ -384,7 +384,7 @@ class CustomCallbacks(DefaultCallbacks):
         **kwargs
     ):
         print(type(episode))
-        print(episode)
+        dict_pretty_print(episode.__dict__)
         # Check if there are multiple episodes in a batch, i.e.
         # "batch_mode": "truncate_episodes".
         # if worker.config.batch_mode == "truncate_episodes":
