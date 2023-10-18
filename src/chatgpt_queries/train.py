@@ -57,7 +57,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.init_pop = np.float32([0.7])
         #
         # io
-        self.verbose = False
+        self.verbose = True
 
     def reset(self, *, seed=42, options=None):
         self.timestep = 0
@@ -156,7 +156,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
     @override(TaskSettableEnv)
     def sample_tasks(self, n_tasks):
         """Implement this to sample n random tasks."""
-        return [np.random.randint(4) for _ in range(n_tasks)]
+        return [np.random.rand() for _ in range(n_tasks)]
 
     @override(TaskSettableEnv)
     def get_task(self):
@@ -169,7 +169,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.cur_level = task
         self.switch_env = True
         r_vals = {'min': 0.05, 'max': 0.95}
-        self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task[0]
+        self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task
         self.K = 1
 
     @PublicAPI
