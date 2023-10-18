@@ -383,8 +383,8 @@ class CustomCallbacks(DefaultCallbacks):
         env_index: int,
         **kwargs
     ):
-    print(type(episode))
-    print(episode.user_data)
+        print(type(episode))
+        print(episode.user_data)
         # Check if there are multiple episodes in a batch, i.e.
         # "batch_mode": "truncate_episodes".
         # if worker.config.batch_mode == "truncate_episodes":
