@@ -98,7 +98,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         cost = 0.05 * agent_2_action
         self.pop = self.pop - harvest
         self.pop += self.r * self.pop * (1 - self.pop / self.K)
-        pentalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
+        penalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
 
         rew2 = harvest - cost - penalty
         rew1 = -rew1 * self.r # devalue the easy strategy of just choosing low r values
