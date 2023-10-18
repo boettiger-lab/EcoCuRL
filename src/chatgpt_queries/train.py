@@ -57,7 +57,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.init_pop = np.float32([0.7])
         #
         # io
-        self.verbose = True
+        self.verbose = False
 
     def reset(self, *, seed=42, options=None):
         self.timestep = 0
