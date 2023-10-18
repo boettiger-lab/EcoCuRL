@@ -55,6 +55,9 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         #
         # pop dynamics
         self.init_pop = np.float32([0.7])
+        #
+        # io
+        self.verbose = False
 
     def reset(self, *, seed=42, options=None):
         self.timestep = 0
@@ -81,15 +84,16 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             truncateds = {self.agent2: False, '__all__': False}
             infos = {}
 
-            print(f"""
-            step summary [task setting step]:
+            if self.verbose:
+                print(f"""
+                step summary [task setting step]:
 
-            timestep = {self.timestep}
-            action_dict = {action_dict}
-            rewards = {rew}
-            obs = {obs}
-            """
-            )
+                timestep = {self.timestep}
+                action_dict = {action_dict}
+                rewards = {rew}
+                obs = {obs}
+                """
+                )
 
             return obs, rew, terminateds, truncateds, infos
 
@@ -131,20 +135,21 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             self.agent2: self.pop
         }
 
-        print(f"""
-        step summary:
+        if self.verbose:
+            print(f"""
+            step summary:
 
-        timestep = {self.timestep}
-        action_dict = {action_dict}
-        r, K = {self.r}, {self.K}
-        pop  = {self.pop_beginning}
-        pop' = {self.pop}
-        harv = {harvest}
-        cost = {cost}
-        rewards = 1: {rew1}, 2: {rew2}
-        obs = {obs_dict}
-        """
-        )
+            timestep = {self.timestep}
+            action_dict = {action_dict}
+            r, K = {self.r}, {self.K}
+            pop  = {self.pop_beginning}
+            pop' = {self.pop}
+            harv = {harvest}
+            cost = {cost}
+            rewards = 1: {rew1}, 2: {rew2}
+            obs = {obs_dict}
+            """
+            )
 
         return obs_dict, rew_dict, done, {'__all__': False}, {}
 
@@ -550,7 +555,7 @@ ray.init()
 tune.run(
     "PPO",
     config=config,
-    stop={"training_iteration": 10},  # Define your stopping criteria
+    stop={"training_iteration": 100},  # Define your stopping criteria
     checkpoint_at_end=True,
 )
 ray.shutdown()
