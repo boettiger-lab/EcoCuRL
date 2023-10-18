@@ -169,7 +169,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.cur_level = task
         self.switch_env = True
         r_vals = {'min': 0.05, 'max': 0.95}
-        self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task
+        self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task[0]
         self.K = 1
 
     @PublicAPI
@@ -484,8 +484,8 @@ class CustomCallbacks(DefaultCallbacks):
         obs = np.float32([obs_val])
         print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(obs)
-        task = (agent_1_action[0][0] + 1) / 2
-        print("action: ", agent_1_action[0][0])
+        task = (agent_1_action[0] + 1) / 2
+        print("action: ", agent_1_action[0])
         print("task: ", task)
         print("\n"*5)
 
