@@ -8,9 +8,11 @@ def iter_pretty_print(iterable_obj):
     print("[", *[ 
       f"{x:.3f}, " 
       if (isinstance(x, Number))
-      else f"{x}, "
+      # else f"{x}, "
+      else "(non_number), "
       for x in iterable_obj 
       ] ,"]")
+  if (len(iterable_obj) > )
   else:
     print("[")
     idx=0
