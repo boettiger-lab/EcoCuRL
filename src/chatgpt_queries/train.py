@@ -58,8 +58,11 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
     def reset(self, *, seed=42, options=None):
         self.timestep = 0
+        self.pop = self.init_pop
+        #
         self.agent_2_performance = 0
         self.cur_level = None
+        #
         infos = {}
         obs = {
             self.agent1: np.array([0]),
@@ -71,6 +74,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         task = action_dict.get(self.agent1, None)
         if task is not None:
+            print(f"task chosen: {task}")
             self.set_task(task)
             obs = {self.agent2: self.init_pop}
             rew = {self.agent1: 0, self.agent2: 0}
@@ -83,6 +87,8 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             raise ValueError(
                 "No cur_level set by agent1. Have you reset the env?"
             )
+
+
 
         # self.task = self.cur_level
         # guess = action_dict[self.agent2]
