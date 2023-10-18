@@ -173,6 +173,11 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task[0]
         self.K = 1
 
+        if self.verbose >= 1:
+            print("in set_task(): ")
+            print(f"task: {task}, r = {self.r}")
+            print(2*"\n")
+
     @PublicAPI
     def get_agent_ids(self):
         """Returns a set of agent ids in the environment.
