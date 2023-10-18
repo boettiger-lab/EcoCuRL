@@ -383,8 +383,11 @@ class CustomCallbacks(DefaultCallbacks):
         env_index: int,
         **kwargs
     ):
-        print(type(episode))
+        print("\n"*5)
+        print("on_episode_end:")
         dict_pretty_print(episode.__dict__)
+        print("\n"*5)
+        
         # Check if there are multiple episodes in a batch, i.e.
         # "batch_mode": "truncate_episodes".
         # if worker.config.batch_mode == "truncate_episodes":
@@ -403,7 +406,10 @@ class CustomCallbacks(DefaultCallbacks):
 
     def on_train_result(self, algorithm, result, **kwargs):
 
+        print("\n"*5)
+        print("On train result")
         dict_pretty_print(result['custom_metrics'])
+        print("\n"*5)
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         # print(f"obs: {obs}")
