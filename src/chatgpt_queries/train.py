@@ -422,7 +422,7 @@ class CustomCallbacks(DefaultCallbacks):
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         print("obs: ", obs)
         agent_2_task = agent_1_policy.compute_single_action(np.array([obs]))
-        print(agent_2_task)
+        print(agent_2_task[0][0])
         print("\n"*5)
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
