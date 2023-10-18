@@ -94,16 +94,27 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             )
 
 
+        self.pop_beginning = self.pop.copy()
         harvest = self.pop * agent_2_action
         cost = 0.05 * agent_2_action
-        print(f"pop before: {self.pop}")
         self.pop = self.pop - harvest
         self.pop += self.r * self.pop * (1 - self.pop / self.K)
-        print(f"pop after: {self.pop}")
         penalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
 
         rew2 = harvest - cost - penalty
         rew1 = -rew2 * self.r # devalue the easy strategy of just choosing low r values
+
+        print(f"""
+step summary:
+
+action_dict = {action_dict}
+pop  = {self.pop_beginning}
+pop' = {self.pop}
+harv = {harvest}
+cost = {cost}
+rewards = 1: {rew1}, 2: {rew2}
+            """
+            )
 
         self.timestep += 1
         done = {
