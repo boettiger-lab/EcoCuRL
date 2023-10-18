@@ -383,6 +383,8 @@ class CustomCallbacks(DefaultCallbacks):
         env_index: int,
         **kwargs
     ):
+    print(type(episode))
+    print(episode.user_data)
         # Check if there are multiple episodes in a batch, i.e.
         # "batch_mode": "truncate_episodes".
         if worker.config.batch_mode == "truncate_episodes":
@@ -393,7 +395,6 @@ class CustomCallbacks(DefaultCallbacks):
                 "ERROR: `on_episode_end()` should only be called "
                 "after episode is done!"
             )
-        print(episode.user_data)
         # rew = np.mean(episode.user_data["rewards"])
         # episode.custom_metrics["pole_angle"] = pole_angle
         # episode.hist_data["pole_angles"] = episode.user_data["pole_angles"]
