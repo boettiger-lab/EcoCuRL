@@ -120,19 +120,19 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             self.agent2: self.pop
         }
 
-                print(f"""
-step summary:
+        print(f"""
+        step summary:
 
-timestep = {self.timestep}
-action_dict = {action_dict}
-pop  = {self.pop_beginning}
-pop' = {self.pop}
-harv = {harvest}
-cost = {cost}
-rewards = 1: {rew1}, 2: {rew2}
-obs = {obs_dict}
-            """
-            )
+        timestep = {self.timestep}
+        action_dict = {action_dict}
+        pop  = {self.pop_beginning}
+        pop' = {self.pop}
+        harv = {harvest}
+        cost = {cost}
+        rewards = 1: {rew1}, 2: {rew2}
+        obs = {obs_dict}
+        """
+        )
 
         return obs_dict, rew_dict, done, {'__all__': False}, {}
 
