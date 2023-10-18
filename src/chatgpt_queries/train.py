@@ -484,7 +484,9 @@ class CustomCallbacks(DefaultCallbacks):
         obs = np.float32([obs_val])
         print("obs: ", obs)
         agent_1_action = agent_1_policy.compute_single_action(obs)
-        task = np.float32([int(agent_1_action[0] >= 0)])
+        task = np.float32([
+            (agent_1_action[0] + 1) / 2
+            ])
         print("action: ", agent_1_action[0])
         print("task: ", task)
         print("\n"*5)
