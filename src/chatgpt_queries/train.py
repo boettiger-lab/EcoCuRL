@@ -107,6 +107,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         print(f"""
 step summary:
 
+timestep = {self.timestep}
 action_dict = {action_dict}
 pop  = {self.pop_beginning}
 pop' = {self.pop}
