@@ -39,8 +39,8 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.agents = {self.agent1, self.agent2}
         self._agent_ids = set(self.agents)
         #
-        self.observation_space = gym.spaces.Discrete(2)  # Replace with your actual observation space
-        self.action_space = gym.spaces.Discrete(5)  # Replace with your actual action space
+        self.observation_space = gym.spaces.Box([0], [1])  # Replace with your actual observation space
+        self.action_space = gym.spaces.Box([0], [1])  # Replace with your actual action space
         self.max_steps = 100  # Set the maximum number of steps per episode
 
     def reset(self, *, seed=42, options=None):
@@ -415,7 +415,7 @@ class CustomCallbacks(DefaultCallbacks):
                   if callable(getattr(agent_1_policy, method_name))])
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         print("obs: ", obs)
-        agent_2_task = agent_1_policy.compute_single_action(obs)
+        agent_2_task = agent_1_policy.compute_single_action([obs])
         print(agent_2_task)
         print("\n"*5)
 
