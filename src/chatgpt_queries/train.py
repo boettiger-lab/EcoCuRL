@@ -421,9 +421,12 @@ class CustomCallbacks(DefaultCallbacks):
                   if callable(getattr(agent_1_policy, method_name))])
         obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         print("obs: ", obs)
-        agent_2_task = agent_1_policy.compute_single_action(np.array([obs]))
-        print("task: ", agent_2_task)
+        agent_1_action = agent_1_policy.compute_single_action(np.array([obs]))
+        task = np.array(int(agent_1_action[0] >= 0))
+        print("action: ", agent_1_action[0])
+        print("task: ", task)
         print("\n"*5)
+
 
         # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
         # print(f"obs: {obs}")
@@ -439,7 +442,6 @@ class CustomCallbacks(DefaultCallbacks):
             lambda ev: ev.foreach_env(
                 lambda env: env.set_task(
                     # agent_2_task
-                    1
                     )))
 
 
