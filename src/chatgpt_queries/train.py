@@ -51,7 +51,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             np.array([0]), 
             np.array([1]),
         )
-        self.max_steps = 100  # Set the maximum number of steps per episode
+        self.max_steps = 20  # Set the maximum number of steps per episode
         #
         # pop dynamics
         self.init_pop = np.array([0.7])
