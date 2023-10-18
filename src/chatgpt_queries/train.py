@@ -96,8 +96,10 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         harvest = self.pop * agent_2_action
         cost = 0.05 * agent_2_action
+        print(f"pop before: {self.pop}")
         self.pop = self.pop - harvest
         self.pop += self.r * self.pop * (1 - self.pop / self.K)
+        print(f"pop after: {self.pop}")
         penalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
 
         rew2 = harvest - cost - penalty
