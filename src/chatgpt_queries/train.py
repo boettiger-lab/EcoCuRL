@@ -39,8 +39,14 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.agents = {self.agent1, self.agent2}
         self._agent_ids = set(self.agents)
         #
-        self.observation_space = gym.spaces.Box([0], [1])  # Replace with your actual observation space
-        self.action_space = gym.spaces.Box([0], [1])  # Replace with your actual action space
+        self.observation_space = gym.spaces.Box(
+            np.array([0]), 
+            np.array([1]),
+        )  
+        self.action_space = gym.spaces.Box(
+            np.array([0]), 
+            np.array([1]),
+        )
         self.max_steps = 100  # Set the maximum number of steps per episode
 
     def reset(self, *, seed=42, options=None):
