@@ -101,7 +101,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         }
 
         obs_dict = {
-            self.agent2: np.array([int(guess == self.task)])
+            self.agent2: self.init_pop
         }
 
         return obs_dict, rew_dict, done, {'__all__': False}, {}
