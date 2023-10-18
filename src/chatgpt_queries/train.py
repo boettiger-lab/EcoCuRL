@@ -101,7 +101,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         penalty = (0.2 - self.pop) * int(self.pop < 0.2) # only get penalty below threshold
 
         rew2 = harvest - cost - penalty
-        rew1 = -rew1 * self.r # devalue the easy strategy of just choosing low r values
+        rew1 = -rew2 * self.r # devalue the easy strategy of just choosing low r values
 
         self.timestep += 1
         done = {
