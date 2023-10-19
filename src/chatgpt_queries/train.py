@@ -82,7 +82,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
-            infos = {}
+            infos = {'agent_1_reward': 0, 'agent_2_reward': 0}
 
             if self.verbose >= 2:
                 print(f"""
