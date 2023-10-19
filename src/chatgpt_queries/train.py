@@ -586,7 +586,7 @@ ray.init()
 tune.run(
     "PPO",
     config=config,
-    stop={"training_iteration": 100},  # Define your stopping criteria
+    stop={"training_iteration": 1000},  # Define your stopping criteria
     checkpoint_at_end=True,
 )
 ray.shutdown()
