@@ -436,14 +436,31 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
 
 
-
+# based on https://github.com/ray-project/ray/blob/master/rllib/ 
+#          examples/custom_metrics_and_callbacks.py#L134C5-L149C52
 class CustomCallbacks(DefaultCallbacks):
 
-    episode.user_data["agent_1_reward"] = []
-    episode.hist_data["agent_1_reward"] = []
+    def on_episode_start(
+        self,
+        *,
+        worker: RolloutWorker,
+        base_env: BaseEnv,
+        policies: Dict[str, Policy],
+        episode: Episode,
+        env_index: int,
+        **kwargs
+    ):
 
-    episode.user_data["agent_2_reward"] = []
-    episode.hist_data["agent_2_reward"] = []
+        assert episode.length == 0, (
+            "ERROR: `on_episode_start()` callback should be called right "
+            "after env reset!"
+        )
+
+        episode.user_data["agent_1_reward"] = []
+        episode.hist_data["agent_1_reward"] = []
+
+        episode.user_data["agent_2_reward"] = []
+        episode.hist_data["agent_2_reward"] = []
 
     def on_episode_step(
         self,
