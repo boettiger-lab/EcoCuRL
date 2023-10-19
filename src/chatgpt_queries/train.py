@@ -477,7 +477,8 @@ class CustomCallbacks(DefaultCallbacks):
             "after env reset!"
         )
 
-        print(5*"\n", episode.last_info_for(), 5*"\n")
+
+        print(5*"\n", f"ep. length: {episode.length}\n last_info_for: ", episode.last_info_for(), 5*"\n")
 
         rew1 = episode.last_info_for()["agent_1_reward"]
         rew2 = episode.last_info_for()["agent_2_reward"]
