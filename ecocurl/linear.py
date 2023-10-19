@@ -66,7 +66,7 @@ parser.add_argument(
     help="Init Ray in local mode for easier debugging.",
 )
 
-def curriculum_fn(
+def linear_curriculum_fn(
     train_results: dict, task_settable_env: TaskSettableEnv, env_ctx: EnvContext
 ) -> TaskType:
     """Function returning a possibly new task to set `task_settable_env` to.
@@ -133,7 +133,7 @@ if __name__ == "__main__":
   .environment(
     curriculum_fishing_env,
     env_config={"start_level": 0},
-    env_task_fn=curriculum_fn,
+    env_task_fn=linear_curriculum_fn,
   )
   .framework(args.framework)
   .rollouts(num_rollout_workers=25, num_envs_per_worker=5)
