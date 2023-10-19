@@ -84,7 +84,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             truncateds = {self.agent2: False, '__all__': False}
             infos = {}
 
-            if self.verbose >= 1:
+            if self.verbose >= 2:
                 print(f"""
                 step summary [task setting step]:
 
@@ -136,7 +136,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             self.agent2: self.pop
         }
 
-        if self.verbose == 2:
+        if self.verbose >= 2:
             print(f"""
             step summary:
 
@@ -443,13 +443,13 @@ class CustomCallbacks(DefaultCallbacks):
         # dict_pretty_print(policy2.__dict__)
         # print([method_name for method_name in dir(agent_1_policy)
         #           if callable(getattr(agent_1_policy, method_name))])
-        obs_val = result['sampler_results']['episode_reward_mean'] / 10
+        obs_val = result['sampler_results']['episode_reward_mean'] 
         obs = np.float32([obs_val])
         agent_1_action = agent_1_policy.compute_single_action(obs)
         task = (agent_1_action[0] + 1 ) / 2 # trying to avoid tasks < 0, but I don't get why actions lie outside of action space?
         task = np.clip(task, [0], [1])
 
-        if False:
+        if True:
             print("\n"*5)
             print("On train result")
             print(agent_1_policy)
