@@ -540,14 +540,14 @@ class CustomCallbacks(DefaultCallbacks):
         agent_1_rew = result['custom_metrics']['avg_rew1_mean']
 
         if True:
-            print("\n"*5)
+            print("\n"*2)
             print("On train result")
             # dict_pretty_print(result)
-            print("obs:  ", obs)
-            print("action: ", agent_1_action[0])
+            print("rew2 on train batch:  ", obs)
+            print("agent 1 action: ", agent_1_action[0])
             print("task: ", task)
             print("rew1 on train batch: ", agent_1_rew)
-            print("\n"*5)
+            print("\n"*2)
 
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
