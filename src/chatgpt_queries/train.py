@@ -152,7 +152,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             """
             )
 
-        infos = {'agent_1': {'agent_1_reward': rew1}, '__common__': {'agent_2_reward': rew2}}
+        infos = {'agent_2': {'agent_2_reward': rew2}, '__common__': {'agent_1_reward': rew1}}
 
         return obs_dict, rew_dict, done, {'__all__': False}, infos
 
