@@ -480,12 +480,12 @@ class CustomCallbacks(DefaultCallbacks):
         if episode.length > 1:
             #
             # first step is agent_1, where no info is returned yet
-            if True:
-                print(5*"\n")
+            if False:
+                print(2*"\n")
                 print("infos:")
                 print("__common__: ", episode.last_info_for("__common__")["agent_1_reward"])
                 print("agent_2: ", episode.last_info_for("agent_2")["agent_2_reward"])
-                print(5*"\n")
+                print(2*"\n")
 
 
             rew1 = episode.last_info_for("__common__")["agent_1_reward"]
@@ -510,7 +510,15 @@ class CustomCallbacks(DefaultCallbacks):
         episode.custom_metrics["avg_rew1"] = avg_rew1
         episode.custom_metrics["avg_rew2"] = avg_rew2
 
+        if False:
+            print("episode ended: ")
+            print(2*"\n")
+            dict_pretty_print(episode.__dict__)
+            print(2*"\n")
+
     def on_train_result(self, algorithm, result, **kwargs):
+        # you can mutate the result dict to add new fields to return
+        result["callback_ok"] = True
 
         # obs
         obs_val = result['sampler_results']['episode_reward_mean'] 
