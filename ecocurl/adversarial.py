@@ -29,7 +29,7 @@ from ray.rllib.utils.annotations import (
 
 from util import dict_pretty_print
 
-class MyEnv(MultiAgentEnv, TaskSettableEnv):
+class AdversarialExampleEnv(MultiAgentEnv, TaskSettableEnv):
     """ initially a fishery one bc I already understand the reward structure. 
     
     variable: reproduction rate r
@@ -436,8 +436,8 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
 # based on https://github.com/ray-project/ray/blob/master/rllib/ 
 #          examples/custom_metrics_and_callbacks.py#L134C5-L149C52
-class CustomCallbacks(DefaultCallbacks):
-
+class AdversarialCallbacks(DefaultCallbacks):
+    """ Callbacks object tailred to training AdversarialExampleEnv. """
     def on_episode_start(
         self,
         *,
@@ -572,38 +572,40 @@ class CustomCallbacks(DefaultCallbacks):
 
         del result["custom_metrics"]
 
-# Create a multi-agent training configuration
-env = MyEnv()
 
-def policy(agent_id: str):
-    i = {"agent_1": 1, "agent_2": 2}[agent_id]
+if name == "__main__":
+    # Create a multi-agent training configuration
+    env = AdversarialExampleEnv()
 
-    policy_config = PPOConfig.overrides(
-                    model={
-                        "custom_model": ["agent_1", "agent_2"][i % 2],
-                    },
-                    gamma=0.99,
-                )
-    return PolicySpec(config=policy_config)
+    def policy(agent_id: str):
+        i = {"agent_1": 1, "agent_2": 2}[agent_id]
 
-policies = {agent_id: policy(agent_id) for agent_id in ["agent_1", "agent_2"]}
+        policy_config = PPOConfig.overrides(
+                        model={
+                            "custom_model": ["agent_1", "agent_2"][i % 2],
+                        },
+                        gamma=0.99,
+                    )
+        return PolicySpec(config=policy_config)
 
-config = {
-    "env": MyEnv,
-    "multiagent": {
-        "policies": policies,
-        "policy_mapping_fn": lambda agent_id, *args, **kwargs: agent_id,
-    },
-    "callbacks_class": CustomCallbacks,
-        # "on_episode_start": set_task_callback,
-}
+    policies = {agent_id: policy(agent_id) for agent_id in ["agent_1", "agent_2"]}
 
-# Initialize Ray and train the agents
-ray.init()
-tune.run(
-    "PPO",
-    config=config,
-    stop={"training_iteration": 1000},  # Define your stopping criteria
-    checkpoint_at_end=True,
-)
-ray.shutdown()
+    config = {
+        "env": AdversarialExampleEnv,
+        "multiagent": {
+            "policies": policies,
+            "policy_mapping_fn": lambda agent_id, *args, **kwargs: agent_id,
+        },
+        "callbacks_class": AdversarialCallbacks,
+            # "on_episode_start": set_task_callback,
+    }
+
+    # Initialize Ray and train the agents
+    ray.init()
+    tune.run(
+        "PPO",
+        config=config,
+        stop={"training_iteration": 1000},  # Define your stopping criteria
+        checkpoint_at_end=True,
+    )
+    ray.shutdown()
