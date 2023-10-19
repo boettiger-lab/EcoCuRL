@@ -82,7 +82,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
-            infos = {'agent_1': {'r_value': self.r}}
+            infos = {'__common__': {'r_value': self.r}}
 
             if self.verbose >= 2:
                 print(f"""
@@ -304,7 +304,6 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             )
         return {}
 
-
     # fmt: off
     # __grouping_doc_begin__
     def with_agent_groups(
@@ -435,7 +434,6 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         )
 
 
-
 # based on https://github.com/ray-project/ray/blob/master/rllib/ 
 #          examples/custom_metrics_and_callbacks.py#L134C5-L149C52
 class CustomCallbacks(DefaultCallbacks):
@@ -480,7 +478,7 @@ class CustomCallbacks(DefaultCallbacks):
         if episode.length == 1:
             print(2*"\n")
             print("info at ep.len = 1:")
-            print(episode.last_info_for("agent_1"))
+            print(episode.last_info_for("__common__"))
             print(2*"\n")
 
         if episode.length > 1:
