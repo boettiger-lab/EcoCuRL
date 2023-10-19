@@ -173,7 +173,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.r = r_vals['min'] + (r_vals['max'] - r_vals['min']) * task[0]
         self.K = 1
 
-        if self.verbose >= 1:
+        if self.verbose >= 2:
             print("in set_task(): ")
             print(f"task: {task}, r = {self.r}")
             print(2*"\n")
