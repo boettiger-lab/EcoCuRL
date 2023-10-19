@@ -558,7 +558,7 @@ class CustomCallbacks(DefaultCallbacks):
             print("\n"*2)
             print("On train result")
             # dict_pretty_print(result)
-            print("custom_metrics: ", result['custom_metrics'])
+            # print("custom_metrics: ", result['custom_metrics'])
             print('r observation: ', r_obs)
             print("rew2 on train batch:  ", obs)
             print("agent 1 action: ", agent_1_action[0])
