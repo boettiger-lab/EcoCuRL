@@ -482,8 +482,9 @@ class CustomCallbacks(DefaultCallbacks):
             # first step is agent_1, where no info is returned yet
             if True:
                 print(5*"\n")
-                print("episode:")
-                dict_pretty_print(episode.__dict__)
+                print("infos:")
+                print("__common__: ", episode.last_info_for("__common__")["agent_1_reward"])
+                print("agent_2: ", episode.last_info_for("agent_2")["agent_2_reward"])
                 print(5*"\n")
 
 
