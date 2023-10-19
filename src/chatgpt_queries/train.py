@@ -27,7 +27,7 @@ from ray.rllib.utils.annotations import (
     DeveloperAPI,
 )
 
-# from util import dict_pretty_print
+from util import dict_pretty_print
 
 class MyEnv(MultiAgentEnv, TaskSettableEnv):
     """ initially a fishery one bc I already understand the reward structure. 
@@ -477,8 +477,11 @@ class CustomCallbacks(DefaultCallbacks):
             "after env reset!"
         )
 
+        print(5*"\n")
+        print("episode:")
+        dict_pretty_print(episode.__dict__)
+        print(5*"\n")
 
-        print(5*"\n", f"ep. length: {episode.length}\n episode: ", episode, 5*"\n")
 
         rew1 = episode.last_info_for()["agent_1_reward"]
         rew2 = episode.last_info_for()["agent_2_reward"]
