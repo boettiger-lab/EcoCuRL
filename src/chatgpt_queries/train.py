@@ -533,7 +533,7 @@ class CustomCallbacks(DefaultCallbacks):
         task = np.clip(task, [0], [1])
 
         # obs
-        obs_val_ = result['custom_metrics']['agent_2_reward']
+        obs_val_ = result['custom_metrics']['avg_rew2']
         obs_ = np.float32([obs_val])
 
         if True:
