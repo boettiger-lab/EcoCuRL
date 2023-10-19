@@ -536,6 +536,7 @@ class CustomCallbacks(DefaultCallbacks):
         # obs
         obs_val = result['sampler_results']['episode_reward_mean'] 
         obs = np.float32([obs_val])
+        
 
         # policy
         agent_1_policy = algorithm.get_policy("agent_1")
@@ -548,14 +549,16 @@ class CustomCallbacks(DefaultCallbacks):
         # # obs -> confirmed: this is equal to obs
         # obs_val_ = result['custom_metrics']['avg_rew2_mean']
         # obs_ = np.float32([obs_val])
+        r_obs = result['custom_metrics']['r_val']
 
         # agent 1 tracking
         agent_1_rew = result['custom_metrics']['avg_rew1_mean']
 
-        if False:
+        if True:
             print("\n"*2)
             print("On train result")
             # dict_pretty_print(result)
+            print('r observation: ', r_obs)
             print("rew2 on train batch:  ", obs)
             print("agent 1 action: ", agent_1_action[0])
             print("task: ", task)
