@@ -434,48 +434,8 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
 
 
-# Callback function for agent 1 to set the task for agent 2
-def set_task_callback(info):
-    print("\n"*5 + "info: ")
-    # dict_pretty_print(info.__dict__)
-    print("\n"*5)
-    obs = info["obs"][info["agent"]]
-    agent_1_policy = info.policy_mapping_fn("agent_1")
-    agent_2_task = agent_1_policy.compute_actions([obs])[0]  # Use agent 1's policy to determine the task
-    info["policy"].model.agent2_task = agent_2_task
 
 class CustomCallbacks(DefaultCallbacks):
-
-    # def on_episode_end(
-    #     self,
-    #     *,
-    #     worker: RolloutWorker,
-    #     base_env: BaseEnv,
-    #     policies: Dict[str, Policy],
-    #     episode: Episode,
-    #     env_index: int,
-    #     **kwargs
-    # ):
-    #     print("\n"*5)
-    #     print("on_episode_end:")
-    #     dict_pretty_print(episode.__dict__)
-    #     print("\n"*5)
-
-    #     Check if there are multiple episodes in a batch, i.e.
-    #     "batch_mode": "truncate_episodes".
-    #     if worker.config.batch_mode == "truncate_episodes":
-    #         # Make sure this episode is really done.
-    #         assert episode.batch_builder.policy_collectors["default_policy"].batches[
-    #             -1
-    #         ]["dones"][-1], (
-    #             "ERROR: `on_episode_end()` should only be called "
-    #             "after episode is done!"
-    #         )
-    #     rew = np.mean(episode.user_data["rewards"])
-    #     episode.custom_metrics["pole_angle"] = pole_angle
-    #     episode.hist_data["pole_angles"] = episode.user_data["pole_angles"]
-    #     rew2 = episode.agent_rewards[('agent_2', 'agent_2')]
-    #     episode.custom_metrics["agent_2_performance"] = int(rew2 > 10)
 
     def on_train_result(self, algorithm, result, **kwargs):
 
@@ -498,40 +458,11 @@ class CustomCallbacks(DefaultCallbacks):
             print("task: ", task)
             print("\n"*5)
 
-
-        # obs = int(result['sampler_results']['episode_reward_mean'] > 5)
-        # print(f"obs: {obs}")
-
-        # obs = result['custom_metrics']['agent_2_performance']
-        # agent_1_policy = result['config']['policies']["agent_1"]
-
-        # print(f"policy: {agent_1_policy}")
-        # agent_2_task = agent_1_policy.compute_single_action(obs)
-        # # print(f"task: {agent_2_task}")
-
         algorithm.workers.foreach_worker(
             lambda ev: ev.foreach_env(
                 lambda env: env.set_task(
                     task
                     )))
-
-
-        # print("result type: ", type(result))
-        # print("algo: ", algorithm)
-        # print("kwargs: ")
-        # dict_pretty_print(kwargs)
-        # print("results: ")
-        # dict_pretty_print(result)
-        # print(5*"\n")
-        # if result["episode_reward_mean"] > 200:
-        #     task = 2
-        # elif result["episode_reward_mean"] > 100:
-        #     task = 1
-        # else:
-        #     task = 0
-        # algorithm.workers.foreach_worker(
-        #     lambda ev: ev.foreach_env(
-        #         lambda env: env.set_task(task)))
 
 # Create a multi-agent training configuration
 env = MyEnv()
