@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-	name="EcoCuRL",
+	name="ecocurl",
 	version="0.0.1",
 	license="MIT",
 	description="Curriculum learning tools for ecological decision problems under model uncertainty",
