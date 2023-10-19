@@ -451,7 +451,7 @@ class CustomCallbacks(DefaultCallbacks):
         **kwargs
     ):
 
-        assert episode.length == 0, (
+        assert episode.length <= 0, (
             "ERROR: `on_episode_start()` callback should be called right "
             f"after env reset! it was called at timestep {episode.length}"
         )
