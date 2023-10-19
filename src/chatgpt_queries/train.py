@@ -82,7 +82,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
-            infos = {}
+            infos = {'agent_1': {'r_value': self.r}}
 
             if self.verbose >= 2:
                 print(f"""
@@ -477,6 +477,12 @@ class CustomCallbacks(DefaultCallbacks):
             "after env reset!"
         )
 
+        if episode.length == 1:
+            print(2*"\n")
+            print("info at ep.len = 1:")
+            print(episode.last_info_for("agent_1"))
+            print(2*"\n")
+
         if episode.length > 1:
             #
             # first step is agent_1, where no info is returned yet
@@ -510,9 +516,9 @@ class CustomCallbacks(DefaultCallbacks):
         episode.custom_metrics["avg_rew1"] = avg_rew1
         episode.custom_metrics["avg_rew2"] = avg_rew2
 
-        if True:
-            print("episode ended: ")
+        if False:
             print(2*"\n")
+            print("episode ended: ")
             dict_pretty_print(episode.__dict__)
             print(2*"\n")
 
