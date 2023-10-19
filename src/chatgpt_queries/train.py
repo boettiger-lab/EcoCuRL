@@ -558,11 +558,10 @@ class CustomCallbacks(DefaultCallbacks):
             print("On train result")
             # dict_pretty_print(result)
             # print("custom_metrics: ", result['custom_metrics'])
-            print('r observation: ', r_obs)
-            print("rew2 on train batch:  ", obs)
+            print('agent 1 obs = [avg rew, avg r] = ', obs)
             print("agent 1 action: ", agent_1_action[0])
             print("task: ", task)
-            print("rew1 on train batch: ", agent_1_rew)
+            print("agent 1 rew on train batch: ", agent_1_rew)
             print("\n"*2)
 
         algorithm.workers.foreach_worker(
