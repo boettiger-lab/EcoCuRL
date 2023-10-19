@@ -1,5 +1,7 @@
 # EcoCuRL
 
+*Curriculum learning tools for ecological decision problems under model uncertainty.*
+
 Mathematical models for ecological systems are often used to guide decision-making, particularly so when there are competing goals that are to be achieved.
 A classic example of this is fishery management, where the goal of profit is balanced with the goal of sustainability.
 Similarly, models play a role in problems associated to allocating resources for environmental goals---for example invasive species management, or conservation of endangered species.
