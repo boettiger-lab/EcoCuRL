@@ -480,15 +480,15 @@ class CustomCallbacks(DefaultCallbacks):
         if episode.length > 1:
             #
             # first step is agent_1, where no info is returned yet
-            if False:
+            if True:
                 print(5*"\n")
                 print("episode:")
                 dict_pretty_print(episode.__dict__)
                 print(5*"\n")
 
 
-            rew1 = episode.last_info_for()["__common__"]["agent_1_reward"]
-            rew2 = episode.last_info_for()["agent_2"]["agent_2_reward"]
+            rew1 = episode.last_info_for("__common__")["agent_1_reward"]
+            rew2 = episode.last_info_for("agent_2")["agent_2_reward"]
 
             episode.user_data["agent_1_reward"].append(rew1)
             episode.user_data["agent_2_reward"].append(rew2)
