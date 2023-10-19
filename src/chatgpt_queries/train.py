@@ -154,7 +154,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
         infos = {'agent_1': {'agent_1_reward': rew1}, '__common__': {'agent_2_reward': rew2}}
 
-        return obs_dict, rew_dict, done, {'__all__': False}, info
+        return obs_dict, rew_dict, done, {'__all__': False}, infos
 
     @override(TaskSettableEnv)
     def sample_tasks(self, n_tasks):
