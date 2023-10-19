@@ -584,7 +584,7 @@ def choose_policy(agent_id: str):
                 )
     return PolicySpec(config=policy_config)
 
-if name == "__main__":
+if __name__ == "__main__":
 
     env = AdversarialExampleEnv()
 
