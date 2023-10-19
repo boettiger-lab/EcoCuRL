@@ -6,8 +6,16 @@ from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 from ray.rllib.env.env_context import EnvContext
 from ray.rllib.utils.annotations import override
 
-class fishing_env(gym.Env):
-	""" basic env whose variations will be the curriculum """
+class fishing_example_env(gym.Env):
+	""" basic fishing env whose variations will be the curriculum. 
+
+	user- (or curriculum-) determined variables are 
+		- observational noise strength
+		- harvest noise strength
+	both noise sources are proportionally gaussian, i.e. they act as
+		v -> v * (1 + x)
+	where x is normal with mean 0.
+	"""
 
 	def __init__(self, obs_noise, harvest_noise):
 
@@ -97,7 +105,7 @@ class fishing_env(gym.Env):
 
 
 
-class curriculum_fishing_env(TaskSettableEnv):
+class curl_fishing_example(TaskSettableEnv):
 
 	def __init__(self, config: EnvContext):
 		#
@@ -107,7 +115,8 @@ class curriculum_fishing_env(TaskSettableEnv):
 		self.action_space = self.env.action_space
 		self.switch_env = False
 		#
-		# these need to be updated manually using esc_script.py
+		# these are tuned to current curr_lvl: noise pairings (see self.CURRICULUM).
+		# if the curriculum is changed, these values must be re-tuned using esc_script.py 
 		self.esc_bchmrk_rewards = {
 			0: 12.296863133224907,
 			1: 12.237871552434372,
@@ -138,7 +147,7 @@ class curriculum_fishing_env(TaskSettableEnv):
 			9: {"obs_noise": 0.95 * obs_noise, "harvest_noise": 0.95 * harvest_noise},
 			10: {"obs_noise": 1.0 * obs_noise, "harvest_noise": 1.00 * harvest_noise},
 		}
-		return fishing_env(**self.CURRICULUM[self.cur_level])
+		return fishing_example_env(**self.CURRICULUM[self.cur_level])
 
 	def step(self, action):
 		obs, rew, terminated, truncated, info = self.env.step(action)

@@ -27,7 +27,7 @@ from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.tune.registry import get_trainable_cls
 
 
-from envs.custom_example import curriculum_fishing_env
+from ecocurl.envs.custom_example import curl_fishing_example
 
 tf1, tf, tfv = try_import_tf()
 torch, nn = try_import_torch()
@@ -131,7 +131,7 @@ if __name__ == "__main__":
   .get_default_config()
   # or "curriculum_env" if registered above
   .environment(
-    curriculum_fishing_env,
+    curl_fishing_example,
     env_config={"start_level": 0},
     env_task_fn=linear_curriculum_fn,
   )
