@@ -27,7 +27,7 @@ from ray.rllib.utils.annotations import (
     DeveloperAPI,
 )
 
-from util import dict_pretty_print
+# from util import dict_pretty_print
 
 class MyEnv(MultiAgentEnv, TaskSettableEnv):
     """ initially a fishery one bc I already understand the reward structure. 
@@ -437,7 +437,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 # Callback function for agent 1 to set the task for agent 2
 def set_task_callback(info):
     print("\n"*5 + "info: ")
-    dict_pretty_print(info.__dict__)
+    # dict_pretty_print(info.__dict__)
     print("\n"*5)
     obs = info["obs"][info["agent"]]
     agent_1_policy = info.policy_mapping_fn("agent_1")
