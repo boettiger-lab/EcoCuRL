@@ -573,22 +573,22 @@ class AdversarialCallbacks(DefaultCallbacks):
         del result["custom_metrics"]
 
 
+def choose_policy(agent_id: str):
+    i = {"agent_1": 1, "agent_2": 2}[agent_id]
+
+    policy_config = PPOConfig.overrides(
+                    model={
+                        "custom_model": ["agent_1", "agent_2"][i % 2],
+                    },
+                    gamma=0.99,
+                )
+    return PolicySpec(config=policy_config)
+
 if name == "__main__":
-    # Create a multi-agent training configuration
+
     env = AdversarialExampleEnv()
 
-    def policy(agent_id: str):
-        i = {"agent_1": 1, "agent_2": 2}[agent_id]
-
-        policy_config = PPOConfig.overrides(
-                        model={
-                            "custom_model": ["agent_1", "agent_2"][i % 2],
-                        },
-                        gamma=0.99,
-                    )
-        return PolicySpec(config=policy_config)
-
-    policies = {agent_id: policy(agent_id) for agent_id in ["agent_1", "agent_2"]}
+    policies = {agent_id: choose_policy(agent_id) for agent_id in ["agent_1", "agent_2"]}
 
     config = {
         "env": AdversarialExampleEnv,
@@ -600,7 +600,6 @@ if name == "__main__":
             # "on_episode_start": set_task_callback,
     }
 
-    # Initialize Ray and train the agents
     ray.init()
     tune.run(
         "PPO",
