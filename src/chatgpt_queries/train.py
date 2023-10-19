@@ -44,9 +44,9 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self._agent_ids = set(self.agents)
         #
         self.observation_space = gym.spaces.Box(
-            np.float32([0]), 
-            np.float32([1]),
-        )  
+            np.float32([0, 0]), 
+            np.float32([1, 1]),
+        )  # agent_1: [reward, r], agent_2: [population, 0]
         self.action_space = gym.spaces.Box(
             np.float32([0]), 
             np.float32([1]),
@@ -54,7 +54,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.max_steps = 20  # Set the maximum number of steps per episode
         #
         # pop dynamics
-        self.init_pop = np.float32([0.7])
+        self.init_pop = 0.7
         #
         # io
         self.verbose = 1
@@ -68,7 +68,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         #
         infos = {}
         obs = {
-            self.agent1: np.float32([0.]),
+            self.agent1: np.float32([0., 0.]),
         }
         return obs, infos
 
@@ -78,7 +78,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         task = action_dict.get(self.agent1, None)
         if task is not None:
             self.set_task(task)
-            obs = {self.agent2: self.init_pop}
+            obs = {self.agent2: np.float32([self.init_pop, 0])}
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
@@ -133,7 +133,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         }
 
         obs_dict = {
-            self.agent2: self.pop
+            self.agent2: np.append(self.pop, [0])
         }
 
         if self.verbose >= 2:
@@ -534,10 +534,10 @@ class CustomCallbacks(DefaultCallbacks):
         result["callback_ok"] = True
 
         # obs
-        obs_val = result['sampler_results']['episode_reward_mean'] 
-        obs = np.float32([obs_val])
+        rew_avg = result['sampler_results']['episode_reward_mean'] 
+        r_avg = result['custom_metrics']['r_val_mean']
+        obs = np.float32([rew_avg, r_avg])
         
-
         # policy
         agent_1_policy = algorithm.get_policy("agent_1")
         agent_1_action = agent_1_policy.compute_single_action(obs)
@@ -549,7 +549,6 @@ class CustomCallbacks(DefaultCallbacks):
         # # obs -> confirmed: this is equal to obs
         # obs_val_ = result['custom_metrics']['avg_rew2_mean']
         # obs_ = np.float32([obs_val])
-        r_obs = result['custom_metrics']['r_val_mean']
 
         # agent 1 tracking
         agent_1_rew = result['custom_metrics']['avg_rew1_mean']
