@@ -54,7 +54,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         self.max_steps = 20  # Set the maximum number of steps per episode
         #
         # pop dynamics
-        self.init_pop = 0.7
+        self.init_pop = np.float32([0.7])
         #
         # io
         self.verbose = 1
@@ -78,7 +78,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
         task = action_dict.get(self.agent1, None)
         if task is not None:
             self.set_task(task)
-            obs = {self.agent2: np.float32([self.init_pop, 0])}
+            obs = {self.agent2: np.append(self.init_pop, [0])}
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
