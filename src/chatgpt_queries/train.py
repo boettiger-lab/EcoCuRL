@@ -539,11 +539,11 @@ class CustomCallbacks(DefaultCallbacks):
         if True:
             print("\n"*5)
             print("On train result")
-            print(agent_1_policy)
-            print("obs:  ", obs)
-            print("obs_: ", obs_)
-            print("action: ", agent_1_action[0])
-            print("task: ", task)
+            dict_pretty_print(result)
+            # print("obs:  ", obs)
+            # print("obs_: ", obs_)
+            # print("action: ", agent_1_action[0])
+            # print("task: ", task)
             print("\n"*5)
 
         algorithm.workers.foreach_worker(
