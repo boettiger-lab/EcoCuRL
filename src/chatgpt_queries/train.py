@@ -453,7 +453,7 @@ class CustomCallbacks(DefaultCallbacks):
 
         assert episode.length == 0, (
             "ERROR: `on_episode_start()` callback should be called right "
-            "after env reset!"
+            f"after env reset! it was called at timestep {episode.length}"
         )
 
         episode.user_data["agent_1_reward"] = []
