@@ -460,6 +460,8 @@ class CustomCallbacks(DefaultCallbacks):
         episode.user_data["agent_2_reward"] = []
         episode.hist_data["agent_2_reward"] = []
 
+        episode.user_data["r_val"] = []
+
     def on_episode_step(
         self,
         *,
@@ -476,10 +478,15 @@ class CustomCallbacks(DefaultCallbacks):
         )
 
         if episode.length == 1:
-            print(2*"\n")
-            print("info at ep.len = 1:")
-            print(episode.last_info_for("__common__"))
-            print(2*"\n")
+            #
+            r_now = episode.last_info_for("__common__")["r_value"]
+            episode.user_data["r_val"].append(r_now)
+            #
+            if False:
+                print(2*"\n")
+                print("info at ep.len = 1:")
+                print(episode.last_info_for("__common__"))
+                print(2*"\n")
 
         if episode.length > 1:
             #
@@ -490,11 +497,11 @@ class CustomCallbacks(DefaultCallbacks):
                 print("__common__: ", episode.last_info_for("__common__")["agent_1_reward"])
                 print("agent_2: ", episode.last_info_for("agent_2")["agent_2_reward"])
                 print(2*"\n")
-
-
+            #
+            #
             rew1 = episode.last_info_for("__common__")["agent_1_reward"]
             rew2 = episode.last_info_for("agent_2")["agent_2_reward"]
-
+            #
             episode.user_data["agent_1_reward"].append(rew1)
             episode.user_data["agent_2_reward"].append(rew2)
 
@@ -510,9 +517,11 @@ class CustomCallbacks(DefaultCallbacks):
     ):
         avg_rew1 = np.mean(episode.user_data["agent_1_reward"])
         avg_rew2 = np.mean(episode.user_data["agent_2_reward"])
+        r_val = episode.user_data["r_val"][0]
 
         episode.custom_metrics["avg_rew1"] = avg_rew1
         episode.custom_metrics["avg_rew2"] = avg_rew2
+        episode.custom_metrics["r_val"] = r_val
 
         if False:
             print(2*"\n")
