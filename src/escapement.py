@@ -3,9 +3,25 @@ from typing import List
 
 import ray
 
+@ray.remote
+def esc_benchmark(esc_vec, esc_obj, env):
+    results = [esc_obj.sample_policy_reward(esc_vec, env) for _ in range(100)]
+    # print(f"escapement = {esc_vec} done!")
+    return np.mean(results)
+
+def sample_esc_benchmark(env, esc_obj, samples=1000):
+    policies = [esc_obj.sample_policy() for _ in range(1000)]
+    return (
+    	policies, 
+    	np.array(
+    		ray.get(
+    			[benchmark.remote(esc_vec, esc_obj, env) for esc_vec in policies]
+    		)
+    	)
+    )
+
 
 class escapement_policy:
-
 	def __init__(
 		self,
 		n_sp: int,
