@@ -82,7 +82,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             rew = {self.agent1: 0, self.agent2: 0}
             terminateds = {self.agent2: False, '__all__': False}
             truncateds = {self.agent2: False, '__all__': False}
-            infos = {'agent_1_reward': 0, 'agent_2_reward': 0}
+            infos = {}
 
             if self.verbose >= 2:
                 print(f"""
@@ -152,7 +152,7 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             """
             )
 
-        info = {'agent_1_reward': rew1, 'agent_2_reward': rew2}
+        infos = {'agent_1': {'agent_1_reward': rew1}, '__common__': {'agent_2_reward': rew2}}
 
         return obs_dict, rew_dict, done, {'__all__': False}, info
 
