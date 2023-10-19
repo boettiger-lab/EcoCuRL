@@ -533,17 +533,19 @@ class CustomCallbacks(DefaultCallbacks):
         task = np.clip(task, [0], [1])
 
         # obs
-        # obs_val_ = result['custom_metrics']['avg_rew2']
-        # obs_ = np.float32([obs_val])
+        obs_val_ = result['custom_metrics']['avg_rew2_mean']
+        obs_ = np.float32([obs_val])
+        agent_1_performance = result['custom_metrics']['avg_rew1_mean']
 
         if True:
             print("\n"*5)
             print("On train result")
-            dict_pretty_print(result)
-            # print("obs:  ", obs)
-            # print("obs_: ", obs_)
-            # print("action: ", agent_1_action[0])
-            # print("task: ", task)
+            # dict_pretty_print(result)
+            print("obs:  ", obs)
+            print("obs_: ", obs_)
+            print("action: ", agent_1_action[0])
+            print("task: ", task)
+            print("agent 1 performance: ", agent_1_performance)
             print("\n"*5)
 
         algorithm.workers.foreach_worker(
