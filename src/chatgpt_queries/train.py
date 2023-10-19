@@ -152,7 +152,9 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
             """
             )
 
-        return obs_dict, rew_dict, done, {'__all__': False}, {}
+        info = {'agent_1_reward': rew1, 'agent_2_reward': rew2}
+
+        return obs_dict, rew_dict, done, {'__all__': False}, info
 
     @override(TaskSettableEnv)
     def sample_tasks(self, n_tasks):
@@ -437,23 +439,73 @@ class MyEnv(MultiAgentEnv, TaskSettableEnv):
 
 class CustomCallbacks(DefaultCallbacks):
 
+    episode.user_data["agent_1_reward"] = []
+    episode.hist_data["agent_1_reward"] = []
+
+    episode.user_data["agent_2_reward"] = []
+    episode.hist_data["agent_2_reward"] = []
+
+    def on_episode_step(
+        self,
+        *,
+        worker: RolloutWorker,
+        base_env: BaseEnv,
+        policies: Dict[str, Policy],
+        episode: Episode,
+        env_index: int,
+        **kwargs
+    ):
+        assert episode.length > 0, (
+            "ERROR: `on_episode_step()` callback should not be called right "
+            "after env reset!"
+        )
+
+        rew1 = episode.last_info_for()["agent_1_reward"]
+        rew2 = episode.last_info_for()["agent_2_reward"]
+
+        episode.user_data["agent_1_reward"].append(rew1)
+        episode.user_data["agent_2_reward"].append(rew2)
+
+    def on_episode_end(
+        self,
+        *,
+        worker: RolloutWorker,
+        base_env: BaseEnv,
+        policies: Dict[str, Policy],
+        episode: Episode,
+        env_index: int,
+        **kwargs
+    ):
+        avg_rew1 = np.mean(episode.user_data["agent_1_reward"])
+        avg_rew2 = np.mean(episode.user_data["agent_2_reward"])
+
+        episode.custom_metrics["avg_rew1"] = avg_rew1
+        episode.custom_metrics["avg_rew2"] = avg_rew2
+
     def on_train_result(self, algorithm, result, **kwargs):
 
-        agent_1_policy = algorithm.get_policy("agent_1")
-        # dict_pretty_print(policy2.__dict__)
-        # print([method_name for method_name in dir(agent_1_policy)
-        #           if callable(getattr(agent_1_policy, method_name))])
+        # obs
         obs_val = result['sampler_results']['episode_reward_mean'] 
         obs = np.float32([obs_val])
+
+        # policy
+        agent_1_policy = algorithm.get_policy("agent_1")
         agent_1_action = agent_1_policy.compute_single_action(obs)
+
+        # task
         task = (agent_1_action[0] + 1 ) / 2 # trying to avoid tasks < 0, but I don't get why actions lie outside of action space?
         task = np.clip(task, [0], [1])
+
+        # obs
+        obs_val_ = result['custom_metrics']['agent_2_reward']
+        obs_ = np.float32([obs_val])
 
         if True:
             print("\n"*5)
             print("On train result")
             print(agent_1_policy)
-            print("obs: ", obs)
+            print("obs:  ", obs)
+            print("obs_: ", obs_)
             print("action: ", agent_1_action[0])
             print("task: ", task)
             print("\n"*5)
