@@ -555,6 +555,8 @@ class CustomCallbacks(DefaultCallbacks):
                     task
                     )))
 
+        del result["custom_metrics"]
+
 # Create a multi-agent training configuration
 env = MyEnv()
 
