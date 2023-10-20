@@ -16,17 +16,27 @@ class benchmarked_curl(TaskSettableEnv):
 		self.base_env_config = config.get('static_base_env_config', {})
 		#
 		self.n_lvls = len(curr_to_params)
-		self.curr_lvl = list(curr_to_params)[0] # list(dict) = list of keys
+		self.task_options = list(curr_to_params) # list(dict) = list of keys
+		self.curr_lvl = self.task_options[0]
+		self.switch_env = False
 		#
 		self.base_env = self._make_env()
 		self.observation_space = self.base_env.observation_space
 		self.action_space = self.base_env.action_space
 
 	def reset(self, *, seed=42, options=None):
-		...
+		if self.switch_env:
+			self.switch_env = False
+			self.base_env = self._make_env()
+		return self.base_env.reset(seed, options)
+
 
 	def step(self, action):
-		...
+		obs, rew, term, trunc, info = self.base_env.step(action)
+		rescaled_rew = rew / self.curr_benchmarks[self.curr_lvl]
+		return (
+			obs, rescaled_rew, term, trunc, info
+		)
 
 	def _config_check(self, config):
 		""" checks that config has necessary elements. """
@@ -48,6 +58,28 @@ class benchmarked_curl(TaskSettableEnv):
 			**self.static_base_env_config
 		}
 		return self.base_env_cls(env_config)
+
+	def reset(self, *, seed=None, options=None):
+		if self.switch_env:
+			self.switch_env = False
+			self.env = self._make_env()
+		return self.env.reset(seed=None, options=None)
+
+	@override(TaskSettableEnv)
+	def sample_tasks(self, n_tasks):
+		"""Implement this to sample n random tasks."""
+		return [np.random.choice(self.task_options) for _ in range(n_tasks)]
+
+	@override(TaskSettableEnv)
+	def get_task(self):
+		"""Implement this to get the current task (curriculum level)."""
+		return self.cur_level
+
+	@override(TaskSettableEnv)
+	def set_task(self, task):
+		"""Implement this to set the task (curriculum level) for this env."""
+		self.cur_level = task
+		self.switch_env = True
 
 
 
