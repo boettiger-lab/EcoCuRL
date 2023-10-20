@@ -3,6 +3,11 @@ import numpy as np
 
 from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 
+# TBD:
+#
+# TaskSettableEnv which samples env_config randomly with increasing
+# entropy as the curriculum level increases
+
 class benchmarked_curl(TaskSettableEnv):
 	""" a curr. l. env whose rewards are normalized by curr.-lvl.-specific benchamrks. """
 	def __init__(self, config: dict):
