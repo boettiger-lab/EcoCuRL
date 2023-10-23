@@ -7,7 +7,7 @@ from ecocurl.benchmarked_curl_env import benchmarked_curl
 # logging.basicConfig(level=logging.WARNING)
 
 def get_EscBmked(
-	base_env_cls, 
+	env_cls, 
 	curr_to_params, 
 	static_base_env_config = {},
 	escapement_policy_kwargs,
@@ -15,7 +15,7 @@ def get_EscBmked(
 	curr_benchmarks = {}
 	#
 	for lvl, params in curr_to_params.items():
-		base_env = base_env_cls(**params, **static_base_env_config)
+		base_env = env_cls(**params, **static_base_env_config)
 		#
 		if len(base_env.action_space.shape) > 1:
 			logging.warning(f"get_EscBmked arg base_env has an action_space with non-flat shape: {base_env.action_space.shape}")
