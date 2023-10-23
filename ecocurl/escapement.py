@@ -15,7 +15,7 @@ def sample_esc_benchmark(env, esc_obj, samples=1000):
     	policies, 
     	np.array(
     		ray.get(
-    			[benchmark.remote(esc_vec, esc_obj, env) for esc_vec in policies]
+    			[esc_benchmark.remote(esc_vec, esc_obj, env) for esc_vec in policies]
     		)
     	)
     )
