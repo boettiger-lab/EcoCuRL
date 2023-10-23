@@ -6,7 +6,7 @@ from ecocurl.benchmarked_curl_env import benchmarked_curl
 
 # logging.basicConfig(level=logging.WARNING)
 
-def get_EscBmked(
+def get_EscBmks(
 	env_cls, 
 	curr_to_params, 
 	static_base_env_config = {},
