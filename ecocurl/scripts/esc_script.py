@@ -2,9 +2,9 @@ import pandas as pd
 import ray
 import numpy as np
 
-from escapement import escapement_policy
-from envs.custom_example import fishing_env
-from envs.custom_example import curriculum_fishing_env # only for the curriculum
+from ecocurl.escapement import escapement_policy
+from ecocurl.envs.custom_example import fishing_env
+from ecocurl.envs.custom_example import curriculum_fishing_env # only for the curriculum
 
 CURRICULUM = curriculum_fishing_env(config={"start_level":0}).CURRICULUM
 esc_obj = escapement_policy(n_sp=1, n_act=1, controlled_sp=[0], max_esc=1)
