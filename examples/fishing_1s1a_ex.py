@@ -64,21 +64,21 @@ def linear_curriculum_fn(
 		if train_results["episode_reward_mean"] > graduation_rate * 10**(lvl):
 			new_lvl = lvl
 	#
-  print(
-      f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
-      f"\nR={train_results['episode_reward_mean']}"
-      f"\nSetting env to curriculum lvl={new_lvl}"
-  )
+	print(
+		f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
+		f"\nR={train_results['episode_reward_mean']}"
+		f"\nSetting env to curriculum lvl={new_lvl}"
+	)
   return new_lvl
 
 if __name__ == "__main__":
-  ray.init()
+	ray.init()
 
-  config = (
-  	PPOConfig()
-  	.environment(
-  		discrBenchMultitasker,
-  		env_config = {
+	config = (
+		PPOConfig()
+		.environment(
+			discrBenchMultitasker,
+			env_config = {
 				'base_env_cls': base_env_cls,
 				'task_indices': task_indices,
 				'task_configs': index_to_config,
@@ -86,27 +86,27 @@ if __name__ == "__main__":
 				'lvl_to_task_list': lvl_to_task_list,
 			},
 			env_task_fn=linear_curriculum_fn,
-  	)
-  	.rollouts(num_rollout_workers=25, num_envs_per_worker=5)
-  	.resources(num_gpus=2)
-  )
+		)
+		.rollouts(num_rollout_workers=25, num_envs_per_worker=5)
+		.resources(num_gpus=2)
+	)
 
-  stop = {
-	  "training_iteration": 1000,
-	  "timesteps_total": 10_000_000,
-	  "episode_reward_mean": 10 ** n_lvls,
-  }
+	stop = {
+		"training_iteration": 1000,
+		"timesteps_total": 10_000_000,
+		"episode_reward_mean": 10 ** n_lvls,
+	}
 
-  tuner = tune.Tuner(
-    "PPO",
-    param_space=config.to_dict(),
-    run_config=air.RunConfig(stop=stop, verbose=2),
-  )
-  print("tuner defined")
-  results = tuner.fit()
-  print("tuner fit")
+	tuner = tune.Tuner(
+		"PPO",
+		param_space=config.to_dict(),
+		run_config=air.RunConfig(stop=stop, verbose=2),
+	)
+	print("tuner defined")
+	results = tuner.fit()
+	print("tuner fit")
 
-  if args.as_test:
-    check_learning_achieved(results, args.stop_reward)
-  ray.shutdown()
+	if args.as_test:
+		check_learning_achieved(results, args.stop_reward)
+	ray.shutdown()
 
