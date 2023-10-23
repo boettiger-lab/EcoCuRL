@@ -55,7 +55,7 @@ curl_env = discrBenchMultitasker(
 )
 
 def linear_curriculum_fn(
-    train_results: dict, task_settable_env: TaskSettableEnv, env_ctx: EnvContext
+	train_results: dict, task_settable_env: TaskSettableEnv, env_ctx: EnvContext
 ) -> TaskType:
 	
 	new_lvl = 0
@@ -69,7 +69,7 @@ def linear_curriculum_fn(
 		f"\nR={train_results['episode_reward_mean']}"
 		f"\nSetting env to curriculum lvl={new_lvl}"
 	)
-  return new_lvl
+	return new_lvl
 
 if __name__ == "__main__":
 	ray.init()
