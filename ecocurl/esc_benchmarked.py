@@ -8,14 +8,14 @@ from ecocurl.benchmarked_curl_env import benchmarked_curl
 
 def get_EscBmks(
 	env_cls, 
-	curr_to_params, 
-	static_base_env_config = {},
-	escapement_policy_kwargs,
+	index_to_config, 
+	escapement_policy_kwargs = {},
+	verbose = False,
 ):
 	curr_benchmarks = {}
 	#
-	for lvl, params in curr_to_params.items():
-		base_env = env_cls(**params, **static_base_env_config)
+	for lvl, config in index_to_config.items():
+		base_env = env_cls(**config)
 		#
 		if len(base_env.action_space.shape) > 1:
 			logging.warning(f"get_EscBmked arg base_env has an action_space with non-flat shape: {base_env.action_space.shape}")
@@ -31,10 +31,10 @@ def get_EscBmks(
 		esc_obj = escapement_policy(
 			n_sp=n_sp,
 			n_act=n_act,
-			verbose=True,
+			verbose = verbose,
 			**escapement_policy_kwargs,
 		)
-		policies, benchmarks = sample_esc_benchmark(base_env, esc_obj)
+		policies, benchmarks = sample_esc_benchmark(base_env, esc_obj, samples=100)
 		i_opt = np.argmax(benchmarks)
 		opt_esc = policies[i_opt]
 		opt_bmk = benchmarks[i_opt]
