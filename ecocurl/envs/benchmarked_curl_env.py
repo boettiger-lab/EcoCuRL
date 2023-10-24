@@ -75,8 +75,8 @@ class discrBenchMultitasker(TaskSettableEnv):
 
 	def _make_env(self):
 		task = np.random.choice(self.lvl_to_task_list[self.lvl])
-		env_cfg = task_configs[task]
-		env_bmk = task_benchmarks[task]
+		env_cfg = self.task_configs[task]
+		env_bmk = self.task_benchmarks[task]
 		#
 		return benchmarkedEnv(
 			raw_env = self.base_env_cls(config = env_cfg),
