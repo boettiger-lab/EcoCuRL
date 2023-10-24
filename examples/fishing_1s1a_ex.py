@@ -74,7 +74,6 @@ def linear_curriculum_fn(
 	return new_lvl
 
 if __name__ == "__main__":
-	ray.init()
 
 	config = (
 		PPOConfig()
