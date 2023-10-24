@@ -1,5 +1,5 @@
 import numpy as np
-from tdqm import tdqm
+from tqdm import tqdm
 from typing import List
 
 import ray
