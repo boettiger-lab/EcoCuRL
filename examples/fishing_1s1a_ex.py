@@ -33,7 +33,7 @@ lvl_to_task_list = {
 }
 n_lvls = len(lvl_to_task_list)
 
-restrict = False
+restrict = True
 if restrict:
 	restriction = 2
 	task_indices = task_indices[:restriction]
@@ -75,7 +75,9 @@ def linear_curriculum_fn(
 	
 	new_lvl = 0
 	graduation_rate = 0.95
-	for lvl in range(n_lvls):
+	for lvl in range(n_lvls-1):
+		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
+		# you cannot graduate any further.
 		if train_results["episode_reward_mean"] > graduation_rate * 10**(lvl):
 			print(f"graduated lvl {lvl}")
 			new_lvl = lvl+1

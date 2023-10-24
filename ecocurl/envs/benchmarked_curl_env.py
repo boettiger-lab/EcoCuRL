@@ -50,6 +50,29 @@ class benchmarkedRandEnv(gym.Env):
 	def step(self, action):
 		return self.bmkd_env.step(action)
 
+class discrBenchMultitaskerV2(TaskSettableEnv):
+	def __init__(self, config: dict):
+		"""
+		config:
+			base_env_cls = gym.Env class
+			task_indices = [list of task indices / labels]
+				-> must be hashable
+			task_bmks    = dict of the form {task_index: benchmark for the task}
+			task_configs = dict of the form {task_index: config dict for base benchmarked env}
+				-> hardwired: all variation should be in a single parameter, which should be an attribute of the base_env
+			randomized_attr = name of the attribute that will be randomized
+			lvl_to_task_list = dict of the form {
+				curriculum lvl: list from which to sample tasks at this lvl
+			}
+					# eg. if task_indices = [0, 1, 2]
+					#
+					# 0: [0], 1: [0, 1], 2: [0,1,2],
+					#
+					# then at curriculum lvl 0, only task 0 is sampled,
+					# at lvl 1, task 0 and task 1 are sampled w 50% prob
+					# at lvl 2, task 0, 1, 2, are sampled w 33% prob
+		"""
+		pass
 
 
 class discrBenchMultitasker(TaskSettableEnv):
