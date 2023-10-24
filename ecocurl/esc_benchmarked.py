@@ -14,7 +14,7 @@ def get_EscBmks(
 	curr_benchmarks = {}
 	#
 	for lvl, config in index_to_config.items():
-		base_env = env_cls(**config)
+		base_env = env_cls(config=config)
 		#
 		if len(base_env.action_space.shape) > 1:
 			logging.warning(f"get_EscBmked arg base_env has an action_space with non-flat shape: {base_env.action_space.shape}")
