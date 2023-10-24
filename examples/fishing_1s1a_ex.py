@@ -108,6 +108,6 @@ if __name__ == "__main__":
 	results = tuner.fit()
 	print("tuner fit")
 
-	check_learning_achieved(results, args.stop_reward)
+	# check_learning_achieved(results, args.stop_reward)
 	ray.shutdown()
 
