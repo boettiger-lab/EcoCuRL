@@ -28,7 +28,7 @@ base_env_cls = fishing_1s1a
 benchmarks = get_EscBmks(
 	env_cls = base_env_cls,
 	index_to_config = index_to_config,
-	verbose = True,
+	verbose = False,
 	)
 
 print("benchmarks done:")
