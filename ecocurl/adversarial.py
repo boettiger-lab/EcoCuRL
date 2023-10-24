@@ -27,7 +27,7 @@ from ray.rllib.utils.annotations import (
     DeveloperAPI,
 )
 
-from util import dict_pretty_print
+from ecocurl.util import dict_pretty_print
 
 class AdversarialExampleEnv(MultiAgentEnv, TaskSettableEnv):
     """ initially a fishery one bc I already understand the reward structure. 
