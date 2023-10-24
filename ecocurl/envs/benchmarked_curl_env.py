@@ -24,7 +24,7 @@ class benchmarkedEnv(gym.Env):
 		self.reset()
 
 	def reset(self, *, seed=42, options=None):
-		return self.raw_env.reset(self, seed=seed, options=options)
+		return self.raw_env.reset(seed=seed, options=options)
 
 	def step(self, action):
 		obs, raw_reward, term, trunc, info = self.raw_env.step(action)
