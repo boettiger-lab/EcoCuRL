@@ -24,6 +24,27 @@ index_to_config = {
 	3: {'r': 0.4},
 	4: {'r': 0.6},
 }
+lvl_to_task_list = {
+	0: [0],
+	1: [0,1],
+	2: [0,1,2],
+	3: [0,1,2,3],
+	4: [0,1,2,3,4],
+}
+n_lvls = len(lvl_to_task_list)
+
+restriction = 2
+restrict = True
+if restrict:
+	task_indices = task_indices[:restriction]
+	index_to_config = {
+		idx: cfg for idx, cfg in index_to_config.items() if idx < restriction
+	}
+	lvl_to_task_list = {
+		idx: tsk_lst for idx, tsk_lst in lvl_to_task_list.items() if idx < restriction
+	}
+	n_lvls = len(lvl_to_task_list)
+
 
 base_env_cls = fishing_1s1a
 
@@ -37,15 +58,6 @@ benchmarks = get_EscBmks(
 print("benchmarks done:")
 for lvl, bmk in benchmarks.items():
 	print(f"{lvl}: {bmk:.3f}")
-
-lvl_to_task_list = {
-	0: [0],
-	1: [0,1],
-	2: [0,1,2],
-	3: [0,1,2,3],
-	4: [0,1,2,3,4],
-}
-n_lvls = len(lvl_to_task_list)
 
 curl_env = discrBenchMultitasker(
 	config = {
