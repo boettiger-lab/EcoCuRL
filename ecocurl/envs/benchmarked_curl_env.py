@@ -103,8 +103,7 @@ class discrBenchMultitasker(TaskSettableEnv):
 		if self.switch_env:
 			self.switch_env = False
 			self.base_benchmarked_env = self._make_env()
-			# env = self.base_benchmarked_env
-		return (self.base_benchmarked_env).reset(seed, options)
+		return self.base_benchmarked_env.reset(seed=seed, options=options)
 	#
 	def step(self, action):
 		obs, rew, term, trunc, info = self.base_benchmarked_env.step(action)
