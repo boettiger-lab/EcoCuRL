@@ -3,6 +3,7 @@ from ecocurl import get_EscBmks
 
 import ray
 from ray import air, tune
+from ray.rllib.algorithms.ppo import PPOConfig
 
 from ray.rllib.env.apis.task_settable_env import TaskType, TaskSettableEnv
 from ray.rllib.env.env_context import EnvContext
