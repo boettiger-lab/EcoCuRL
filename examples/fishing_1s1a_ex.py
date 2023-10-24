@@ -3,7 +3,7 @@ from ecocurl import get_EscBmks
 
 from ray import air, tune
 
-from ray.rllib.env.apis.task_settable_env import TaskType
+from ray.rllib.env.apis.task_settable_env import TaskType, TaskSettableEnv
 
 """
 this script will train a multitasker agent which learns to fish over a 
