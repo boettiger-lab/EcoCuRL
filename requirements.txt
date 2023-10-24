@@ -9,3 +9,6 @@ seaborn
 pyyaml>=5.1
 sb3-contrib>=1.1.0a7
 gym_fishing
+ray
+ray[tune,rllib,air]
+tqdm

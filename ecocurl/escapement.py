@@ -1,4 +1,5 @@
 import numpy as np
+from tdqm import tdqm
 from typing import List
 
 import ray
@@ -15,7 +16,7 @@ def sample_esc_benchmark(env, esc_obj, samples=1000):
     	policies, 
     	np.array(
     		ray.get(
-    			[esc_benchmark.remote(esc_vec, esc_obj, env) for esc_vec in policies]
+    			[esc_benchmark.remote(esc_vec, esc_obj, env) for esc_vec in tqdm(policies)]
     		)
     	)
     )
@@ -28,7 +29,7 @@ class escapement_policy:
 		n_act: int,
 		verbose: bool = False,
 		controlled_sp: List = None,
-		max_esc: float = 10, # maximum escapement (used to bound esc optimization)
+		max_esc: float = 1, # maximum escapement (used to bound esc optimization)
 		numeric_threshold: float = 0.001,
 		):
 		self.n_sp=n_sp
