@@ -2,7 +2,6 @@ import logging
 import numpy as np
 
 from ecocurl.escapement import sample_esc_benchmark, escapement_policy
-from ecocurl.benchmarked_curl_env import benchmarked_curl
 
 # logging.basicConfig(level=logging.WARNING)
 
