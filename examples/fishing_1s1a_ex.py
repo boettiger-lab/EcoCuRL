@@ -77,8 +77,8 @@ def linear_curriculum_fn(
 	graduation_rate = 0.95
 	for lvl in range(n_lvls):
 		if train_results["episode_reward_mean"] > graduation_rate * 10**(lvl):
-			print(f"passed lvl {lvl}")
-			new_lvl = lvl
+			print(f"graduated lvl {lvl}")
+			new_lvl = lvl+1
 	#
 	print(
 		f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"

@@ -31,6 +31,13 @@ class benchmarkedEnv(gym.Env):
 		reward = raw_reward / self.benchmark
 		return obs, reward, term, trunc, info
 
+# class benchmarkedRandEnv(gym.Env):
+# 	""" randomly sampled attribute """
+# 	def __init__(self, bmkd_env: benchmarkedEnv, attr_name: str, attr_sample_set: list):
+# 		self.bmkd_env = bmkd_env
+# 		self.attr_name = attr_name
+# 		self.attr_sample_set = attr_sample_set
+
 
 class discrBenchMultitasker(TaskSettableEnv):
 	""" discrete benchmarked multitasker:  
