@@ -1,9 +1,10 @@
+from collections.abc import Iterable
 import logging
 import numpy as np
 
 from ecocurl.escapement import sample_esc_benchmark, escapement_policy
 
-# logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO)
 
 def get_EscBmks(
 	env_cls, 
@@ -14,6 +15,7 @@ def get_EscBmks(
 	curr_benchmarks = {}
 	#
 	for lvl, config in index_to_config.items():
+		logging.info(f"Processing curriculum level: {lvl}, config {config}")
 		base_env = env_cls(config=config)
 		#
 		if len(base_env.action_space.shape) > 1:
@@ -37,6 +39,19 @@ def get_EscBmks(
 		i_opt = np.argmax(benchmarks)
 		opt_esc = policies[i_opt]
 		opt_bmk = benchmarks[i_opt]
+		# debug logging
+		if isinstance(opt_esc, Iterable):
+			logging.debug(
+				f"opt idx = {i_opt}, "
+				f"opt_esc = {[f'{el:.3f}' for el in opt_esc]}, "
+				f"opt_bmk = {opt_bmk:.3f}."
+			)
+		else:
+			logging.debug(
+				f"opt idx = {i_opt}, "
+				f"opt_esc = {opt_esc}, "
+				f"opt_bmk = {opt_bmk:.3f}."
+			)
 		del policies
 		del benchmarks
 		#
