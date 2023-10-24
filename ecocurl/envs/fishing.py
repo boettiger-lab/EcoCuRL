@@ -46,7 +46,7 @@ class fishing_1s1a(gym.Env):
 		action = np.clip(action, [-1], [1])
 		effort = self.action_to_effort(action)
 		harvest = effort * self.pop[0]
-		cost = self.cost[0] * effort
+		cost = self.cost * effort
 		#
 		self.pop -= harvest
 		self.pop = np.clip(self.pop, [0], [self.pop_bound])
