@@ -1,6 +1,7 @@
 from ecocurl.envs import fishing_1s1a, discrBenchMultitasker
 from ecocurl import get_EscBmks
 
+import ray
 from ray import air, tune
 
 from ray.rllib.env.apis.task_settable_env import TaskType, TaskSettableEnv
