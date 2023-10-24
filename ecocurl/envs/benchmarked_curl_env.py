@@ -31,12 +31,25 @@ class benchmarkedEnv(gym.Env):
 		reward = raw_reward / self.benchmark
 		return obs, reward, term, trunc, info
 
-# class benchmarkedRandEnv(gym.Env):
-# 	""" randomly sampled attribute """
-# 	def __init__(self, bmkd_env: benchmarkedEnv, attr_name: str, attr_sample_set: list):
-# 		self.bmkd_env = bmkd_env
-# 		self.attr_name = attr_name
-# 		self.attr_sample_set = attr_sample_set
+class benchmarkedRandEnv(gym.Env):
+	""" randomly sampled attribute """
+	def __init__(self, bmkd_env: benchmarkedEnv, attr_name: str, attr_sample_set: list):
+		self.bmkd_env = bmkd_env
+		self.attr_name = attr_name
+		self.attr_sample_set = attr_sample_set
+		self.observation_space = self.base_benchmarked_env.observation_space
+		self.action_space = self.base_benchmarked_env.action_space
+
+		self.reset()
+
+	def reset(self, *, seed=42, options=None):
+		new_attr_val = np.random.choice(self.attr_sample_set)
+		setattr(bmkd_env, attr_name, new_attr_val)
+		return self.bmkd_env.reset(seed=seed, options=options)
+
+	def step(self, action):
+		return self.bmkd_env.step(action)
+
 
 
 class discrBenchMultitasker(TaskSettableEnv):
@@ -145,7 +158,7 @@ class discrBenchMultitasker(TaskSettableEnv):
 	@override(TaskSettableEnv)
 	def set_task(self, task):
 		"""Implement this to set the task (curriculum level) for this env."""
-		self._set_lvl()
+		self._set_lvl(task)
 
 # class benchmarked_curl(TaskSettableEnv):
 # 	""" a curr. l. env whose rewards are normalized by curr.-lvl.-specific benchamrks. """
