@@ -65,7 +65,7 @@ class discrBenchMultitasker(TaskSettableEnv):
 		for name in self.needed_cfg_elements:
 			setattr(self, name, config[name])
 		#
-		self.n_lvls = len(lvl_to_task_list)
+		self.n_lvls = len(self.lvl_to_task_list)
 		self.lvl = 0
 		#
 		self.base_benchmarked_env = self._make_env()
