@@ -51,6 +51,9 @@ class benchmarkedRandEnv(gym.Env):
 		return self.bmkd_env.step(action)
 
 class discrBenchMultitaskerV2(TaskSettableEnv):
+	#
+	# TBD!! actually rewrite the code for V2!
+	#
 	def __init__(self, config: dict):
 		"""
 		config:
@@ -72,7 +75,86 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 					# at lvl 1, task 0 and task 1 are sampled w 50% prob
 					# at lvl 2, task 0, 1, 2, are sampled w 33% prob
 		"""
-		pass
+		#
+		self.needed_cfg_elements = ['base_env_cls', 'task_indices', 'task_configs', 'task_bmks', 'randomized_attr', 'lvl_to_task_list']
+		self._config_check(config)
+		#
+		for name in self.needed_cfg_elements:
+			setattr(self, name, config[name])
+		#
+		self.n_lvls = len(self.lvl_to_task_list)
+		self.lvl = 0
+		#
+		self.base_benchmarked_env = self._make_env()
+		self.observation_space = self.base_benchmarked_env.observation_space
+		self.action_space = self.base_benchmarked_env.action_space
+		self.switch_env = False
+
+	def _make_env(self):
+		task_list = self.lvl_to_task_list[self.lvl]
+		
+		env_bmk = self.task_bmks[task]
+		#
+		return benchmarkedEnv(
+			raw_env = self.base_env_cls(config = env_cfg),
+			benchmark = env_bmk,
+		)
+
+	def _config_check(self, config):
+		""" checks that config has necessary elements. """
+		missing_elements = []
+		for name in self.needed_cfg_elements:
+			if not name in config:
+				missing_elements.append(name)
+		#
+		assert len(missing_elements) == 0, (
+			f"the following elements are missing from the config dict passed to "
+			f"the benchmarked_curl class constructor:\n"
+			f"{missing_elements}.\n"
+			f"config passed:\n"
+			f"{config}"
+		)
+	#
+	def reset(self, *, seed=42, options=None):
+		if self.switch_env:
+			self.switch_env = False
+			self.base_benchmarked_env = self._make_env()
+		return self.base_benchmarked_env.reset(seed=seed, options=options)
+	#
+	def step(self, action):
+		obs, rew, term, trunc, info = self.base_benchmarked_env.step(action)
+		return obs, rew * 10**(self.lvl), term, trunc, info
+	#
+	# changing, sampling, getting curriculum level
+	#
+	def _sample_lvl(self, n_samples):
+		return [np.random.choice(self.n_lvls) for _ in range(n_samples)]
+	#
+	def _get_lvl(self):
+		"""Implement this to get the current task (curriculum level)."""
+		return self.lvl
+	#
+	def _set_lvl(self, lvl):
+		"""Implement this to set the task (curriculum level) for this env."""
+		self.lvl = lvl
+		self.switch_env = True
+	#
+	# compatibility with TaskSettableEnv API (where "tasks" mean curriculum level.)
+	#
+	@override(TaskSettableEnv)
+	def sample_tasks(self, n_tasks):
+		"""Implement this to sample n random tasks."""
+		return _sample_lvl(n_samples=n_tasks)
+
+	@override(TaskSettableEnv)
+	def get_task(self):
+		"""Implement this to get the current task (curriculum level)."""
+		return self._get_lvl()
+
+	@override(TaskSettableEnv)
+	def set_task(self, task):
+		"""Implement this to set the task (curriculum level) for this env."""
+		self._set_lvl(task)
 
 
 class discrBenchMultitasker(TaskSettableEnv):
