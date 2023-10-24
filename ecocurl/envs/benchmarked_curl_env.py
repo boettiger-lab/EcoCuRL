@@ -28,7 +28,7 @@ class benchmarkedEnv(gym.Env):
 
 	def step(self, action):
 		obs, raw_reward, term, trunc, info = self.raw_env.step(action)
-		reward = raw_reward / benchmark
+		reward = raw_reward / self.benchmark
 		return obs, reward, term, trunc, info
 
 
