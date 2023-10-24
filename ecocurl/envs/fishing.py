@@ -30,7 +30,7 @@ class fishing_1s1a(gym.Env):
 
 		self.reset()
 
-	def reset(self, *, seed=None, options=None):
+	def reset(self, *, seed=42, options=None):
 		self.timestep = 0
 		self.pop = self.init_pop * (1 + self.init_sigma * np.random.normal())
 		self.state = self.pop_to_state(self.pop)

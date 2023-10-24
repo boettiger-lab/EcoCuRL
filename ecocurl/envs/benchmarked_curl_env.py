@@ -21,6 +21,7 @@ class benchmarkedEnv(gym.Env):
 			f"benchmarkedEnv err: benchmark must be positive and large enough! "
 			"Currently benchmark = {benchmark}."
 		)
+		self.reset()
 
 	def reset(self, *, seed=42, options=None):
 		return self.raw_env.reset(self, seed=seed, options=options)
