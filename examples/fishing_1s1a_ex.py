@@ -54,7 +54,7 @@ benchmarks = get_EscBmks(
 	index_to_config = index_to_config,
 	verbose = False,
 	)
-with open("benchmarks_1s1a_log.txt") as logfile:
+with open("benchmarks_1s1a_log.txt", "w") as logfile:
 	print("benchmarks done:")
 	for lvl, bmk in benchmarks.items():
 		print(f"{lvl}: {bmk:.3f}")
