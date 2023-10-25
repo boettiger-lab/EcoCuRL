@@ -38,8 +38,8 @@ class benchmarkedRandEnv(gym.Env):
 		self.attr_name = attr_name
 		self.attr_sample_set = attr_sample_set
 		self.attr_idx_to_bmk = attr_idx_to_bmk
-		self.observation_space = self.base_benchmarked_env.observation_space
-		self.action_space = self.base_benchmarked_env.action_space
+		self.observation_space = self.raw_env.observation_space
+		self.action_space = self.raw_env.action_space
 
 		self.reset()
 
