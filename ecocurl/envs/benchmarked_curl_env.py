@@ -110,7 +110,7 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 			self.task_configs[i][attr_name] for i in self.lvl_to_task_list[self.lvl] 
 		]
 		print(f"\n\n\nattr_sample_set = {attr_sample_set}\n\n\n")
-		attr_idx_to_bmk = {idx: self.task_bmks[task] for idx, task in enumerate(attr_sample_set)}
+		attr_idx_to_bmk = {idx: self.task_bmks[idx] for idx, task in enumerate(attr_sample_set)}
 		#
 		return benchmarkedRandEnv(
 			raw_env = raw_env,
