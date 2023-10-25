@@ -58,7 +58,7 @@ def get_EscBmks(
 		#
 		if log_fname:
 			with open(log_fname, "w") as logfile:
-				logfile.write(f"lvl {lvl}, r = {index_to_config[lvl]['r']}: opt. esc = {opt_esc}, benchmark = {bmk:.3f}\n")
+				logfile.write(f"lvl {lvl}, r = {config['r']}: opt. esc = {opt_esc}, benchmark = {opt_bmk:.3f}\n")
 		curr_benchmarks[lvl] = opt_bmk
 	#
 	return curr_benchmarks
