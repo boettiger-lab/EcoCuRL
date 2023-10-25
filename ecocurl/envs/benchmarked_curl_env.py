@@ -46,7 +46,7 @@ class benchmarkedRandEnv(gym.Env):
 	def reset(self, *, seed=42, options=None):
 		self._task_idx = np.random.randint(len(self.attr_sample_set))
 		new_attr_val = self.attr_sample_set[self._task_idx]
-		setattr(raw_env, attr_name, new_attr_val)
+		setattr(self.raw_env, attr_name, new_attr_val)
 		return self.raw_env.reset(seed=seed, options=options)
 
 	def step(self, action):
