@@ -14,6 +14,7 @@ def get_EscBmks(
 	log_fname = None,
 ):
 	curr_benchmarks = {}
+	to_logfile = ""
 	#
 	for lvl, config in index_to_config.items():
 		logging.info(f"Processing curriculum level: {lvl}, config {config}")
@@ -57,10 +58,11 @@ def get_EscBmks(
 		del benchmarks
 		#
 		if log_fname:
-			with open(log_fname, "w") as logfile:
-				logfile.write(f"lvl {lvl}, r = {config['r']}: opt. esc = {opt_esc}, benchmark = {opt_bmk:.3f}\n")
+			to_logfile += f"lvl {lvl}, r = {config['r']}: opt. esc = {opt_esc}, benchmark = {opt_bmk:.3f}\n"
 		curr_benchmarks[lvl] = opt_bmk
 	#
+	with open(log_fname, "w") as logfile:
+				logfile.write(to_logfile)
 	return curr_benchmarks
 	
 
