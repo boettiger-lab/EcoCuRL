@@ -106,7 +106,9 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 	def _make_env(self):
 		raw_env = self.base_env_cls(config = self.base_env_cfg)
 		attr_name = self.randomized_attr
-		attr_sample_set = [ task_configs[i][attr_name] for i in self.lvl_to_task_list[self.lvl] ]
+		attr_sample_set = [ 
+			self.task_configs[i][attr_name] for i in self.lvl_to_task_list[self.lvl] 
+		]
 		print(f"\n\n\nattr_sample_set = {attr_sample_set}\n\n\n")
 		attr_idx_to_bmk = {idx: self.task_bmks[task] for idx, task in enumerate(attr_sample_set)}
 		#
