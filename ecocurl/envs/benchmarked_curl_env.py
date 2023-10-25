@@ -49,7 +49,7 @@ class benchmarkedRandEnv(gym.Env):
 	def reset(self, *, seed=42, options=None):
 		self._task_idx = np.random.randint(len(self.attr_sample_set))
 		new_attr_val = self.attr_sample_set[self._task_idx]
-		logging.debug(f"benchmarkedRandEnv.reset(): task idx: {self._task_idx}, {self.attr_name} value: {new_attr_val}")
+		logging.debug(f"\n\nbenchmarkedRandEnv.reset(): task idx: {self._task_idx}, {self.attr_name} value: {new_attr_val}\n\n")
 		setattr(self.raw_env, self.attr_name, new_attr_val)
 		return self.raw_env.reset(seed=seed, options=options)
 
