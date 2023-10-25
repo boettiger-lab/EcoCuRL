@@ -33,22 +33,27 @@ class benchmarkedEnv(gym.Env):
 
 class benchmarkedRandEnv(gym.Env):
 	""" randomly sampled attribute """
-	def __init__(self, bmkd_env: benchmarkedEnv, attr_name: str, attr_sample_set: list):
-		self.bmkd_env = bmkd_env
+	def __init__(self, raw_env: gym.Env, attr_name: str, attr_sample_set: list, attr_idx_to_bmk: list):
+		self.raw_env = raw_env
 		self.attr_name = attr_name
 		self.attr_sample_set = attr_sample_set
+		self.attr_idx_to_bmk = attr_idx_to_bmk
 		self.observation_space = self.base_benchmarked_env.observation_space
 		self.action_space = self.base_benchmarked_env.action_space
 
 		self.reset()
 
 	def reset(self, *, seed=42, options=None):
-		new_attr_val = np.random.choice(self.attr_sample_set)
-		setattr(bmkd_env, attr_name, new_attr_val)
-		return self.bmkd_env.reset(seed=seed, options=options)
+		self._task_idx = np.random.randint(len(self.attr_sample_set))
+		new_attr_val = self.attr_sample_set[self._task_idx]
+		setattr(raw_env, attr_name, new_attr_val)
+		return self.raw_env.reset(seed=seed, options=options)
 
 	def step(self, action):
-		return self.bmkd_env.step(action)
+		obs, raw_rew, term, trunc, info = self.raw_env.step(action)
+		rew = raw_rew / self.attr_idx_to_bmk[self._task_idx]
+		return obs, rew, term, trunc, info
+
 
 class discrBenchMultitaskerV2(TaskSettableEnv):
 	#
@@ -58,6 +63,7 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 		"""
 		config:
 			base_env_cls = gym.Env class
+			base_env_cfg = config dict for base_env_cls
 			task_indices = [list of task indices / labels]
 				-> must be hashable
 			task_bmks    = dict of the form {task_index: benchmark for the task}
@@ -76,7 +82,10 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 					# at lvl 2, task 0, 1, 2, are sampled w 33% prob
 		"""
 		#
-		self.needed_cfg_elements = ['base_env_cls', 'task_indices', 'task_configs', 'task_bmks', 'randomized_attr', 'lvl_to_task_list']
+		self.needed_cfg_elements = [
+			'base_env_cls', 'base_env_cfg', 'task_indices', 'task_configs', 
+			'task_bmks', 'randomized_attr', 'lvl_to_task_list',
+		]
 		self._config_check(config)
 		#
 		for name in self.needed_cfg_elements:
@@ -91,13 +100,16 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 		self.switch_env = False
 
 	def _make_env(self):
-		task_list = self.lvl_to_task_list[self.lvl]
-		
-		env_bmk = self.task_bmks[task]
+		raw_env = self.base_env_cls(config = self.base_env_cfg)
+		attr_name = self.randomized_attr
+		attr_sample_set = self.lvl_to_task_list[self.lvl]
+		attr_idx_to_bmk = {idx: self.task_bmks[task] for idx, task in enumerate(attr_sample_set)}
 		#
-		return benchmarkedEnv(
-			raw_env = self.base_env_cls(config = env_cfg),
-			benchmark = env_bmk,
+		return benchmarkedRandEnv(
+			raw_env = raw_env,
+			attr_name = attr_name,
+			attr_sample_set = attr_sample_set,
+			attr_idx_to_bmk = attr_idx_to_bmk,
 		)
 
 	def _config_check(self, config):
@@ -128,7 +140,7 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 	# changing, sampling, getting curriculum level
 	#
 	def _sample_lvl(self, n_samples):
-		return [np.random.choice(self.n_lvls) for _ in range(n_samples)]
+		return [np.random.randint(self.n_lvls) for _ in range(n_samples)]
 	#
 	def _get_lvl(self):
 		"""Implement this to get the current task (curriculum level)."""
