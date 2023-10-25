@@ -33,7 +33,7 @@ lvl_to_task_list = {
 }
 n_lvls = len(lvl_to_task_list)
 
-restrict = True
+restrict = False
 if restrict:
 	restriction = 2
 	task_indices = task_indices[:restriction]

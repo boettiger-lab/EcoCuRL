@@ -1,8 +1,11 @@
 import gymnasium as gym
+import logging
 import numpy as np
 
 from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 from ray.rllib.utils.annotations import override
+
+logging.basicConfig(level=logging.DEBUG)
 
 # TBD:
 #
@@ -46,6 +49,7 @@ class benchmarkedRandEnv(gym.Env):
 	def reset(self, *, seed=42, options=None):
 		self._task_idx = np.random.randint(len(self.attr_sample_set))
 		new_attr_val = self.attr_sample_set[self._task_idx]
+		logging.debug(f"benchmarkedRandEnv.reset(): task idx: {self._task_idx}, {self.attr_name} value: {new_attr_val}")
 		setattr(self.raw_env, self.attr_name, new_attr_val)
 		return self.raw_env.reset(seed=seed, options=options)
 
