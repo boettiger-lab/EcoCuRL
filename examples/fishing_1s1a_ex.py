@@ -1,4 +1,4 @@
-from ecocurl.envs import fishing_1s1a, discrBenchMultitasker
+from ecocurl.envs import fishing_1s1a, discrBenchMultitasker, discrBenchMultitaskerV2
 from ecocurl import get_EscBmks
 
 import ray
@@ -59,15 +59,28 @@ print("benchmarks done:")
 for lvl, bmk in benchmarks.items():
 	print(f"{lvl}: {bmk:.3f}")
 
-curl_env = discrBenchMultitasker(
+
+curl_env =discrBenchMultitaskerV2(
 	config = {
 		'base_env_cls': base_env_cls,
+		'base_env_cfg': {},
 		'task_indices': task_indices,
 		'task_configs': index_to_config,
 		'task_bmks': benchmarks,
+		'randomized_attr': 'r',
 		'lvl_to_task_list': lvl_to_task_list,
 	}
 )
+
+# curl_env = discrBenchMultitasker(
+# 	config = {
+# 		'base_env_cls': base_env_cls,
+# 		'task_indices': task_indices,
+# 		'task_configs': index_to_config,
+# 		'task_bmks': benchmarks,
+# 		'lvl_to_task_list': lvl_to_task_list,
+# 	}
+# )
 
 def linear_curriculum_fn(
 	train_results: dict, task_settable_env: TaskSettableEnv, env_ctx: EnvContext
@@ -79,7 +92,7 @@ def linear_curriculum_fn(
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
 		if train_results["episode_reward_mean"] > graduation_rate * 10**(lvl):
-			print(f"graduated lvl {lvl}")
+			# print(f"graduated to lvl {lvl+1}")
 			new_lvl = lvl+1
 	#
 	print(
@@ -94,12 +107,14 @@ if __name__ == "__main__":
 	config = (
 		PPOConfig()
 		.environment(
-			discrBenchMultitasker,
+			discrBenchMultitaskerV2,
 			env_config = {
 				'base_env_cls': base_env_cls,
+				'base_env_cfg': {},
 				'task_indices': task_indices,
 				'task_configs': index_to_config,
 				'task_bmks': benchmarks,
+				'randomized_attr': 'r',
 				'lvl_to_task_list': lvl_to_task_list,
 			},
 			env_task_fn=linear_curriculum_fn,
@@ -111,7 +126,7 @@ if __name__ == "__main__":
 	stop = {
 		"training_iteration": 1000,
 		"timesteps_total": 10_000_000,
-		"episode_reward_mean": 10 ** n_lvls,
+		"episode_reward_mean": 10 ** (n_lvls-1),
 	}
 
 	tuner = tune.Tuner(
