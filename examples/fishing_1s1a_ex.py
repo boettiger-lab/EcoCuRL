@@ -53,12 +53,12 @@ benchmarks = get_EscBmks(
 	env_cls = base_env_cls,
 	index_to_config = index_to_config,
 	verbose = False,
+	log_fname = "benchmarks_1s1a_log.txt",
 	)
-with open("benchmarks_1s1a_log.txt", "w") as logfile:
-	print("benchmarks done:")
-	for lvl, bmk in benchmarks.items():
-		print(f"{lvl}: {bmk:.3f}")
-		logfile.write(f"lvl {lvl}: r = {index_to_config[lvl]['r']}: benchmark = {bmk:.3f}")
+
+print("benchmarks done:")
+for lvl, bmk in benchmarks.items():
+	print(f"{lvl}: {bmk:.3f}")
 
 
 curl_env =discrBenchMultitaskerV2(
