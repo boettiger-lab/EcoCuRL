@@ -48,7 +48,7 @@ class benchmarkedRandEnv(gym.Env):
 
 	def reset(self, *, seed=42, options=None):
 		self._task_idx = np.random.randint(len(self.attr_sample_set))
-		new_attr_val = self.attr_idx_to_bmk[self._task_idx]
+		new_attr_val = self.attr_sample_set[self._task_idx]
 		print(f"\n\nbenchmarkedRandEnv.reset(): task idx: {self._task_idx}, {self.attr_name} value: {new_attr_val}\n\n")
 		setattr(self.raw_env, self.attr_name, new_attr_val)
 		return self.raw_env.reset(seed=seed, options=options)
@@ -106,7 +106,8 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 	def _make_env(self):
 		raw_env = self.base_env_cls(config = self.base_env_cfg)
 		attr_name = self.randomized_attr
-		attr_sample_set = self.lvl_to_task_list[self.lvl]
+		attr_sample_set = [ task_configs[i][attr_name] for i in self.lvl_to_task_list[self.lvl] ]
+		print(f"\n\n\nattr_sample_set = {attr_sample_set}\n\n\n")
 		attr_idx_to_bmk = {idx: self.task_bmks[task] for idx, task in enumerate(attr_sample_set)}
 		#
 		return benchmarkedRandEnv(
