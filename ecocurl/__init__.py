@@ -1,3 +1,2 @@
 from ecocurl.escapement import escapement_policy, esc_benchmark, sample_esc_benchmark
-from ecocurl.adversarial import AdversarialCallbacks, AdversarialExampleEnv
 from ecocurl.esc_benchmarked import get_EscBmks
