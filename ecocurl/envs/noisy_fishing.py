@@ -6,7 +6,7 @@ from ray.rllib.env.apis.task_settable_env import TaskSettableEnv
 from ray.rllib.env.env_context import EnvContext
 from ray.rllib.utils.annotations import override
 
-class fishing_example_env(gym.Env):
+class noisy_fishing(gym.Env):
 	""" basic fishing env whose variations will be the curriculum. 
 
 	user- (or curriculum-) determined variables are 
@@ -105,7 +105,7 @@ class fishing_example_env(gym.Env):
 
 
 
-class curl_fishing_example(TaskSettableEnv):
+class curlNoisyFishing(TaskSettableEnv):
 
 	def __init__(self, config: EnvContext):
 		#
@@ -147,7 +147,7 @@ class curl_fishing_example(TaskSettableEnv):
 			9: {"obs_noise": 0.95 * obs_noise, "harvest_noise": 0.95 * harvest_noise},
 			10: {"obs_noise": 1.0 * obs_noise, "harvest_noise": 1.00 * harvest_noise},
 		}
-		return fishing_example_env(**self.CURRICULUM[self.cur_level])
+		return noisy_fishing(**self.CURRICULUM[self.cur_level])
 
 	def step(self, action):
 		obs, rew, terminated, truncated, info = self.env.step(action)
