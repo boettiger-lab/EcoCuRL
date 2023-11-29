@@ -95,6 +95,8 @@ def linear_curriculum_fn(
 		if train_results["episode_reward_mean"] > graduation_rate * 10**(lvl):
 			# print(f"graduated to lvl {lvl+1}")
 			new_lvl = lvl+1
+		else:
+			print(f"graduated to lvl {new_lvl}")
 	#
 	print(
 		f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"
