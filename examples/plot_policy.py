@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
 	policy = pd.DataFrame(
 		{
-			"observation": [(obs_scalar+1)/2 for obs in obs_set],
+			"observation": [(obs_scalar+1)/2 for obs_scalar in obs_set],
 			"action": act_set,
 		}
 	)
