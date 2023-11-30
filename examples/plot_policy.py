@@ -43,7 +43,7 @@ if __name__ == "__main__":
 	)
 
 	print("actions: ", act_set[:5])
-	print("quotas:  ", act_set*pop_set[:5])
+	print("quotas:  ", quotas[:5])
 
 	ax = policy.plot(
 		title="Fishing under r uncertainty policy",
