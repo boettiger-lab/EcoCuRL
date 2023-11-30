@@ -33,16 +33,17 @@ if __name__ == "__main__":
 	obs_set = [obs[0] for obs in obs_set_]
 	pop_set = [(obs_scalar+1)/2 for obs_scalar in obs_set]
 	act_set = [(restored.compute_single_action(obs)[0]+1)/2 for obs in obs_set_]
+	quotas = [act_set[i] * pop_i for i, pop_i in enumerate(pop_set)]
 
 	policy = pd.DataFrame(
 		{
 			"observation": pop_set,
-			"fishing_quota": act_set*pop_set,
+			"fishing_quota": quotas,
 		}
 	)
 
-	print(act_set[:5])
-	print(act_set*pop_set[:5])
+	print("actions: ", act_set[:5])
+	print("quotas:  ", act_set*pop_set[:5])
 
 	ax = policy.plot(
 		title="Fishing under r uncertainty policy",
