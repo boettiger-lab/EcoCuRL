@@ -31,19 +31,20 @@ if __name__ == "__main__":
 	## 1D->1D policy
 	obs_set_ = np.linspace([-1], [+1], num=100)
 	obs_set = [obs[0] for obs in obs_set_]
+	pop_set = [(obs_scalar+1)/2 for obs_scalar in obs_set]
 	act_set = [(restored.compute_single_action(obs)[0]+1)/2 for obs in obs_set_]
 
 	policy = pd.DataFrame(
 		{
-			"observation": [(obs_scalar+1)/2 for obs_scalar in obs_set],
-			"action": act_set,
+			"observation": pop_set,
+			"fishing_quota": act_set*pop_set,
 		}
 	)
 
 	ax = policy.plot(
 		title="Fishing under r uncertainty policy",
 		x="observation",
-		y="action",
+		y="fishing_quota",
 		xlim=[0,1],
 		ylim=[0,1],
 		kind="scatter",
