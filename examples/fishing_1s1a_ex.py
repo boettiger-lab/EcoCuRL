@@ -53,6 +53,7 @@ base_env_cls = fishing_1s1a
 benchmarks = get_EscBmks(
 	env_cls = base_env_cls,
 	index_to_config = index_to_config,
+	randomized_attr=randomized_attr,
 	verbose = False,
 	log_fname = "benchmarks_1s1a_log.txt",
 	)

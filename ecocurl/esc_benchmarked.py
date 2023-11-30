@@ -9,6 +9,7 @@ logging.basicConfig(level=logging.INFO)
 def get_EscBmks(
 	env_cls, 
 	index_to_config, 
+	randomized_attr,
 	escapement_policy_kwargs = {},
 	verbose = False,
 	log_fname = None,
@@ -58,7 +59,7 @@ def get_EscBmks(
 		del benchmarks
 		#
 		if log_fname:
-			to_logfile += f"lvl {lvl}, r = {config['r']}: opt. esc = {opt_esc}, benchmark = {opt_bmk:.3f}\n"
+			to_logfile += f"lvl {lvl}, {randomized_attr} = {config[randomized_attr]}: opt. esc = {opt_esc}, benchmark = {opt_bmk:.3f}\n"
 		curr_benchmarks[lvl] = opt_bmk
 	#
 	with open(log_fname, "w") as logfile:
