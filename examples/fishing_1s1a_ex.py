@@ -17,12 +17,13 @@ X -> X + r * X * (1 - X / K) + noise
 """
 
 task_indices = [0, 1, 2, 3, 4]
+randomized_attr = 'K'
 index_to_config = {
-	0: {'r': 0.5},
-	1: {'r': 0.45},
-	2: {'r': 0.55},
-	3: {'r': 0.4},
-	4: {'r': 0.6},
+	0: {randomized_attr: 1},
+	1: {randomized_attr: 1.05},
+	2: {randomized_attr: 0.95},
+	3: {randomized_attr: 1.1},
+	4: {randomized_attr: 0.9},
 }
 lvl_to_task_list = {
 	0: [0],
@@ -68,7 +69,7 @@ curl_env =discrBenchMultitaskerV2(
 		'task_indices': task_indices,
 		'task_configs': index_to_config,
 		'task_bmks': benchmarks,
-		'randomized_attr': 'r',
+		'randomized_attr': randomized_attr,
 		'lvl_to_task_list': lvl_to_task_list,
 	}
 )
@@ -117,7 +118,7 @@ if __name__ == "__main__":
 				'task_indices': task_indices,
 				'task_configs': index_to_config,
 				'task_bmks': benchmarks,
-				'randomized_attr': 'r',
+				'randomized_attr': randomized_attr,
 				'lvl_to_task_list': lvl_to_task_list,
 			},
 			env_task_fn=linear_curriculum_fn,
