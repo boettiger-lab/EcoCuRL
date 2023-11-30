@@ -41,6 +41,9 @@ if __name__ == "__main__":
 		}
 	)
 
+	print(act_set[:5])
+	print(act_set*pop_set[:5])
+
 	ax = policy.plot(
 		title="Fishing under r uncertainty policy",
 		x="observation",
