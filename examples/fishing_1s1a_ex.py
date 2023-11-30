@@ -90,7 +90,7 @@ def linear_curriculum_fn(
 ) -> TaskType:
 	
 	new_lvl = 0
-	graduation_rate = 0.95
+	graduation_rate = 0.97
 	for lvl in range(n_lvls-1):
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
@@ -129,8 +129,8 @@ if __name__ == "__main__":
 	)
 
 	stop = {
-		"training_iteration": 200,
-		"timesteps_total": 500_000,
+		"training_iteration": 250,
+		"timesteps_total": 1_000_000,
 		"episode_reward_mean": 0.98 * 10 ** (n_lvls-1),
 	}
 
