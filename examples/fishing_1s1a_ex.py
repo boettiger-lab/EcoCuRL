@@ -127,9 +127,9 @@ if __name__ == "__main__":
 	)
 
 	stop = {
-		"training_iteration": 1000,
-		"timesteps_total": 10_000_000,
-		"episode_reward_mean": 10 ** (n_lvls-1),
+		"training_iteration": 200,
+		"timesteps_total": 500_000,
+		"episode_reward_mean": 0.98 * 10 ** (n_lvls-1),
 	}
 
 	tuner = tune.Tuner(
@@ -143,4 +143,6 @@ if __name__ == "__main__":
 
 	# check_learning_achieved(results, args.stop_reward)
 	ray.shutdown()
+
+	
 
