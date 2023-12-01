@@ -90,11 +90,12 @@ def linear_curriculum_fn(
 ) -> TaskType:
 	
 	new_lvl = 0
-	graduation_rate = 0.955
+	# graduation_rate = 0.955
+	graduation_rates = [0.97, 0.97, 0.955, 0.95]
 	for lvl in range(n_lvls-1):
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
-		if train_results["episode_reward_mean"] > graduation_rate * 10**(lvl):
+		if train_results["episode_reward_mean"] > graduation_rates[lvl] * 10**(lvl):
 			# print(f"graduated to lvl {lvl+1}")
 			new_lvl = lvl+1
 		else:
