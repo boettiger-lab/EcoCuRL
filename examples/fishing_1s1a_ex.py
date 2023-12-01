@@ -91,7 +91,7 @@ def linear_curriculum_fn(
 	
 	new_lvl = 0
 	# graduation_rate = 0.955
-	graduation_rates = [0.97, 0.97, 0.95, 0.97]
+	graduation_rates = [0.98, 0.98, 0.97, 0.96]
 	for lvl in range(n_lvls-1):
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
@@ -130,8 +130,8 @@ if __name__ == "__main__":
 	)
 
 	stop = {
-		"training_iteration": 250,
-		"timesteps_total": 1_000_000,
+		"training_iteration": 400,
+		"timesteps_total": 2_000_000,
 		"episode_reward_mean": 0.98 * 10 ** (n_lvls-1),
 	}
 
