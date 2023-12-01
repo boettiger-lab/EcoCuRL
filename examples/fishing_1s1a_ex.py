@@ -91,7 +91,7 @@ def linear_curriculum_fn(
 	
 	new_lvl = 0
 	# graduation_rate = 0.955
-	graduation_rates = [0.97, 0.97, 0.955, 0.95]
+	graduation_rates = [0.97, 0.95, 0.95, 0.97]
 	for lvl in range(n_lvls-1):
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
