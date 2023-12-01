@@ -20,10 +20,10 @@ task_indices = [0, 1, 2, 3, 4]
 randomized_attr = 'K'
 index_to_config = {
 	0: {randomized_attr: 1},
-	1: {randomized_attr: 1.2},
-	2: {randomized_attr: 0.8},
-	3: {randomized_attr: 1.4},
-	4: {randomized_attr: 0.6},
+	1: {randomized_attr: 1.1},
+	2: {randomized_attr: 0.9},
+	3: {randomized_attr: 1.2},
+	4: {randomized_attr: 0.8},
 }
 lvl_to_task_list = {
 	0: [0],
@@ -91,7 +91,7 @@ def linear_curriculum_fn(
 	
 	new_lvl = 0
 	# graduation_rate = 0.955
-	graduation_rates = [0.97, 0.95, 0.95, 0.97]
+	graduation_rates = [0.97, 0.97, 0.95, 0.97]
 	for lvl in range(n_lvls-1):
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
