@@ -13,8 +13,8 @@ if __name__ == "__main__":
 		"..",
 		"..",
 		"ray_results",
-		"PPO_2023-11-30_23-19-34",
-		"PPO_discrBenchMultitaskerV2_ec824_00000_0_2023-11-30_23-19-34",
+		"PPO_2023-12-01_00-40-00",
+		"PPO_discrBenchMultitaskerV2_28b7d_00000_0_2023-12-01_00-40-00",
 		"checkpoint_000000",
 	)
 	plot_target = os.path.join(
