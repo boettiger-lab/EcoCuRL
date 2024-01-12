@@ -15,3 +15,11 @@ In [a recent publication](https://arxiv.org/abs/2308.13654), we showed that in c
 
 One outstanding question not addressed in that work is: even if RL allows for more expressive and complex models to be used, can how do we deal with the residual model uncertainty?
 This work aims to approach this question from the reinforcement learning perspective, in particular using tools from *curriculum learning*.
+
+### Managing the invasive European green crab
+
+This project will focus on the adaptive management problem presented by the invasive European green crab.
+This species' proficiency in colonizing bays and estuaries of which it is not indigenous is well documented, as is its economic impact on, e.g., shellfisheries in the western US coast.
+This problem presents a resource allocation problem: where and when to spend resources to best protect the interests of shellfisheries, communities connected to shellfish harvesting, and the wider ecological balance?
+
+This, ultimately, is the problem that we wish to address here.
