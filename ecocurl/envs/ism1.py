@@ -56,16 +56,20 @@ class ISM_linear(gym.Env):
 		self.pop = np.clip(self.pop, [0], [self.pop_bound])
 		#
 		action = np.clip(action, [-1], [1])
+		normalized_action = (action+1)/2
 		removal_rate = (
 			self.removal_saturation * (
-				1 - np.exp(- self.removal_efficiency * action[0])
+				1 - np.exp(- self.removal_efficiency * normalized_action[0])
 			)
 		)
 		cost = self.cost * removal_rate
 		#
 		self.pop -= removal_rate * self.pop
 		self.pop = np.clip(self.pop, [0], [self.pop_bound])
-		self.pop += self.r * self.pop * (1 - self.pop / self.K) + self.sigma * np.random.normal() * self.pop
+		self.pop += (
+			self.r * self.pop * (1 - self.pop / self.K) 
+			+ self.sigma * np.random.normal() * self.pop
+		)
 		self.pop = np.clip(self.pop, [0], [self.pop_bound])
 		self.state = self.pop_to_state(self.pop)
 		#
