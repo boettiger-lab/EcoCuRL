@@ -66,7 +66,7 @@ for lvl, bmk in benchmarks.items():
 curl_env =discrBenchMultitaskerV2(
 	config = {
 		'base_env_cls': base_env_cls,
-		'base_env_cfg': {},
+		'base_env_cfg': {'N_heap': 5},
 		'task_indices': task_indices,
 		'task_configs': index_to_config,
 		'task_bmks': benchmarks,
