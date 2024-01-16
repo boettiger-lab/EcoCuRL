@@ -137,10 +137,10 @@ class multi_ISM_linear(gym.Env):
 		return self.heap, reward, terminated, truncated, info
 
 	def pop_to_state(self, pop):
-		return base_env.pop_to_state(pop)
+		return self.base_env.pop_to_state(pop)
 
 	def state_to_pop(self, state):
-		return base_env.state_to_pop(state)
+		return self.base_env.state_to_pop(state)
 
 
 
