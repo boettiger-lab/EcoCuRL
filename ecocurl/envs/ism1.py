@@ -94,27 +94,23 @@ class ISM_linear(gym.Env):
 
 class multi_ISM_linear(gym.Env):
 	def __init__(self, config = {}):
-		if "base_cfg" not in config:
+		if "N_heap" not in config:
 			raise Warning(
 				"multi_ISM_linear initializer needs a "
-				"config dict including an 'base_cfg' key!"
+				"config dict including an 'N_heap' key (number"
+				"of ISM model steps per computational step" 
+				"[the 'heap' memory accessed by RL])!"
 			)
-		if "N" not in config:
-			raise Warning(
-				"multi_ISM_linear initializer needs a "
-				"config dict including an 'N' key (number"
-				"of ISM model steps per computational step)!"
-			)
-		self.N = config['N']
-		self.base_env = ISM_linear(config = config['base_cfg'])
+		self.N_heap = config['N_heap']
+		self.base_env = ISM_linear(config = config)
 
 		self.action_space = spaces.Box(
 			np.float32([-1]),
 			np.float32([+1]),
 			)
 		self.observation_space = spaces.Box(
-			np.float32([-1] * N),
-			np.float32([+1] * N),
+			np.float32([-1] * self.N_heap),
+			np.float32([+1] * self.N_heap),
 			)
 		#
 		# [state t, state t-1, state t-2, ..., state t - (N-1)]
