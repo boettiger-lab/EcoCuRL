@@ -75,7 +75,7 @@ class ISM_linear(gym.Env):
 		#
 		obs = self.state
 		reward = (
-			100 # to make this positive 
+			0.5 # to make this positive 
 			- self.damage_coeff * self.pop[0] - cost
 		)
 		terminated = False
