@@ -16,7 +16,7 @@ class ISM_linear(gym.Env):
 		self.sigma = config.get("sigma", 0.1)
 		#
 		# removal
-		self.cost = config.get("cost", 0.1)
+		self.cost = config.get("cost", 0.7)
 		self.removal_saturation = config.get("removal_saturation", 0.7) # c in eq below
 		self.removal_efficiency = config.get("removal_efficiency", 6) # b in eq below
 		###
