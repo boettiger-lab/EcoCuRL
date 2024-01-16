@@ -92,3 +92,53 @@ class ISM_linear(gym.Env):
 		return (state + 1) * self.pop_bound / 2
 
 
+class multi_ISM_linear(gym.Env):
+	def __init__(self, config = {}):
+		if "base_cfg" not in config:
+			raise Warning(
+				"multi_ISM_linear initializer needs a "
+				"config dict including an 'base_cfg' key!"
+			)
+		if "N" not in config:
+			raise Warning(
+				"multi_ISM_linear initializer needs a "
+				"config dict including an 'N' key (number"
+				"of ISM model steps per computational step)!"
+			)
+		self.N = config['N']
+		self.base_env = ISM_linear(config = config['base_cfg'])
+
+		self.action_space = spaces.Box(
+			np.float32([-1]),
+			np.float32([+1]),
+			)
+		self.observation_space = spaces.Box(
+			np.float32([-1] * N),
+			np.float32([+1] * N),
+			)
+		#
+		# [state t, state t-1, state t-2, ..., state t - (N-1)]
+		#
+		_ = self.reset()
+
+	def reset(self, *, seed=42, options=None):
+		init_state, init_info = self.base_env.reset(seed=seed, option=options)
+		empty_heap = np.float32([-1] * N)
+		self.heap = np.insert(
+			empty_heap[0:-1],
+			0,
+			init_state,
+		)
+		return self.heap, init_info
+
+	def step(self, action):
+		new_state, reward, terminated, truncated, info = self.base_env.step(action)
+		self.heap = np.insert(
+			self.heap[0:-1],
+			0,
+			new_state,
+		)
+		return self.heap, reward, terminated, truncated, info
+
+
+
