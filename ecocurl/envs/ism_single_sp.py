@@ -118,7 +118,7 @@ class multi_ISM_linear(gym.Env):
 		_ = self.reset()
 
 	def reset(self, *, seed=42, options=None):
-		init_state, init_info = self.base_env.reset(seed=seed, option=options)
+		init_state, init_info = self.base_env.reset(seed=seed, options=options)
 		empty_heap = np.float32([-1] * self.N_heap)
 		self.heap = np.insert(
 			empty_heap[0:-1],
