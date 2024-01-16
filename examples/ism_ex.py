@@ -20,11 +20,11 @@ task_indices = [0, 1, 2, 3, 4]
 randomized_attr = 'r'
 N_heap = 5
 index_to_config = {
-	0: {randomized_attr: 0.5, "N_heap": N_heap},
-	1: {randomized_attr: 0.45, "N_heap": N_heap},
-	2: {randomized_attr: 0.55, "N_heap": N_heap},
-	3: {randomized_attr: 0.40, "N_heap": N_heap},
-	4: {randomized_attr: 0.60, "N_heap": N_heap},
+	0: {randomized_attr: 0.80, "N_heap": N_heap},
+	1: {randomized_attr: 0.85, "N_heap": N_heap},
+	2: {randomized_attr: 0.90, "N_heap": N_heap},
+	3: {randomized_attr: 0.95, "N_heap": N_heap},
+	4: {randomized_attr: 1.00, "N_heap": N_heap},
 }
 lvl_to_task_list = {
 	0: [0],

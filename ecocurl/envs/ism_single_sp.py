@@ -11,12 +11,12 @@ class ISM_linear(gym.Env):
 	def __init__(self, config = {}):
 		#
 		# growth
-		self.r = config.get("r", 0.5)
+		self.r = config.get("r", 0.8)
 		self.K = config.get("K", 1)
 		self.sigma = config.get("sigma", 0.1)
 		#
 		# removal
-		self.cost = config.get("cost", 0.7)
+		self.cost = config.get("cost", 1.5)
 		self.removal_saturation = config.get("removal_saturation", 0.7) # c in eq below
 		self.removal_efficiency = config.get("removal_efficiency", 6) # b in eq below
 		###
@@ -25,7 +25,7 @@ class ISM_linear(gym.Env):
 		#
 		# episode init data
 		self.pop_bound = config.get("pop_bound", 2 * self.K)
-		self.init_pop = config.get("init_pop", np.float32([0.7]))
+		self.init_pop = config.get("init_pop", np.float32([0.2]))
 		self.init_sigma = config.get("init_sigma", 0.05)
 		self.tmax = config.get("tmax", 100)
 		#
