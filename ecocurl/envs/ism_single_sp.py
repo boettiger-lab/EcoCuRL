@@ -94,14 +94,14 @@ class ISM_linear(gym.Env):
 
 class multi_ISM_linear(gym.Env):
 	def __init__(self, config = {}):
-		if "N_heap" not in config:
-			raise Warning(
-				"multi_ISM_linear initializer needs a "
-				"config dict including an 'N_heap' key (number"
-				"of ISM model steps per computational step" 
-				"[the 'heap' memory accessed by RL])!"
-			)
-		self.N_heap = config['N_heap']
+		# if "N_heap" not in config:
+		# 	raise Warning(
+		# 		"multi_ISM_linear initializer needs a "
+		# 		"config dict including an 'N_heap' key (number"
+		# 		"of ISM model steps per computational step" 
+		# 		"[the 'heap' memory accessed by RL])!"
+		# 	)
+		self.N_heap = config.get('N_heap', 5)
 		self.base_env = ISM_linear(config = config)
 
 		self.action_space = spaces.Box(
