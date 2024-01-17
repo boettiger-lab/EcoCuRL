@@ -91,16 +91,33 @@ def linear_curriculum_fn(
 ) -> TaskType:
 	
 	new_lvl = 0
-	# graduation_rate = 0.955
-	graduation_rates = [0.98, 0.95, 0.9, 0.85]
+	n_lvls = 5
+
+	# Now I use the benchmarked rewards of the form 
+	#
+	# (rew - benchmark) / |benchmark| + 10 ** lvl
+	#
+	# which approaches [1, 10, 100, ...] as I approach the benchmark reward.
+	# Hopefully (rew - benchmark) is on the order of |benchmark| so the whole 
+	# term is around 1 in magnitude.
+
+	graduation_rate = - 0.05
 	for lvl in range(n_lvls-1):
 		# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
 		# you cannot graduate any further.
-		if train_results["episode_reward_mean"] > graduation_rates[lvl] * 10**(lvl):
-			# print(f"graduated to lvl {lvl+1}")
+		if train_results["episode_reward_mean"] > 10**lvl - graduation rate:
 			new_lvl = lvl+1
 		else:
 			print(f"graduated to lvl {new_lvl}")
+
+	# for lvl in range(n_lvls-1):
+	# 	# up to n_lvls-2 since, once you graduate to n_lvls-1 (the maximum lvl)
+	# 	# you cannot graduate any further.
+	# 	if train_results["episode_reward_mean"] > graduation_rates[lvl] * 10**(lvl):
+	# 		# print(f"graduated to lvl {lvl+1}")
+	# 		new_lvl = lvl+1
+	# 	else:
+	# 		print(f"graduated to lvl {new_lvl}")
 	#
 	print(
 		f"Worker #{env_ctx.worker_index} vec-idx={env_ctx.vector_index}"

@@ -35,7 +35,11 @@ class benchmarkedEnv(gym.Env):
 		return obs, reward, term, trunc, info
 
 class benchmarkedRandEnv(gym.Env):
-	""" randomly sampled attribute """
+	""" randomly sampled attribute. 
+	
+	Benchmarking works for envs in which the rewards are either always
+	positive or always negative.
+	"""
 	def __init__(self, raw_env: gym.Env, attr_name: str, attr_sample_set: list, attr_idx_to_bmk: list):
 		self.raw_env = raw_env
 		self.attr_name = attr_name
@@ -55,7 +59,10 @@ class benchmarkedRandEnv(gym.Env):
 
 	def step(self, action):
 		obs, raw_rew, term, trunc, info = self.raw_env.step(action)
-		rew = raw_rew / self.attr_idx_to_bmk[self._task_idx]
+		benchmark = self.attr_idx_to_bmk[self._task_idx]
+		rew = (raw_rew - benchmark) / abs(benchmark)
+		## old way:
+		# rew = raw_rew / self.attr_idx_to_bmk[self._task_idx]
 		return obs, rew, term, trunc, info
 
 
