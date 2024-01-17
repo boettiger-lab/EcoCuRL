@@ -13,7 +13,7 @@ class ISM_linear(gym.Env):
 		# growth
 		self.r = config.get("r", 0.8)
 		self.K = config.get("K", 1)
-		self.sigma = config.get("sigma", 0.1)
+		self.sigma = config.get("sigma", 0.3)
 		#
 		# removal
 		self.cost = config.get("cost", 0.8)
