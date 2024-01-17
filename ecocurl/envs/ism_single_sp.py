@@ -16,7 +16,7 @@ class ISM_linear(gym.Env):
 		self.sigma = config.get("sigma", 0.1)
 		#
 		# removal
-		self.cost = config.get("cost", 1.5)
+		self.cost = config.get("cost", 0.8)
 		self.removal_saturation = config.get("removal_saturation", 0.7) # c in eq below
 		self.removal_efficiency = config.get("removal_efficiency", 6) # b in eq below
 		###
@@ -30,7 +30,7 @@ class ISM_linear(gym.Env):
 		self.tmax = config.get("tmax", 100)
 		#
 		# ecosystem damage: linear for now
-		self.damage_coeff = config.get("damage_coeff", 0.3)
+		self.damage_coeff = config.get("damage_coeff", 0.8)
 		#
 		self.action_space = spaces.Box(
 			np.float32([-1]),
