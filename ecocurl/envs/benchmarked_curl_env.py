@@ -149,7 +149,7 @@ class discrBenchMultitaskerV2(TaskSettableEnv):
 	#
 	def step(self, action):
 		obs, rew, term, trunc, info = self.base_benchmarked_env.step(action)
-		return obs, rew * 10**(self.lvl), term, trunc, info
+		return obs, rew + 10**(self.lvl), term, trunc, info
 	#
 	# changing, sampling, getting curriculum level
 	#
