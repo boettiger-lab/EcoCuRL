@@ -82,9 +82,9 @@ class ISM_linear(gym.Env):
 		# let's try a threshold type positive reward
 		reward = 0
 		if self.pop < 0.2:
-			reward = 0.2 - self.pop
+			reward = 0.2 - self.pop[0]
 		#
-		
+
 		terminated = False
 		truncated = False
 		info = {}
