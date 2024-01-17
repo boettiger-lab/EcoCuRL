@@ -74,10 +74,17 @@ class ISM_linear(gym.Env):
 		self.state = self.pop_to_state(self.pop)
 		#
 		obs = self.state
-		reward = (
-			0.5 # to make this positive 
-			- self.damage_coeff * self.pop[0] - cost
-		)
+		# reward = (
+		# 	0.5 # to make this positive 
+		# 	- self.damage_coeff * self.pop[0] - cost
+		# )
+		
+		# let's try a threshold type positive reward
+		reward = 0
+		if self.pop < 0.2:
+			reward = 0.2 - self.pop
+		#
+		
 		terminated = False
 		truncated = False
 		info = {}
