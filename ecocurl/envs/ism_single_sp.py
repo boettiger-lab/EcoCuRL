@@ -30,7 +30,7 @@ class ISM_linear(gym.Env):
 		self.tmax = config.get("tmax", 100)
 		#
 		# ecosystem damage: linear for now
-		self.damage_coeff = config.get("damage_coeff", 0.8)
+		self.damage_coeff = config.get("damage_coeff", 0.6)
 		#
 		self.action_space = spaces.Box(
 			np.float32([-1]),
